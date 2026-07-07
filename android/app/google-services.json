@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "817604946859",
+    "project_id": "invoice-app-flutter-072026",
+    "storage_bucket": "invoice-app-flutter-072026.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:817604946859:android:c78dfdece6accf59be40ee",
+        "android_client_info": {
+          "package_name": "com.example.invoice_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBX4qT1AZZI4yxiBVIxVP_Yu3c-4889Jnw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
