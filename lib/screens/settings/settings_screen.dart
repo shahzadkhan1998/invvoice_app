@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:in_app_review/in_app_review.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:invoice_app/l10n/app_localizations.dart';
@@ -231,7 +232,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
               _SettingsTile(
                 icon: Icons.star_outline,
                 title: l10n.settingsRateApp,
-                onTap: () {},
+                onTap: () async {
+                  final review = InAppReview.instance;
+                  if (await review.isAvailable()) {
+                    review.openStoreListing();
+                  }
+                },
               ),
               _SettingsTile(
                 icon: Icons.help_outline,
