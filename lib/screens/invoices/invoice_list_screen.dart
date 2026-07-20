@@ -115,21 +115,89 @@ class _InvoiceListScreenState extends State<InvoiceListScreen>
                 ],
               ),
             ],
-            bottom: TabBar(
-              controller: _tabController,
-              isScrollable: true,
-              labelColor: Theme.of(context).colorScheme.primary,
-              unselectedLabelColor: Theme.of(context).hintColor,
-              indicatorColor: Theme.of(context).colorScheme.primary,
-              labelStyle: const TextStyle(
-                  fontWeight: FontWeight.w600, fontSize: 13),
-              tabs: [
-                Tab(text: '${loc.invoiceListTabAll} (${provider.invoices.length})'),
-                Tab(text: '${loc.invoiceListTabPaid} (${provider.paidInvoices.length})'),
-                Tab(text: '${loc.invoiceListTabPending} (${provider.pendingInvoices.length})'),
-                Tab(text: '${loc.invoiceListTabOverdue} (${provider.overdueInvoices.length})'),
-                Tab(text: '${loc.invoiceListTabDraft} (${provider.draftInvoices.length})'),
-              ],
+            bottom: PreferredSize(
+              preferredSize: const Size.fromHeight(56),
+              child: Container(
+                margin:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding: const EdgeInsets.all(4),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.surface,
+                  borderRadius: BorderRadius.circular(14),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.06),
+                      blurRadius: 8,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
+                ),
+                child: TabBar(
+                  controller: _tabController,
+                  isScrollable: false,
+                  labelPadding: EdgeInsets.zero,
+                  indicator: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Theme.of(context).colorScheme.primary,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Theme.of(context)
+                            .colorScheme
+                            .primary
+                            .withOpacity(0.35),
+                        blurRadius: 8,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  overlayColor:
+                      MaterialStateProperty.all(Colors.transparent),
+                  labelColor: Theme.of(context).colorScheme.onPrimary,
+                  unselectedLabelColor:
+                      Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+                  labelStyle: const TextStyle(
+                      fontWeight: FontWeight.w600, fontSize: 12),
+                  unselectedLabelStyle: const TextStyle(
+                      fontWeight: FontWeight.w500, fontSize: 12),
+                  tabs: [
+                    _InvoiceTabLabel(
+                      controller: _tabController,
+                      index: 0,
+                      icon: Icons.list_alt_rounded,
+                      label: loc.invoiceListTabAll,
+                      count: provider.invoices.length,
+                    ),
+                    _InvoiceTabLabel(
+                      controller: _tabController,
+                      index: 1,
+                      icon: Icons.check_circle_outline_rounded,
+                      label: loc.invoiceListTabPaid,
+                      count: provider.paidInvoices.length,
+                    ),
+                    _InvoiceTabLabel(
+                      controller: _tabController,
+                      index: 2,
+                      icon: Icons.send_outlined,
+                      label: loc.invoiceListTabPending,
+                      count: provider.pendingInvoices.length,
+                    ),
+                    _InvoiceTabLabel(
+                      controller: _tabController,
+                      index: 3,
+                      icon: Icons.warning_amber_rounded,
+                      label: loc.invoiceListTabOverdue,
+                      count: provider.overdueInvoices.length,
+                    ),
+                    _InvoiceTabLabel(
+                      controller: _tabController,
+                      index: 4,
+                      icon: Icons.edit_note_rounded,
+                      label: loc.invoiceListTabDraft,
+                      count: provider.draftInvoices.length,
+                    ),
+                  ],
+                ),
+              ),
             ),
           ),
           body: TabBarView(
@@ -440,6 +508,77 @@ class _QuickAction extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class _InvoiceTabLabel extends StatelessWidget {
+  final TabController controller;
+  final int index;
+  final IconData icon;
+  final String label;
+  final int count;
+
+  const _InvoiceTabLabel({
+    required this.controller,
+    required this.index,
+    required this.icon,
+    required this.label,
+    required this.count,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final primary = theme.colorScheme.primary;
+    final onPrimary = theme.colorScheme.onPrimary;
+    final muted = theme.colorScheme.onSurface.withOpacity(0.6);
+    return AnimatedBuilder(
+      animation: controller,
+      builder: (context, _) {
+        final selected = controller.index == index;
+        final fg = selected ? onPrimary : muted;
+        return Tab(
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 6),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(icon, size: 16, color: fg),
+                const SizedBox(width: 5),
+                Flexible(
+                  child: Text(
+                    label,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(fontSize: 12, color: fg),
+                  ),
+                ),
+                const SizedBox(width: 4),
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
+                  decoration: BoxDecoration(
+                    color: selected
+                        ? onPrimary.withOpacity(0.22)
+                        : primary.withOpacity(0.10),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Text(
+                    '$count',
+                    style: TextStyle(
+                      fontSize: 10,
+                      fontWeight: FontWeight.w700,
+                      color: selected ? onPrimary : primary,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }
