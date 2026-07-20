@@ -34,7 +34,7 @@ class ClientDetailScreen extends StatelessWidget {
         title: Text(client.name),
         actions: [
           IconButton(
-            icon: const Icon(Icons.edit_outlined),
+            icon: Icon(Icons.edit_outlined),
             onPressed: () => Navigator.push(
               context,
               MaterialPageRoute(
@@ -42,7 +42,7 @@ class ClientDetailScreen extends StatelessWidget {
             ),
           ),
           IconButton(
-            icon: const Icon(Icons.delete_outline, color: AppColors.dangerRed),
+            icon: Icon(Icons.delete_outline, color: AppColors.dangerRed),
             onPressed: () => _confirmDelete(context),
           ),
         ],
@@ -55,7 +55,7 @@ class ClientDetailScreen extends StatelessWidget {
               padding: const EdgeInsets.all(24),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [AppColors.primaryBlue, AppColors.primaryDark],
+                  colors: [Theme.of(context).colorScheme.primary, AppColors.primaryDark],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
@@ -72,7 +72,7 @@ class ClientDetailScreen extends StatelessWidget {
                     child: Center(
                       child: Text(
                         client.initials,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 28,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
@@ -83,7 +83,7 @@ class ClientDetailScreen extends StatelessWidget {
                   const SizedBox(height: 12),
                   Text(
                     client.name,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
@@ -92,14 +92,14 @@ class ClientDetailScreen extends StatelessWidget {
                   const SizedBox(height: 4),
                   Text(
                     client.email,
-                    style: const TextStyle(
+                    style: TextStyle(
                         fontSize: 14, color: Colors.white70),
                   ),
                   if (client.phone != null) ...[
                     const SizedBox(height: 2),
                     Text(
                       client.phone!,
-                      style: const TextStyle(
+                      style: TextStyle(
                           fontSize: 14, color: Colors.white70),
                     ),
                   ],
@@ -140,7 +140,7 @@ class ClientDetailScreen extends StatelessWidget {
                         child: _ActionButton(
                           icon: Icons.receipt_long_outlined,
                           label: l10n.clientDetailNewInvoice,
-                          color: AppColors.primaryBlue,
+                          color: Theme.of(context).colorScheme.primary,
                           onTap: () => Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -223,8 +223,8 @@ class ClientDetailScreen extends StatelessWidget {
                       _sectionTitle(l10n.clientDetailInvoiceHistory),
                       Text(
                         '${clientInvoices.length} total',
-                        style: const TextStyle(
-                            fontSize: 13, color: AppColors.gray400),
+                        style: TextStyle(
+                            fontSize: 13, color: Theme.of(context).hintColor),
                       ),
                     ],
                   ),
@@ -234,13 +234,13 @@ class ClientDetailScreen extends StatelessWidget {
                     Container(
                       padding: const EdgeInsets.all(24),
                       decoration: BoxDecoration(
-                        color: AppColors.gray50,
+                        color: Theme.of(context).colorScheme.surface,
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Center(
                         child: Text(
                           l10n.clientDetailNoInvoices,
-                          style: const TextStyle(color: AppColors.gray400),
+                          style: TextStyle(color: Theme.of(context).hintColor),
                         ),
                       ),
                     )
@@ -282,7 +282,7 @@ class ClientDetailScreen extends StatelessWidget {
                                     children: [
                                       Text(
                                         inv.invoiceNumber,
-                                        style: const TextStyle(
+                                        style: TextStyle(
                                           fontWeight: FontWeight.w600,
                                           fontSize: 14,
                                         ),
@@ -290,9 +290,9 @@ class ClientDetailScreen extends StatelessWidget {
                                       const SizedBox(height: 4),
                                       Text(
                                         _formatDate(inv.invoiceDate),
-                                        style: const TextStyle(
+                                        style: TextStyle(
                                           fontSize: 12,
-                                          color: AppColors.gray400,
+                                          color: Theme.of(context).hintColor,
                                         ),
                                       ),
                                     ],
@@ -304,7 +304,7 @@ class ClientDetailScreen extends StatelessWidget {
                                   children: [
                                     Text(
                                       '${inv.currency} ${inv.total.toStringAsFixed(2)}',
-                                      style: const TextStyle(
+                                      style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 15,
                                       ),
@@ -334,7 +334,7 @@ class ClientDetailScreen extends StatelessWidget {
 
   Widget _sectionTitle(String title) => Text(
         title,
-        style: const TextStyle(
+        style: TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.bold,
         ),
@@ -397,7 +397,7 @@ class _HeaderStat extends StatelessWidget {
       children: [
         Text(
           value,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 15,
             fontWeight: FontWeight.bold,
             color: Colors.white,
@@ -406,7 +406,7 @@ class _HeaderStat extends StatelessWidget {
         const SizedBox(height: 2),
         Text(
           label,
-          style: const TextStyle(fontSize: 11, color: Colors.white70),
+          style: TextStyle(fontSize: 11, color: Colors.white70),
         ),
       ],
     );
@@ -480,7 +480,7 @@ class _DetailCard extends StatelessWidget {
             children: [
               entry.value,
               if (!isLast)
-                const Divider(height: 1, color: AppColors.gray100,
+                Divider(height: 1, color: Theme.of(context).dividerColor,
                     indent: 16, endIndent: 16),
             ],
           );
@@ -502,17 +502,17 @@ class _DetailRow extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       child: Row(
         children: [
-          Icon(icon, size: 18, color: AppColors.gray400),
+          Icon(icon, size: 18, color: Theme.of(context).hintColor),
           const SizedBox(width: 12),
           Text(
             label,
-            style: const TextStyle(
-                fontSize: 13, color: AppColors.gray500),
+            style: TextStyle(
+                fontSize: 13, color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6)),
           ),
           const Spacer(),
           Text(
             value,
-            style: const TextStyle(
+            style: TextStyle(
                 fontSize: 14, fontWeight: FontWeight.w500),
           ),
         ],

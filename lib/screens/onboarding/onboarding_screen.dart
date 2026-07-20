@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:invoice_app/l10n/app_localizations.dart';
-import '../../core/theme/app_colors.dart';
-import '../../providers/theme_provider.dart';
 import '../home/home_screen.dart';
 
 class OnboardingScreen extends StatefulWidget {
@@ -56,10 +53,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final isDark = context.watch<ThemeProvider>().themeMode == ThemeMode.dark;
 
     return Scaffold(
-      backgroundColor: isDark ? AppColors.darkBackground : Colors.white,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
         child: Column(
           children: [
@@ -68,7 +64,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               child: TextButton(
                 onPressed: _finish,
                 child: Text(l10n.onboardingSkip,
-                    style: const TextStyle(color: AppColors.gray500)),
+                    style: TextStyle(
+                        color: Theme.of(context)
+                            .textTheme
+                            .bodyMedium
+                            ?.color
+                            ?.withOpacity(0.6))),
               ),
             ),
             Expanded(
@@ -87,15 +88,22 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         const SizedBox(height: 32),
                         Text(
                           _localized(l10n, slide.titleKey),
-                          style: const TextStyle(
-                              fontSize: 24, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context).textTheme.bodyLarge?.color),
                           textAlign: TextAlign.center,
                         ),
                         const SizedBox(height: 16),
                         Text(
                           _localized(l10n, slide.bodyKey),
-                          style: const TextStyle(
-                              fontSize: 15, color: AppColors.gray500),
+                          style: TextStyle(
+                              fontSize: 15,
+                              color: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium
+                                  ?.color
+                                  ?.withOpacity(0.6)),
                           textAlign: TextAlign.center,
                         ),
                       ],
@@ -115,8 +123,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   height: 8,
                   decoration: BoxDecoration(
                     color: _page == i
-                        ? AppColors.primaryBlue
-                        : AppColors.gray200,
+                        ? Theme.of(context).colorScheme.primary
+                        : Theme.of(context).colorScheme.surface,
                     borderRadius: BorderRadius.circular(4),
                   ),
                 ),

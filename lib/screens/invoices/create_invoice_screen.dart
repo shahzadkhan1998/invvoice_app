@@ -200,7 +200,7 @@ class _CreateInvoiceScreenState extends State<CreateInvoiceScreen> {
               onPressed: _saveInvoice,
               child: Text(
                 AppLocalizations.of(context)!.invoiceSaveDraft,
-                style: TextStyle(color: AppColors.primaryBlue),
+                style: TextStyle(color: Theme.of(context).colorScheme.primary),
               ),
             ),
         ],
@@ -301,7 +301,7 @@ class _StepIndicator extends StatelessWidget {
       decoration: BoxDecoration(
         color: Theme.of(context).scaffoldBackgroundColor,
         border: Border(
-            bottom: BorderSide(color: AppColors.gray100)),
+            bottom: BorderSide(color: Theme.of(context).dividerColor)),
       ),
       child: Row(
         children: [
@@ -332,19 +332,19 @@ class _StepDot extends StatelessWidget {
           width: 32,
           height: 32,
           decoration: BoxDecoration(
-            color: active ? AppColors.primaryBlue : AppColors.gray100,
+            color: active ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.surface,
             shape: BoxShape.circle,
           ),
           child: Center(
             child: done
-                ? const Icon(Icons.check, color: Colors.white, size: 16)
+                ? Icon(Icons.check, color: Colors.white, size: 16)
                 : Text(
                     '${index + 1}',
                     style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.bold,
                       color:
-                          active ? Colors.white : AppColors.gray400,
+                          active ? Colors.white : Theme.of(context).hintColor,
                     ),
                   ),
           ),
@@ -355,7 +355,7 @@ class _StepDot extends StatelessWidget {
           style: TextStyle(
             fontSize: 11,
             fontWeight: FontWeight.w600,
-            color: active ? AppColors.primaryBlue : AppColors.gray400,
+            color: active ? Theme.of(context).colorScheme.primary : Theme.of(context).hintColor,
           ),
         ),
       ],
@@ -373,7 +373,7 @@ class _StepLine extends StatelessWidget {
       child: Container(
         height: 2,
         margin: const EdgeInsets.only(bottom: 16),
-        color: active ? AppColors.primaryBlue : AppColors.gray200,
+        color: active ? Theme.of(context).colorScheme.primary : Theme.of(context).dividerColor,
       ),
     );
   }
@@ -414,22 +414,22 @@ class _Step1SelectClientState extends State<_Step1SelectClient> {
                 children: [
                   Text(
                     AppLocalizations.of(context)!.invoiceSelectClient,
-                    style: const TextStyle(
+                    style: TextStyle(
                         fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 4),
                   Text(
                     AppLocalizations.of(context)!.invoiceSelectClientSubtitle,
-                    style: const TextStyle(
-                        fontSize: 14, color: AppColors.gray500),
+              style: TextStyle(
+                  fontSize: 14, color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6)),
                   ),
                   const SizedBox(height: 16),
                   TextField(
                     controller: _searchCtrl,
                     decoration: InputDecoration(
                       hintText: AppLocalizations.of(context)!.invoiceSearchClients,
-                      prefixIcon: const Icon(Icons.search,
-                          color: AppColors.gray400),
+                      prefixIcon: Icon(Icons.search,
+                          color: Theme.of(context).hintColor),
                     ),
                     onChanged: (v) => setState(() => _query = v),
                   ),
@@ -458,7 +458,7 @@ class _Step1SelectClientState extends State<_Step1SelectClient> {
                       margin: const EdgeInsets.only(bottom: 10),
                       decoration: BoxDecoration(
                         border: Border.all(
-                          color: AppColors.primaryBlue,
+                          color: Theme.of(context).colorScheme.primary,
                           width: 1.5,
                           // ignore: deprecated_member_use
                           style: BorderStyle.solid,
@@ -467,13 +467,13 @@ class _Step1SelectClientState extends State<_Step1SelectClient> {
                       ),
                       child: Row(
                         children: [
-                          const Icon(Icons.add_circle_outline,
-                              color: AppColors.primaryBlue),
+                           Icon(Icons.add_circle_outline,
+                               color: Theme.of(context).colorScheme.primary),
                           const SizedBox(width: 12),
                           Text(
                             AppLocalizations.of(context)!.invoiceAddNewClient,
-                            style: const TextStyle(
-                              color: AppColors.primaryBlue,
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.primary,
                               fontWeight: FontWeight.w600,
                               fontSize: 15,
                             ),
@@ -488,7 +488,7 @@ class _Step1SelectClientState extends State<_Step1SelectClient> {
                         padding: const EdgeInsets.all(32),
                         child: Text(AppLocalizations.of(context)!.invoiceNoClientsFound,
                             style:
-                                const TextStyle(color: AppColors.gray400)),
+                                TextStyle(color: Theme.of(context).hintColor)),
                       ),
                     )
                   else
@@ -508,8 +508,8 @@ class _Step1SelectClientState extends State<_Step1SelectClient> {
                             borderRadius: BorderRadius.circular(12),
                             border: Border.all(
                               color: selected
-                                  ? AppColors.primaryBlue
-                                  : AppColors.gray200,
+                                  ? Theme.of(context).colorScheme.primary
+                                  : Theme.of(context).dividerColor,
                               width: selected ? 2 : 1,
                             ),
                           ),
@@ -520,7 +520,7 @@ class _Step1SelectClientState extends State<_Step1SelectClient> {
                                 height: 42,
                                 decoration: BoxDecoration(
                                   color: selected
-                                      ? AppColors.primaryBlue
+                                      ? Theme.of(context).colorScheme.primary
                                       : AppColors.primaryPale,
                                   borderRadius:
                                       BorderRadius.circular(12),
@@ -533,7 +533,7 @@ class _Step1SelectClientState extends State<_Step1SelectClient> {
                                       fontWeight: FontWeight.bold,
                                       color: selected
                                           ? Colors.white
-                                          : AppColors.primaryBlue,
+                                          : Theme.of(context).colorScheme.primary,
                                     ),
                                   ),
                                 ),
@@ -546,31 +546,31 @@ class _Step1SelectClientState extends State<_Step1SelectClient> {
                                   children: [
                                     Text(
                                       client.name,
-                                      style: const TextStyle(
+                                      style: TextStyle(
                                         fontWeight: FontWeight.w600,
                                         fontSize: 15,
                                       ),
                                     ),
                                     Text(
                                       client.email,
-                                      style: const TextStyle(
+                                      style: TextStyle(
                                         fontSize: 13,
-                                        color: AppColors.gray500,
+                                        color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
                                       ),
                                     ),
                                     Text(
                                       '${client.currency} • VAT ${client.defaultTaxRate.toStringAsFixed(0)}%',
-                                      style: const TextStyle(
+                                      style: TextStyle(
                                         fontSize: 12,
-                                        color: AppColors.gray400,
+                                        color: Theme.of(context).hintColor,
                                       ),
                                     ),
                                   ],
                                 ),
                               ),
                               if (selected)
-                                const Icon(Icons.check_circle,
-                                    color: AppColors.primaryBlue),
+                                Icon(Icons.check_circle,
+                                    color: Theme.of(context).colorScheme.primary),
                             ],
                           ),
                         ),
@@ -634,11 +634,11 @@ class _Step2LineItems extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(AppLocalizations.of(context)!.invoiceAddLineItem,
-                      style: const TextStyle(
+                      style: TextStyle(
                           fontSize: 18, fontWeight: FontWeight.bold)),
                   IconButton(
                       onPressed: () => Navigator.pop(ctx),
-                      icon: const Icon(Icons.close)),
+                      icon: Icon(Icons.close)),
                 ],
               ),
               const SizedBox(height: 16),
@@ -658,8 +658,8 @@ class _Step2LineItems extends StatelessWidget {
               const SizedBox(height: 12),
               // Quick service presets
               Text(AppLocalizations.of(context)!.invoiceItemQuickAdd,
-                  style: const TextStyle(
-                      fontSize: 12, color: AppColors.gray500)),
+                  style: TextStyle(
+                      fontSize: 12, color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6))),
               const SizedBox(height: 6),
               Wrap(
                 spacing: 8,
@@ -680,9 +680,9 @@ class _Step2LineItems extends StatelessWidget {
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Text(s,
-                        style: const TextStyle(
+                        style: TextStyle(
                             fontSize: 12,
-                            color: AppColors.primaryBlue,
+                            color: Theme.of(context).colorScheme.primary,
                             fontWeight: FontWeight.w500)),
                   ),
                 )).toList(),
@@ -774,7 +774,7 @@ class _Step2LineItems extends StatelessWidget {
                     Navigator.pop(ctx);
                   },
                   child: Text(AppLocalizations.of(context)!.invoiceAddItem,
-                      style: const TextStyle(
+                      style: TextStyle(
                           fontSize: 15, fontWeight: FontWeight.w600)),
                 ),
               ),
@@ -794,11 +794,11 @@ class _Step2LineItems extends StatelessWidget {
         children: [
           Text(AppLocalizations.of(context)!.invoiceLineItems,
               style:
-                  const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
           const SizedBox(height: 4),
           Text(AppLocalizations.of(context)!.invoiceLineItemsSubtitle,
-              style: const TextStyle(
-                  fontSize: 14, color: AppColors.gray500)),
+              style: TextStyle(
+                  fontSize: 14, color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6))),
           const SizedBox(height: 16),
 
           // Line items list
@@ -806,15 +806,15 @@ class _Step2LineItems extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(24),
               decoration: BoxDecoration(
-                color: AppColors.gray50,
+                color: Theme.of(context).colorScheme.surface,
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(
-                    color: AppColors.gray200,
+                    color: Theme.of(context).dividerColor,
                     style: BorderStyle.solid),
               ),
               child: Center(
                 child: Text(AppLocalizations.of(context)!.invoiceNoItems,
-                    style: const TextStyle(color: AppColors.gray400)),
+                    style: TextStyle(color: Theme.of(context).hintColor)),
               ),
             )
           else
@@ -843,16 +843,16 @@ class _Step2LineItems extends StatelessWidget {
                         children: [
                           Text(
                             item.description,
-                            style: const TextStyle(
+                            style: TextStyle(
                                 fontWeight: FontWeight.w600,
                                 fontSize: 15),
                           ),
                           const SizedBox(height: 4),
                           Text(
                             '${item.quantity % 1 == 0 ? item.quantity.toInt() : item.quantity} × $currency ${item.rate.toStringAsFixed(2)}',
-                            style: const TextStyle(
+                            style: TextStyle(
                                 fontSize: 13,
-                                color: AppColors.gray500),
+                                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6)),
                           ),
                         ],
                       ),
@@ -863,7 +863,7 @@ class _Step2LineItems extends StatelessWidget {
                       children: [
                         Text(
                           '$currency ${item.amount.toStringAsFixed(2)}',
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 15,
                           ),
@@ -871,7 +871,7 @@ class _Step2LineItems extends StatelessWidget {
                         IconButton(
                           padding: EdgeInsets.zero,
                           constraints: const BoxConstraints(),
-                          icon: const Icon(Icons.close,
+                          icon: Icon(Icons.close,
                               size: 18,
                               color: AppColors.dangerRed),
                           onPressed: () {
@@ -890,7 +890,7 @@ class _Step2LineItems extends StatelessWidget {
           const SizedBox(height: 12),
           OutlinedButton.icon(
             onPressed: () => _addItem(context),
-            icon: const Icon(Icons.add),
+            icon: Icon(Icons.add),
             label: Text(AppLocalizations.of(context)!.invoiceAddItem),
             style: OutlinedButton.styleFrom(
               minimumSize: const Size(double.infinity, 50),
@@ -904,7 +904,7 @@ class _Step2LineItems extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(AppLocalizations.of(context)!.invoiceTaxRate,
-                  style: const TextStyle(
+                  style: TextStyle(
                       fontSize: 15, fontWeight: FontWeight.w500)),
               Row(
                 children: [
@@ -917,8 +917,8 @@ class _Step2LineItems extends StatelessWidget {
                             horizontal: 10, vertical: 6),
                         decoration: BoxDecoration(
                           color: taxRate == rate
-                              ? AppColors.primaryBlue
-                              : AppColors.gray100,
+                              ? Theme.of(context).colorScheme.primary
+                              : Theme.of(context).colorScheme.surface,
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Text(
@@ -928,7 +928,7 @@ class _Step2LineItems extends StatelessWidget {
                             fontWeight: FontWeight.w600,
                             color: taxRate == rate
                                 ? Colors.white
-                                : AppColors.gray600,
+                                : Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
                           ),
                         ),
                       ),
@@ -939,7 +939,7 @@ class _Step2LineItems extends StatelessWidget {
           ),
 
           const SizedBox(height: 20),
-          const Divider(color: AppColors.gray200),
+          Divider(color: Theme.of(context).dividerColor),
           const SizedBox(height: 12),
 
           // Totals
@@ -951,7 +951,7 @@ class _Step2LineItems extends StatelessWidget {
               label: AppLocalizations.of(context)!.invoiceTax(taxRate.toStringAsFixed(0)),
               value:
                   '$currency ${totals['taxAmount']!.toStringAsFixed(2)}'),
-          const Divider(color: AppColors.gray200, height: 24),
+          Divider(color: Theme.of(context).dividerColor, height: 24),
           _TotalRow(
             label: AppLocalizations.of(context)!.invoiceTotal,
             value: '$currency ${totals['total']!.toStringAsFixed(2)}',
@@ -986,8 +986,8 @@ class _TotalRow extends StatelessWidget {
             fontWeight:
                 isTotal ? FontWeight.bold : FontWeight.normal,
             color: isTotal
-                ? AppColors.primaryBlue
-                : AppColors.gray600,
+                ? Theme.of(context).colorScheme.primary
+                : Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
           ),
         ),
         Text(
@@ -997,7 +997,7 @@ class _TotalRow extends StatelessWidget {
             fontWeight:
                 isTotal ? FontWeight.bold : FontWeight.w500,
             color: isTotal
-                ? AppColors.primaryBlue
+                ? Theme.of(context).colorScheme.primary
                 : null,
           ),
         ),
@@ -1047,11 +1047,11 @@ class _Step3Review extends StatelessWidget {
         children: [
           Text(AppLocalizations.of(context)!.invoiceReviewHeading,
               style:
-                  const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
           const SizedBox(height: 4),
           Text(AppLocalizations.of(context)!.invoiceReviewSubtitle,
-              style: const TextStyle(
-                  fontSize: 14, color: AppColors.gray500)),
+              style: TextStyle(
+                  fontSize: 14, color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6))),
           const SizedBox(height: 20),
 
           // Logo Upload
@@ -1063,9 +1063,9 @@ class _Step3Review extends StatelessWidget {
               height: 100,
               width: 100,
               decoration: BoxDecoration(
-                color: AppColors.gray50,
+                color: Theme.of(context).colorScheme.surface,
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: AppColors.gray300),
+                border: Border.all(color: Theme.of(context).colorScheme.outline),
               ),
               child: logoPath != null
                   ? ClipRRect(
@@ -1075,9 +1075,9 @@ class _Step3Review extends StatelessWidget {
                   : Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Icon(Icons.add_photo_alternate_outlined, color: AppColors.gray400),
+                        Icon(Icons.add_photo_alternate_outlined, color: Theme.of(context).hintColor),
                         const SizedBox(height: 4),
-                        Text(AppLocalizations.of(context)!.invoiceAddLogo, style: const TextStyle(fontSize: 12, color: AppColors.gray500)),
+                        Text(AppLocalizations.of(context)!.invoiceAddLogo, style: TextStyle(fontSize: 12, color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6))),
                       ],
                     ),
             ),
@@ -1100,22 +1100,22 @@ class _Step3Review extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: AppColors.gray50,
+                color: Theme.of(context).colorScheme.surface,
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: AppColors.gray300),
+                border: Border.all(color: Theme.of(context).colorScheme.outline),
               ),
               child: Row(
                 children: [
-                  const Icon(Icons.calendar_today_outlined,
-                      color: AppColors.gray400, size: 20),
+                  Icon(Icons.calendar_today_outlined,
+                      color: Theme.of(context).hintColor, size: 20),
                   const SizedBox(width: 12),
                   Text(
                     _formatDate(invoiceDate),
-                    style: const TextStyle(fontSize: 15),
+                    style: TextStyle(fontSize: 15),
                   ),
                   const Spacer(),
-                  const Icon(Icons.arrow_drop_down,
-                      color: AppColors.gray400),
+                  Icon(Icons.arrow_drop_down,
+                      color: Theme.of(context).hintColor),
                 ],
               ),
             ),
@@ -1139,20 +1139,20 @@ class _Step3Review extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: AppColors.gray50,
+                color: Theme.of(context).colorScheme.surface,
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: AppColors.gray300),
+                border: Border.all(color: Theme.of(context).colorScheme.outline),
               ),
               child: Row(
                 children: [
-                  const Icon(Icons.event_outlined,
-                      color: AppColors.gray400, size: 20),
+                  Icon(Icons.event_outlined,
+                      color: Theme.of(context).hintColor, size: 20),
                   const SizedBox(width: 12),
                   Text(_formatDate(dueDate),
-                      style: const TextStyle(fontSize: 15)),
+                      style: TextStyle(fontSize: 15)),
                   const Spacer(),
-                  const Icon(Icons.arrow_drop_down,
-                      color: AppColors.gray400),
+                  Icon(Icons.arrow_drop_down,
+                      color: Theme.of(context).hintColor),
                 ],
               ),
             ),
@@ -1172,7 +1172,7 @@ class _Step3Review extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 12, vertical: 6),
                     decoration: BoxDecoration(
-                      color: AppColors.gray100,
+                      color: Theme.of(context).colorScheme.surface,
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Text(
@@ -1219,33 +1219,33 @@ class _Step3Review extends StatelessWidget {
               _label(context, AppLocalizations.of(context)!.invoiceSignatureLabel),
               TextButton(
                 onPressed: () => signatureController.clear(),
-                child: Text(AppLocalizations.of(context)!.commonClear, style: const TextStyle(color: AppColors.dangerRed)),
+                child: Text(AppLocalizations.of(context)!.commonClear, style: TextStyle(color: AppColors.dangerRed)),
               ),
             ],
           ),
           Container(
             height: 150,
             decoration: BoxDecoration(
-              color: AppColors.gray50,
+              color: Theme.of(context).colorScheme.surface,
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: AppColors.gray300),
+              border: Border.all(color: Theme.of(context).colorScheme.outline),
             ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(12),
               child: Signature(
                 controller: signatureController,
-                backgroundColor: AppColors.gray50,
+                backgroundColor: Theme.of(context).colorScheme.surface,
               ),
             ),
           ),
           if (signaturePath != null && signatureController.isEmpty)
             Padding(
               padding: const EdgeInsets.only(top: 8.0),
-              child: Text(AppLocalizations.of(context)!.invoiceSignatureOverwrite, style: TextStyle(fontSize: 12, color: AppColors.gray500)),
+              child: Text(AppLocalizations.of(context)!.invoiceSignatureOverwrite, style: TextStyle(fontSize: 12, color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6))),
             ),
 
           const SizedBox(height: 24),
-          const Divider(color: AppColors.gray200),
+          Divider(color: Theme.of(context).dividerColor),
           const SizedBox(height: 16),
 
           // Summary
@@ -1266,8 +1266,8 @@ class _Step3Review extends StatelessWidget {
                     label: AppLocalizations.of(context)!.invoiceTax(taxRate.toStringAsFixed(0)),
                     value:
                         '$currency ${totals['taxAmount']!.toStringAsFixed(2)}'),
-                const Divider(
-                    color: AppColors.primaryBlue, height: 20),
+                Divider(
+                    color: Theme.of(context).colorScheme.primary, height: 20),
                 _SummaryRow(
                   label: AppLocalizations.of(context)!.invoiceTotal,
                   value:
@@ -1319,15 +1319,15 @@ class _SummaryRow extends StatelessWidget {
               fontWeight:
                   isTotal ? FontWeight.bold : FontWeight.normal,
               color: isTotal
-                  ? AppColors.primaryBlue
-                  : AppColors.gray600,
+                  ? Theme.of(context).colorScheme.primary
+                  : Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
             )),
         Text(value,
             style: TextStyle(
               fontSize: isTotal ? 18 : 13,
               fontWeight:
                   isTotal ? FontWeight.bold : FontWeight.w500,
-              color: isTotal ? AppColors.primaryBlue : null,
+              color: isTotal ? Theme.of(context).colorScheme.primary : null,
             )),
       ],
     );
@@ -1354,7 +1354,7 @@ class _BottomNav extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(16, 12, 16, 20),
       decoration: BoxDecoration(
         color: Theme.of(context).scaffoldBackgroundColor,
-        border: Border(top: BorderSide(color: AppColors.gray100)),
+        border: Border(top: BorderSide(color: Theme.of(context).dividerColor)),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.04),
@@ -1382,7 +1382,7 @@ class _BottomNav extends StatelessWidget {
               ),
               child: Text(
                 currentStep == 2 ? AppLocalizations.of(context)!.invoiceCreateTitle : '${AppLocalizations.of(context)!.commonContinue} →',
-                style: const TextStyle(
+                style: TextStyle(
                     fontSize: 16, fontWeight: FontWeight.w600),
               ),
             ),

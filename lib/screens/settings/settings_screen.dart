@@ -75,7 +75,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
-                      colors: [AppColors.primaryBlue, AppColors.primaryDark],
+                      colors: [
+                        Theme.of(context).colorScheme.primary,
+                        Theme.of(context).colorScheme.primary.withOpacity(0.7),
+                      ],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     ),
@@ -141,17 +144,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
               Container(
                 padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
-                  color: Theme.of(context).brightness == Brightness.dark ? AppColors.darkSurface : AppColors.primaryPale,
+                  color: Theme.of(context).colorScheme.surface,
                   borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: AppColors.primaryBlue.withOpacity(0.3)),
+                  border: Border.all(color: Theme.of(context).colorScheme.primary.withOpacity(0.3)),
                 ),
                 child: Column(
                   children: [
-                    Icon(Icons.account_circle_outlined, size: 40, color: AppColors.primaryBlue),
+                    Icon(Icons.account_circle_outlined, size: 40, color: Theme.of(context).colorScheme.primary),
                     const SizedBox(height: 12),
                     Text(
                       l10n.settingsYourName,
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.primaryBlue),
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.primary),
                     ),
                     const SizedBox(height: 8),
                     Text(
@@ -211,7 +214,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 trailing: Switch(
                   value: isDark,
                   onChanged: (_) => themeProvider.toggleTheme(),
-                  activeColor: AppColors.primaryBlue,
+                  activeColor: Theme.of(context).colorScheme.primary,
                 ),
               ),
               _ColorTile(
@@ -477,7 +480,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               itemBuilder: (c, i) => ListTile(
                 title: Text(currencies[i]),
                 trailing: _defaultCurrency == currencies[i]
-                    ? Icon(Icons.check, color: AppColors.primaryBlue)
+                    ? Icon(Icons.check, color: Theme.of(ctx).colorScheme.primary)
                     : null,
                 onTap: () async {
                   final prefs = await SharedPreferences.getInstance();
@@ -595,7 +598,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             border: Border.all(
-                                color: AppColors.gray300, width: 2),
+                                color: Theme.of(ctx).dividerColor, width: 2),
                             gradient: const SweepGradient(
                               colors: [
                                 Colors.red,
@@ -702,7 +705,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               return ListTile(
                 title: Text(e.value),
                 trailing: selected
-                    ? Icon(Icons.check_circle_rounded, color: AppColors.primary)
+                    ? Icon(Icons.check_circle_rounded, color: Theme.of(ctx).colorScheme.primary)
                     : null,
                 onTap: () {
                   localeProvider.setLocale(e.key);
@@ -818,10 +821,10 @@ class _SectionHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       title,
-      style: const TextStyle(
+      style: TextStyle(
         fontSize: 11,
         fontWeight: FontWeight.w700,
-        color: AppColors.gray400,
+        color: Theme.of(context).hintColor,
         letterSpacing: 1.2,
       ),
     );
@@ -852,8 +855,8 @@ class _SettingsGroup extends StatelessWidget {
             children: [
               entry.value,
               if (!isLast)
-                const Divider(
-                    height: 1, color: AppColors.gray100,
+                Divider(
+                    height: 1, color: Theme.of(context).dividerColor,
                     indent: 56, endIndent: 0),
             ],
           );
@@ -880,11 +883,11 @@ class _ColorTile extends StatelessWidget {
         width: 36,
         height: 36,
         decoration: BoxDecoration(
-          color: AppColors.primaryPale,
+          color: Theme.of(context).colorScheme.surface,
           borderRadius: BorderRadius.circular(10),
         ),
         child: Icon(Icons.palette_outlined,
-            size: 18, color: AppColors.primaryBlue),
+            size: 18, color: Theme.of(context).colorScheme.primary),
       ),
       title: Text(title,
           style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500)),
@@ -897,12 +900,12 @@ class _ColorTile extends StatelessWidget {
             decoration: BoxDecoration(
               color: accent,
               shape: BoxShape.circle,
-              border: Border.all(color: AppColors.gray300, width: 1.5),
+              border: Border.all(color: Theme.of(context).dividerColor, width: 1.5),
             ),
           ),
           const SizedBox(width: 4),
-          const Icon(Icons.chevron_right,
-              color: AppColors.gray300, size: 20),
+          Icon(Icons.chevron_right,
+              color: Theme.of(context).dividerColor, size: 20),
         ],
       ),
     );
@@ -934,10 +937,10 @@ class _SettingsTile extends StatelessWidget {
         width: 36,
         height: 36,
         decoration: BoxDecoration(
-          color: AppColors.primaryPale,
+          color: Theme.of(context).colorScheme.surface,
           borderRadius: BorderRadius.circular(10),
         ),
-        child: Icon(icon, size: 18, color: AppColors.primaryBlue),
+        child: Icon(icon, size: 18, color: Theme.of(context).colorScheme.primary),
       ),
       title: Text(
         title,
@@ -947,14 +950,14 @@ class _SettingsTile extends StatelessWidget {
       subtitle: subtitle != null
           ? Text(
               subtitle!,
-              style: const TextStyle(
-                  fontSize: 12, color: AppColors.gray400),
+              style: TextStyle(
+                  fontSize: 12, color: Theme.of(context).hintColor),
             )
           : null,
       trailing: trailing ??
           (onTap != null
-              ? const Icon(Icons.chevron_right,
-                  color: AppColors.gray300, size: 20)
+              ? Icon(Icons.chevron_right,
+                  color: Theme.of(context).dividerColor, size: 20)
               : null),
     );
   }

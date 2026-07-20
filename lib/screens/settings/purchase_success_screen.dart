@@ -3,7 +3,6 @@ import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:invoice_app/l10n/app_localizations.dart';
 import '../../providers/subscription_provider.dart';
-import '../../core/theme/app_colors.dart';
 
 class PurchaseSuccessScreen extends StatelessWidget {
   const PurchaseSuccessScreen({Key? key}) : super(key: key);
@@ -48,8 +47,9 @@ class PurchaseSuccessScreen extends StatelessWidget {
               const SizedBox(height: 12),
               Text(
                 l10n.purchaseSuccessSubtitle,
-                style: const TextStyle(
-                    fontSize: 15, color: AppColors.gray500),
+                style: TextStyle(
+                    fontSize: 15,
+                    color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.6)),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 40),

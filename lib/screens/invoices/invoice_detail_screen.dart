@@ -93,7 +93,10 @@ class InvoiceDetailScreen extends StatelessWidget {
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [AppColors.primaryBlue, AppColors.primaryDark],
+                  colors: [
+                    Theme.of(context).colorScheme.primary,
+                    Theme.of(context).colorScheme.primary.withOpacity(0.8),
+                  ],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
@@ -204,10 +207,10 @@ class InvoiceDetailScreen extends StatelessWidget {
             // ─── CLIENT INFO ───
             if (client != null) ...[
               Text(loc.invoiceDetailBillTo,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w600,
-                    color: AppColors.gray500,
+                    color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.6),
                     letterSpacing: 0.5,
                   )),
               const SizedBox(height: 8),
@@ -229,16 +232,16 @@ class InvoiceDetailScreen extends StatelessWidget {
                       width: 44,
                       height: 44,
                       decoration: BoxDecoration(
-                        color: AppColors.primaryPale,
+                        color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Center(
                         child: Text(
                           client.initials,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
-                            color: AppColors.primaryBlue,
+                            color: Theme.of(context).colorScheme.primary,
                           ),
                         ),
                       ),
@@ -253,14 +256,14 @@ class InvoiceDetailScreen extends StatelessWidget {
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16)),
                         Text(client.email,
-                            style: const TextStyle(
+                            style: TextStyle(
                                 fontSize: 13,
-                                color: AppColors.gray500)),
+                                color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.6))),
                         if (client.phone != null)
                           Text(client.phone!,
-                              style: const TextStyle(
+                              style: TextStyle(
                                   fontSize: 13,
-                                  color: AppColors.gray500)),
+                                  color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.6))),
                       ],
                     ),
                   ],
@@ -271,10 +274,10 @@ class InvoiceDetailScreen extends StatelessWidget {
 
             // ─── LINE ITEMS ───
             Text(loc.invoiceDetailItems,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
-                  color: AppColors.gray500,
+                  color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.6),
                   letterSpacing: 0.5,
                 )),
             const SizedBox(height: 8),
@@ -295,9 +298,9 @@ class InvoiceDetailScreen extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 16, vertical: 10),
-                    decoration: const BoxDecoration(
-                      color: AppColors.gray50,
-                      borderRadius: BorderRadius.only(
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.surface,
+                      borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(12),
                         topRight: Radius.circular(12),
                       ),
@@ -307,28 +310,28 @@ class InvoiceDetailScreen extends StatelessWidget {
                         Expanded(
                           flex: 3,
                           child: Text(loc.invoiceItemDescription,
-                              style: const TextStyle(
+                              style: TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w600,
-                                  color: AppColors.gray500)),
+                                  color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.6))),
                         ),
                         Text(loc.pdfQty,
-                            style: const TextStyle(
+                            style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w600,
-                                color: AppColors.gray500)),
+                                color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.6))),
                         const SizedBox(width: 16),
                         Text(loc.pdfRate,
-                            style: const TextStyle(
+                            style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w600,
-                                color: AppColors.gray500)),
+                                color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.6))),
                         const SizedBox(width: 16),
                         Text(loc.pdfAmount,
-                            style: const TextStyle(
+                            style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w600,
-                                color: AppColors.gray500)),
+                                color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.6))),
                       ],
                     ),
                   ),
@@ -339,13 +342,13 @@ class InvoiceDetailScreen extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 16, vertical: 12),
                       decoration: BoxDecoration(
-                        border: const Border(
+                        border: Border(
                           top: BorderSide(
-                              color: AppColors.gray100),
+                              color: Theme.of(context).dividerColor),
                         ),
                         color: index.isEven
                             ? Colors.transparent
-                            : AppColors.gray50,
+                            : Theme.of(context).colorScheme.surface,
                       ),
                       child: Row(
                         children: [
@@ -365,16 +368,16 @@ class InvoiceDetailScreen extends StatelessWidget {
                                     .toString()
                                 : item.quantity
                                     .toStringAsFixed(2),
-                            style: const TextStyle(
+                            style: TextStyle(
                                 fontSize: 13,
-                                color: AppColors.gray600),
+                                color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.6)),
                           ),
                           const SizedBox(width: 16),
                           Text(
                             item.rate.toStringAsFixed(2),
-                            style: const TextStyle(
+                            style: TextStyle(
                                 fontSize: 13,
-                                color: AppColors.gray600),
+                                color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.6)),
                           ),
                           const SizedBox(width: 16),
                           Text(
@@ -398,7 +401,7 @@ class InvoiceDetailScreen extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: AppColors.primaryPale,
+                color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Column(
@@ -414,8 +417,8 @@ class InvoiceDetailScreen extends StatelessWidget {
                             loc.invoiceTax(invoice.taxRate.toStringAsFixed(0)),
                         value:
                             '${invoice.currency} ${invoice.taxAmount.toStringAsFixed(2)}'),
-                  const Divider(
-                      color: AppColors.primaryBlue, height: 20),
+                  Divider(
+                      color: Theme.of(context).colorScheme.primary, height: 20),
                   _TotalRow(
                     label: loc.invoiceTotal,
                     value:
@@ -431,22 +434,22 @@ class InvoiceDetailScreen extends StatelessWidget {
                 invoice.notes!.isNotEmpty) ...[
               const SizedBox(height: 20),
               Text(loc.invoiceDetailNotes,
-                  style: const TextStyle(
+                  style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w600,
-                      color: AppColors.gray500,
+                      color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.6),
                       letterSpacing: 0.5)),
               const SizedBox(height: 8),
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.all(14),
                 decoration: BoxDecoration(
-                  color: AppColors.gray50,
+                  color: Theme.of(context).colorScheme.surface,
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Text(invoice.notes!,
-                    style: const TextStyle(
-                        fontSize: 14, color: AppColors.gray600)),
+                    style: TextStyle(
+                        fontSize: 14, color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.6))),
               ),
             ],
 
@@ -454,19 +457,19 @@ class InvoiceDetailScreen extends StatelessWidget {
             if (invoice.signatureUrl != null && File(invoice.signatureUrl!).existsSync()) ...[
               const SizedBox(height: 20),
               Text(loc.invoiceDetailSignature,
-                  style: const TextStyle(
+                  style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w600,
-                      color: AppColors.gray500,
+                      color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.6),
                       letterSpacing: 0.5)),
               const SizedBox(height: 8),
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.all(14),
                 decoration: BoxDecoration(
-                  color: AppColors.gray50,
+                  color: Theme.of(context).colorScheme.surface,
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: AppColors.gray200),
+                  border: Border.all(color: Theme.of(context).dividerColor),
                 ),
                 child: Image.file(
                   File(invoice.signatureUrl!),
@@ -716,14 +719,14 @@ class _TotalRow extends StatelessWidget {
             style: TextStyle(
               fontSize: isTotal ? 15 : 13,
               color: isTotal
-                  ? AppColors.primaryBlue
-                  : AppColors.gray600,
+                  ? Theme.of(context).colorScheme.primary
+                  : Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.6),
               fontWeight: isTotal ? FontWeight.bold : FontWeight.normal,
             )),
         Text(value,
             style: TextStyle(
               fontSize: isTotal ? 18 : 13,
-              color: isTotal ? AppColors.primaryBlue : null,
+              color: isTotal ? Theme.of(context).colorScheme.primary : null,
               fontWeight: isTotal ? FontWeight.bold : FontWeight.w500,
             )),
       ],

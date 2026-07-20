@@ -64,8 +64,9 @@ class _PaywallScreenState extends State<PaywallScreen> {
                 const SizedBox(height: 8),
                 Text(
                   l10n.paywallSubtitle,
-                  style: const TextStyle(
-                      fontSize: 14, color: AppColors.gray500),
+                  style: TextStyle(
+                      fontSize: 14,
+                      color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.6)),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 24),
@@ -139,8 +140,8 @@ class _PaywallScreenState extends State<PaywallScreen> {
                 const SizedBox(height: 8),
                 Text(
                   l10n.paywallTerms,
-                  style: const TextStyle(
-                      fontSize: 11, color: AppColors.gray400),
+                  style: TextStyle(
+                      fontSize: 11, color: Theme.of(context).hintColor),
                   textAlign: TextAlign.center,
                 ),
               ],
@@ -174,10 +175,10 @@ class _FeatureTile extends StatelessWidget {
             width: 36,
             height: 36,
             decoration: BoxDecoration(
-              color: AppColors.primaryPale,
+              color: Theme.of(context).colorScheme.surface,
               borderRadius: BorderRadius.circular(10),
             ),
-            child: Icon(icon, color: AppColors.primaryBlue, size: 20),
+            child: Icon(icon, color: Theme.of(context).colorScheme.primary, size: 20),
           ),
           const SizedBox(width: 14),
           Expanded(
@@ -214,11 +215,11 @@ class _PlanCard extends StatelessWidget {
         width: double.infinity,
         padding: const EdgeInsets.all(18),
         decoration: BoxDecoration(
-          color: isPopular ? AppColors.primaryBlue : Theme.of(context).cardTheme.color,
+          color: isPopular ? Theme.of(context).colorScheme.primary : Theme.of(context).cardTheme.color,
           borderRadius: BorderRadius.circular(16),
           border: isPopular
               ? null
-              : Border.all(color: AppColors.gray200),
+              : Border.all(color: Theme.of(context).dividerColor),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.05),
@@ -247,7 +248,7 @@ class _PlanCard extends StatelessWidget {
                       fontSize: 12,
                       color: isPopular
                           ? Colors.white70
-                          : AppColors.gray400,
+                          : Theme.of(context).hintColor,
                     ),
                   ),
                 ],
@@ -258,7 +259,7 @@ class _PlanCard extends StatelessWidget {
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
-                color: isPopular ? Colors.white : AppColors.primaryBlue,
+                color: isPopular ? Colors.white : Theme.of(context).colorScheme.primary,
               ),
             ),
           ],

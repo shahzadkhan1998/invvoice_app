@@ -52,7 +52,7 @@ class DashboardScreen extends StatelessWidget {
                       width: 36,
                       height: 36,
                       decoration: BoxDecoration(
-                        color: AppColors.primaryBlue,
+                        color: Theme.of(context).colorScheme.primary,
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: const Icon(Icons.receipt_long_rounded,
@@ -90,7 +90,7 @@ class DashboardScreen extends StatelessWidget {
                       l10n.dashboardSubtitle,
                       style: TextStyle(
                         fontSize: 14,
-                        color: AppColors.gray500,
+                        color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.6),
                       ),
                     ),
                     const SizedBox(height: 24),
@@ -102,7 +102,7 @@ class DashboardScreen extends StatelessWidget {
                             label: l10n.dashboardOutstanding,
                             amount: invoiceProvider.totalOutstanding,
                             currency: 'AED',
-                            color: AppColors.primaryBlue,
+                            color: Theme.of(context).colorScheme.primary,
                             icon: Icons.account_balance_wallet_outlined,
                             count: invoiceProvider.pendingInvoices.length,
                             countLabel: l10n.dashboardInvoices,
@@ -148,11 +148,11 @@ class DashboardScreen extends StatelessWidget {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
+                               Text(
                                 l10n.dashboardThisMonth,
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontSize: 12,
-                                  color: AppColors.gray600,
+                                  color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.6),
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
@@ -239,7 +239,7 @@ class DashboardScreen extends StatelessWidget {
           l10n.dashboardNewInvoice,
           style: const TextStyle(fontWeight: FontWeight.w600),
         ),
-        backgroundColor: AppColors.primaryBlue,
+        backgroundColor: Theme.of(context).colorScheme.primary,
       ),
         );
       },
@@ -426,7 +426,7 @@ class _InvoiceCard extends StatelessWidget {
                 width: 44,
                 height: 44,
                 decoration: BoxDecoration(
-                  color: Theme.of(context).brightness == Brightness.dark ? AppColors.darkSurface : AppColors.primaryPale,
+                  color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Center(
@@ -434,10 +434,10 @@ class _InvoiceCard extends StatelessWidget {
                     invoice.clientName.isNotEmpty
                         ? invoice.clientName[0].toUpperCase()
                         : '?',
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: AppColors.primaryBlue,
+                      color: Theme.of(context).colorScheme.primary,
                     ),
                   ),
                 ),
@@ -484,15 +484,15 @@ class _InvoiceCard extends StatelessWidget {
                     const SizedBox(height: 4),
                     Text(
                       '${l10n.dashboardDuePrefix}${_formatDate(invoice.dueDate)}',
-                      style: const TextStyle(
-                          fontSize: 12, color: AppColors.gray400),
+                      style: TextStyle(
+                          fontSize: 12, color: Theme.of(context).hintColor),
                     ),
                   ],
                 ),
               ),
               const SizedBox(width: 8),
-              const Icon(Icons.chevron_right,
-                  color: AppColors.gray300, size: 20),
+              Icon(Icons.chevron_right,
+                  color: Theme.of(context).dividerColor, size: 20),
             ],
           ),
         ),
@@ -553,11 +553,11 @@ class _EmptyState extends StatelessWidget {
             width: 80,
             height: 80,
             decoration: BoxDecoration(
-              color: Theme.of(context).brightness == Brightness.dark ? AppColors.darkSurface : AppColors.primaryPale,
+              color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
               borderRadius: BorderRadius.circular(20),
             ),
-            child: const Icon(Icons.receipt_long_outlined,
-                size: 40, color: AppColors.primaryBlue),
+            child: Icon(Icons.receipt_long_outlined,
+                size: 40, color: Theme.of(context).colorScheme.primary),
           ),
           const SizedBox(height: 16),
           Text(
@@ -571,7 +571,7 @@ class _EmptyState extends StatelessWidget {
           Text(
             l10n.dashboardNoInvoicesSubtitle,
             textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 14, color: AppColors.gray500),
+            style: TextStyle(fontSize: 14, color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.6)),
           ),
           const SizedBox(height: 24),
           ElevatedButton.icon(

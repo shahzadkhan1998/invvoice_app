@@ -118,9 +118,9 @@ class _InvoiceListScreenState extends State<InvoiceListScreen>
             bottom: TabBar(
               controller: _tabController,
               isScrollable: true,
-              labelColor: AppColors.primaryBlue,
-              unselectedLabelColor: AppColors.gray400,
-              indicatorColor: AppColors.primaryBlue,
+              labelColor: Theme.of(context).colorScheme.primary,
+              unselectedLabelColor: Theme.of(context).hintColor,
+              indicatorColor: Theme.of(context).colorScheme.primary,
               labelStyle: const TextStyle(
                   fontWeight: FontWeight.w600, fontSize: 13),
               tabs: [
@@ -184,12 +184,12 @@ class _InvoiceTab extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(Icons.receipt_long_outlined,
-                size: 56, color: AppColors.gray300),
+                size: 56, color: Theme.of(context).dividerColor),
             const SizedBox(height: 12),
             Text(
               AppLocalizations.of(context)!.invoiceListEmpty,
               style:
-                  const TextStyle(fontSize: 16, color: AppColors.gray400),
+                  TextStyle(fontSize: 16, color: Theme.of(context).hintColor),
             ),
           ],
         ),
@@ -241,10 +241,10 @@ class _InvoiceListItem extends StatelessWidget {
               children: [
                 Text(
                   invoice.invoiceNumber,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w600,
-                    color: AppColors.gray500,
+                    color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.6),
                   ),
                 ),
                 Text(
@@ -266,7 +266,7 @@ class _InvoiceListItem extends StatelessWidget {
                       width: 28,
                       height: 28,
                       decoration: BoxDecoration(
-                        color: AppColors.primaryPale,
+                        color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Center(
@@ -274,10 +274,10 @@ class _InvoiceListItem extends StatelessWidget {
                           invoice.clientName.isNotEmpty
                               ? invoice.clientName[0].toUpperCase()
                               : '?',
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.bold,
-                            color: AppColors.primaryBlue,
+                            color: Theme.of(context).colorScheme.primary,
                           ),
                         ),
                       ),
@@ -301,8 +301,8 @@ class _InvoiceListItem extends StatelessWidget {
               children: [
                 Text(
                   '${loc.dashboardDuePrefix}${_formatDate(invoice.dueDate)}',
-                  style: const TextStyle(
-                      fontSize: 12, color: AppColors.gray400),
+                  style: TextStyle(
+                      fontSize: 12, color: Theme.of(context).hintColor),
                 ),
                 if (invoice.status == InvoiceStatus.overdue)
                   Text(
@@ -317,7 +317,7 @@ class _InvoiceListItem extends StatelessWidget {
             ),
             // Quick actions
             const SizedBox(height: 10),
-            const Divider(height: 1, color: AppColors.gray100),
+            Divider(height: 1, color: Theme.of(context).dividerColor),
             const SizedBox(height: 10),
             Row(
               children: [

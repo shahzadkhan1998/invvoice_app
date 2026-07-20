@@ -145,7 +145,7 @@ class _CreateClientScreenState extends State<CreateClientScreen> {
                 textInputAction: TextInputAction.next,
                 decoration: InputDecoration(
                   hintText: l10n.clientNameHint,
-                  prefixIcon: const Icon(Icons.business_outlined, color: AppColors.gray400),
+                  prefixIcon: Icon(Icons.business_outlined, color: Theme.of(context).hintColor),
                 ),
                 validator: (v) {
                   if (v == null || v.trim().isEmpty) return l10n.clientNameRequired;
@@ -163,7 +163,7 @@ class _CreateClientScreenState extends State<CreateClientScreen> {
                 textInputAction: TextInputAction.next,
                 decoration: InputDecoration(
                   hintText: l10n.clientEmailHint,
-                  prefixIcon: const Icon(Icons.email_outlined, color: AppColors.gray400),
+                  prefixIcon: Icon(Icons.email_outlined, color: Theme.of(context).hintColor),
                 ),
                 validator: (v) {
                   if (v == null || v.isEmpty) return l10n.clientEmailRequired;
@@ -181,7 +181,7 @@ class _CreateClientScreenState extends State<CreateClientScreen> {
                 textInputAction: TextInputAction.next,
                 decoration: InputDecoration(
                   hintText: l10n.clientPhoneHint,
-                  prefixIcon: const Icon(Icons.phone_outlined, color: AppColors.gray400),
+                  prefixIcon: Icon(Icons.phone_outlined, color: Theme.of(context).hintColor),
                 ),
               ),
               const SizedBox(height: 24),
@@ -197,7 +197,7 @@ class _CreateClientScreenState extends State<CreateClientScreen> {
                 textInputAction: TextInputAction.next,
                 decoration: InputDecoration(
                   hintText: l10n.clientAddressHint,
-                  prefixIcon: const Icon(Icons.home_outlined, color: AppColors.gray400),
+                  prefixIcon: Icon(Icons.home_outlined, color: Theme.of(context).hintColor),
                 ),
               ),
               const SizedBox(height: 14),
@@ -210,7 +210,7 @@ class _CreateClientScreenState extends State<CreateClientScreen> {
                 textInputAction: TextInputAction.next,
                 decoration: InputDecoration(
                   hintText: l10n.clientCityHint,
-                  prefixIcon: const Icon(Icons.location_city_outlined, color: AppColors.gray400),
+                  prefixIcon: Icon(Icons.location_city_outlined, color: Theme.of(context).hintColor),
                 ),
               ),
               const SizedBox(height: 24),
@@ -222,8 +222,8 @@ class _CreateClientScreenState extends State<CreateClientScreen> {
               const SizedBox(height: 8),
               DropdownButtonFormField<String>(
                 value: _selectedCurrency,
-                decoration: const InputDecoration(
-                  prefixIcon: Icon(Icons.attach_money, color: AppColors.gray400),
+                decoration: InputDecoration(
+                  prefixIcon: Icon(Icons.attach_money, color: Theme.of(context).hintColor),
                 ),
                 items: _currencies.map((currency) {
                   return DropdownMenuItem(
@@ -249,12 +249,12 @@ class _CreateClientScreenState extends State<CreateClientScreen> {
                           padding: const EdgeInsets.symmetric(vertical: 10),
                           decoration: BoxDecoration(
                             color: _taxRate == rate
-                                ? AppColors.primaryBlue
-                                : AppColors.gray100,
+                                ? Theme.of(context).colorScheme.primary
+                                : Theme.of(context).colorScheme.surface,
                             borderRadius: BorderRadius.circular(10),
                             border: Border.all(
                               color: _taxRate == rate
-                                  ? AppColors.primaryBlue
+                                  ? Theme.of(context).colorScheme.primary
                                   : Colors.transparent,
                             ),
                           ),
@@ -266,7 +266,7 @@ class _CreateClientScreenState extends State<CreateClientScreen> {
                                 fontWeight: FontWeight.w600,
                                 color: _taxRate == rate
                                     ? Colors.white
-                                    : AppColors.gray600,
+                                    : Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
                               ),
                             ),
                           ),
@@ -284,7 +284,7 @@ class _CreateClientScreenState extends State<CreateClientScreen> {
                 textInputAction: TextInputAction.done,
                 decoration: InputDecoration(
                   hintText: l10n.clientVatHint,
-                  prefixIcon: const Icon(Icons.numbers_outlined, color: AppColors.gray400),
+                  prefixIcon: Icon(Icons.numbers_outlined, color: Theme.of(context).hintColor),
                 ),
               ),
 
@@ -304,7 +304,7 @@ class _CreateClientScreenState extends State<CreateClientScreen> {
                         )
                       : Text(
                           isEdit ? l10n.clientUpdateButton : l10n.clientAddButton,
-                          style: const TextStyle(
+                          style: TextStyle(
                               fontSize: 16, fontWeight: FontWeight.w600),
                         ),
                 ),
@@ -371,12 +371,12 @@ class _SectionHeader extends StatelessWidget {
             color: AppColors.primaryPale,
             borderRadius: BorderRadius.circular(8),
           ),
-          child: Icon(icon, size: 18, color: AppColors.primaryBlue),
+          child: Icon(icon, size: 18, color: Theme.of(context).colorScheme.primary),
         ),
         const SizedBox(width: 10),
         Text(
           title,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
           ),

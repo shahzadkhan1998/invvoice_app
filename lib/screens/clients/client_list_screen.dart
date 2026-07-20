@@ -61,7 +61,7 @@ class _ClientListScreenState extends State<ClientListScreen> {
                 }),
               ),
               IconButton(
-                icon: const Icon(Icons.add),
+                icon: Icon(Icons.add),
                 onPressed: () => Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -112,8 +112,8 @@ class _ClientListScreenState extends State<ClientListScreen> {
                                 ? Center(
                                     child: Text(
                                       l10n.clientListEmptySearch,
-                                      style: const TextStyle(
-                                          color: AppColors.gray400),
+                                      style: TextStyle(
+                                          color: Theme.of(context).hintColor),
                                     ),
                                   )
                                 : ListView.separated(
@@ -144,7 +144,7 @@ class _ClientListScreenState extends State<ClientListScreen> {
               MaterialPageRoute(
                   builder: (_) => const CreateClientScreen()),
             ),
-            child: const Icon(Icons.add),
+            child: Icon(Icons.add),
           ),
         );
       },
@@ -162,19 +162,19 @@ class _StatItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Icon(icon, color: AppColors.primaryBlue, size: 20),
+        Icon(icon, color: Theme.of(context).colorScheme.primary, size: 20),
         const SizedBox(width: 8),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(label,
-                style: const TextStyle(
-                    fontSize: 11, color: AppColors.gray500)),
+                style: TextStyle(
+                    fontSize: 11, color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6))),
             Text(value,
-                style: const TextStyle(
+                style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
-                    color: AppColors.primaryBlue)),
+                    color: Theme.of(context).colorScheme.primary)),
           ],
         ),
       ],
@@ -213,7 +213,7 @@ class _ClientCard extends StatelessWidget {
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    AppColors.primaryBlue,
+                    Theme.of(context).colorScheme.primary,
                     AppColors.primaryLight
                   ],
                   begin: Alignment.topLeft,
@@ -224,7 +224,7 @@ class _ClientCard extends StatelessWidget {
               child: Center(
                 child: Text(
                   client.initials,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
@@ -239,7 +239,7 @@ class _ClientCard extends StatelessWidget {
                 children: [
                   Text(
                     client.name,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
                     ),
@@ -247,8 +247,8 @@ class _ClientCard extends StatelessWidget {
                   const SizedBox(height: 2),
                   Text(
                     client.email,
-                    style: const TextStyle(
-                        fontSize: 13, color: AppColors.gray500),
+                    style: TextStyle(
+                        fontSize: 13, color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6)),
                   ),
                   const SizedBox(height: 6),
                   Row(
@@ -272,21 +272,21 @@ class _ClientCard extends StatelessWidget {
               children: [
                 Text(
                   'AED ${client.totalBilled.toStringAsFixed(0)}',
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.bold,
-                    color: AppColors.primaryBlue,
+                    color: Theme.of(context).colorScheme.primary,
                   ),
                 ),
                 const SizedBox(height: 4),
                 Text(
                   l10n.clientListTotalBilledLabel,
-                  style: const TextStyle(
-                      fontSize: 11, color: AppColors.gray400),
+                  style: TextStyle(
+                      fontSize: 11, color: Theme.of(context).hintColor),
                 ),
                 const SizedBox(height: 6),
-                const Icon(Icons.chevron_right,
-                    color: AppColors.gray300, size: 20),
+                Icon(Icons.chevron_right,
+                    color: Theme.of(context).colorScheme.outline, size: 20),
               ],
             ),
           ],
@@ -307,17 +307,17 @@ class _ClientChip extends StatelessWidget {
       padding:
           const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
       decoration: BoxDecoration(
-        color: AppColors.gray100,
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(6),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 11, color: AppColors.gray500),
+          Icon(icon, size: 11, color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6)),
           const SizedBox(width: 4),
           Text(label,
-              style: const TextStyle(
-                  fontSize: 11, color: AppColors.gray500)),
+              style: TextStyle(
+                  fontSize: 11, color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6))),
         ],
       ),
     );
@@ -344,13 +344,13 @@ class _EmptyClients extends StatelessWidget {
                 color: AppColors.primaryPale,
                 borderRadius: BorderRadius.circular(20),
               ),
-              child: const Icon(Icons.people_outline,
-                  size: 40, color: AppColors.primaryBlue),
+              child: Icon(Icons.people_outline,
+                  size: 40, color: Theme.of(context).colorScheme.primary),
             ),
             const SizedBox(height: 16),
             Text(
               l10n.clientListEmpty,
-              style: const TextStyle(
+              style: TextStyle(
                   fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
@@ -358,12 +358,12 @@ class _EmptyClients extends StatelessWidget {
               l10n.clientListEmptySubtitle,
               textAlign: TextAlign.center,
               style:
-                  const TextStyle(fontSize: 14, color: AppColors.gray500),
+                  TextStyle(fontSize: 14, color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6)),
             ),
             const SizedBox(height: 24),
             ElevatedButton.icon(
               onPressed: onAdd,
-              icon: const Icon(Icons.add),
+              icon: Icon(Icons.add),
               label: Text(l10n.clientListAddClient),
               style: ElevatedButton.styleFrom(
                   minimumSize: const Size(160, 48)),

@@ -15,7 +15,7 @@ class InvoiceStatusBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = _statusColor(status);
+    final color = _statusColor(status, context);
     final l10n = AppLocalizations.of(context)!;
     final label = switch (status) {
       InvoiceStatus.paid => l10n.statusPaid,
@@ -55,7 +55,7 @@ class InvoiceStatusBadge extends StatelessWidget {
     );
   }
 
-  Color _statusColor(InvoiceStatus status) {
+  Color _statusColor(InvoiceStatus status, BuildContext context) {
     switch (status) {
       case InvoiceStatus.paid:
         return AppColors.successGreen;
@@ -66,7 +66,7 @@ class InvoiceStatusBadge extends StatelessWidget {
       case InvoiceStatus.draft:
         return AppColors.infoGray;
       case InvoiceStatus.cancelled:
-        return AppColors.gray400;
+        return Theme.of(context).colorScheme.onSurface.withOpacity(0.5);
     }
   }
 
