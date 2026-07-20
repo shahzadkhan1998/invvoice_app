@@ -63,13 +63,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final textTheme = theme.textTheme;
     return Scaffold(
-      backgroundColor: AppColors.bgPrimary,
+      backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
+          icon: Icon(Icons.arrow_back, color: textTheme.bodyLarge?.color),
           onPressed: () => Navigator.pop(context),
         ),
       ),
@@ -83,7 +86,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               children: [
                 Text(
                   l10n.registerHeading,
-                  style: const TextStyle(
+                  style: textTheme.headlineSmall?.copyWith(
                     fontSize: 28,
                     fontWeight: FontWeight.bold,
                   ),
@@ -91,7 +94,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 const SizedBox(height: 8),
                 Text(
                   l10n.registerSubtitle,
-                  style: const TextStyle(fontSize: 15, color: AppColors.gray500),
+                  style: textTheme.bodyMedium?.copyWith(
+                    fontSize: 15,
+                    color: textTheme.bodyMedium?.color?.withOpacity(0.6),
+                  ),
                 ),
                 const SizedBox(height: 36),
 
@@ -102,8 +108,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   textInputAction: TextInputAction.next,
                   decoration: InputDecoration(
                     hintText: l10n.registerNameHint,
-                    prefixIcon:
-                        const Icon(Icons.person_outline, color: AppColors.gray400),
+                    prefixIcon: Icon(Icons.person_outline,
+                        color: textTheme.bodySmall?.color),
                   ),
                   validator: (v) {
                     if (v == null || v.trim().isEmpty)
@@ -123,8 +129,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   textInputAction: TextInputAction.next,
                   decoration: InputDecoration(
                     hintText: l10n.registerEmailHint,
-                    prefixIcon: const Icon(Icons.email_outlined,
-                        color: AppColors.gray400),
+                    prefixIcon: Icon(Icons.email_outlined,
+                        color: textTheme.bodySmall?.color),
                   ),
                   validator: (v) {
                     if (v == null || v.isEmpty) return l10n.registerEmailRequired;
@@ -142,14 +148,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   textInputAction: TextInputAction.next,
                   decoration: InputDecoration(
                     hintText: l10n.registerPasswordHint,
-                    prefixIcon: const Icon(Icons.lock_outline,
-                        color: AppColors.gray400),
+                    prefixIcon: Icon(Icons.lock_outline,
+                        color: textTheme.bodySmall?.color),
                     suffixIcon: IconButton(
                       icon: Icon(
                         _obscurePassword
                             ? Icons.visibility_off_outlined
                             : Icons.visibility_outlined,
-                        color: AppColors.gray400,
+                        color: textTheme.bodySmall?.color,
                       ),
                       onPressed: () => setState(
                           () => _obscurePassword = !_obscurePassword),
@@ -173,14 +179,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   onFieldSubmitted: (_) => _register(),
                   decoration: InputDecoration(
                     hintText: l10n.registerConfirmPasswordHint,
-                    prefixIcon: const Icon(Icons.lock_outline,
-                        color: AppColors.gray400),
+                    prefixIcon: Icon(Icons.lock_outline,
+                        color: textTheme.bodySmall?.color),
                     suffixIcon: IconButton(
                       icon: Icon(
                         _obscureConfirm
                             ? Icons.visibility_off_outlined
                             : Icons.visibility_outlined,
-                        color: AppColors.gray400,
+                        color: textTheme.bodySmall?.color,
                       ),
                       onPressed: () =>
                           setState(() => _obscureConfirm = !_obscureConfirm),
@@ -221,13 +227,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(l10n.registerHaveAccount,
-                        style: const TextStyle(color: AppColors.gray500)),
+                        style: TextStyle(
+                            color: textTheme.bodyMedium?.color?.withOpacity(0.6))),
                     GestureDetector(
                       onTap: () => Navigator.pop(context),
                       child: Text(
                         l10n.registerSignIn,
-                        style: const TextStyle(
-                          color: AppColors.primaryBlue,
+                        style: TextStyle(
+                          color: colorScheme.primary,
                           fontWeight: FontWeight.w600,
                         ),
                       ),

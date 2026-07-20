@@ -76,8 +76,11 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final textTheme = theme.textTheme;
     return Scaffold(
-      backgroundColor: AppColors.bgPrimary,
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(24),
@@ -93,19 +96,19 @@ class _LoginScreenState extends State<LoginScreen> {
                   width: 64,
                   height: 64,
                   decoration: BoxDecoration(
-                    color: AppColors.primaryBlue,
+                    color: colorScheme.primary,
                     borderRadius: BorderRadius.circular(16),
                   ),
-                  child: const Icon(
+                  child: Icon(
                     Icons.receipt_long_rounded,
-                    color: Colors.white,
+                    color: colorScheme.onPrimary,
                     size: 36,
                   ),
                 ),
                 const SizedBox(height: 24),
                 Text(
                   l10n.loginHeading,
-                  style: const TextStyle(
+                  style: textTheme.headlineSmall?.copyWith(
                     fontSize: 28,
                     fontWeight: FontWeight.bold,
                   ),
@@ -113,9 +116,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(height: 8),
                 Text(
                   l10n.loginSubtitle,
-                  style: const TextStyle(
+                  style: textTheme.bodyMedium?.copyWith(
                     fontSize: 15,
-                    color: AppColors.gray500,
+                    color: textTheme.bodyMedium?.color?.withOpacity(0.6),
                   ),
                 ),
                 const SizedBox(height: 40),
@@ -129,8 +132,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   textInputAction: TextInputAction.next,
                   decoration: InputDecoration(
                     hintText: l10n.loginEmailHint,
-                    prefixIcon: const Icon(Icons.email_outlined,
-                        color: AppColors.gray400),
+                    prefixIcon: Icon(Icons.email_outlined,
+                        color: textTheme.bodySmall?.color),
                   ),
                   validator: (v) {
                     if (v == null || v.isEmpty) return l10n.loginEmailRequired;
@@ -150,14 +153,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   onFieldSubmitted: (_) => _signIn(),
                   decoration: InputDecoration(
                     hintText: l10n.loginPasswordHint,
-                    prefixIcon: const Icon(Icons.lock_outline,
-                        color: AppColors.gray400),
+                    prefixIcon: Icon(Icons.lock_outline,
+                        color: textTheme.bodySmall?.color),
                     suffixIcon: IconButton(
                       icon: Icon(
                         _obscurePassword
                             ? Icons.visibility_off_outlined
                             : Icons.visibility_outlined,
-                        color: AppColors.gray400,
+                        color: textTheme.bodySmall?.color,
                       ),
                       onPressed: () =>
                           setState(() => _obscurePassword = !_obscurePassword),
@@ -179,7 +182,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     onPressed: () => _showForgotPassword(context),
                     child: Text(
                       l10n.loginForgotPassword,
-                      style: TextStyle(color: AppColors.primaryBlue),
+                      style: TextStyle(color: colorScheme.primary),
                     ),
                   ),
                 ),
@@ -210,16 +213,15 @@ class _LoginScreenState extends State<LoginScreen> {
                 // Divider
                 Row(
                   children: [
-                    const Expanded(child: Divider(color: AppColors.gray200)),
+                    Expanded(child: Divider(color: theme.dividerColor)),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: Text(
                         l10n.loginOrContinueWith,
-                        style: const TextStyle(
-                            fontSize: 13, color: AppColors.gray400),
+                        style: textTheme.bodySmall?.copyWith(fontSize: 13),
                       ),
                     ),
-                    const Expanded(child: Divider(color: AppColors.gray200)),
+                    Expanded(child: Divider(color: theme.dividerColor)),
                   ],
                 ),
                 const SizedBox(height: 20),
@@ -255,7 +257,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   children: [
                     Text(
                       l10n.loginNoAccount,
-                      style: const TextStyle(color: AppColors.gray500),
+                      style: TextStyle(
+                          color: textTheme.bodyMedium?.color?.withOpacity(0.6)),
                     ),
                     GestureDetector(
                       onTap: () {
@@ -267,8 +270,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       },
                       child: Text(
                         l10n.loginSignUp,
-                        style: const TextStyle(
-                          color: AppColors.primaryBlue,
+                        style: TextStyle(
+                          color: colorScheme.primary,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -296,24 +299,29 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void _showForgotPassword(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final theme = Theme.of(context);
     final emailCtrl = TextEditingController();
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
+        backgroundColor: theme.dialogBackgroundColor,
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16)),
-        title: Text(l10n.loginResetPasswordTitle),
+        title: Text(l10n.loginResetPasswordTitle,
+            style: theme.textTheme.titleLarge),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(l10n.loginResetPasswordMessage),
+            Text(l10n.loginResetPasswordMessage,
+                style: theme.textTheme.bodyMedium),
             const SizedBox(height: 16),
             TextField(
               controller: emailCtrl,
               keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
                 hintText: l10n.loginResetPasswordHint,
-                prefixIcon: const Icon(Icons.email_outlined),
+                prefixIcon: Icon(Icons.email_outlined,
+                    color: theme.textTheme.bodySmall?.color),
               ),
             ),
           ],
