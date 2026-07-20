@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import '../models/invoice.dart';
+import '../services/sync_service.dart';
+import 'subscription_provider.dart';
 
 class InvoiceProvider with ChangeNotifier {
   final Box _box = Hive.box('invoices');
+  final SyncService _sync = SyncService();
   List<Invoice> _invoices = [];
   bool _isLoading = false;
   String? _error;
@@ -27,28 +30,40 @@ class InvoiceProvider with ChangeNotifier {
 
   InvoiceProvider() { loadInvoices(); }
 
+  void _syncCounts() {
+    try {
+      SubscriptionProvider().refresh();
+    } catch (_) {}
+  }
+
   Future<void> loadInvoices() async {
     _isLoading = true; notifyListeners();
     try {
       _invoices = _box.values.map((v) => Invoice.fromJson(Map<String, dynamic>.from(v))).toList();
       _invoices.sort((a, b) => b.invoiceDate.compareTo(a.invoiceDate));
       _updateOverdue();
+      _syncCounts();
     } catch (e) { _error = e.toString(); }
     _isLoading = false; notifyListeners();
   }
 
   Future<Invoice?> createInvoice(Invoice invoice) async {
     try {
-      await _box.put(invoice.id, invoice.toJson());
-      _invoices.insert(0, invoice); notifyListeners(); return invoice;
+      final toStore = invoice.copyWith(isSynced: false);
+      await _box.put(toStore.id, toStore.toJson());
+      _invoices.insert(0, toStore); notifyListeners();
+      _sync.uploadInvoice(toStore).catchError((_) {});
+      return toStore;
     } catch (e) { _error = e.toString(); notifyListeners(); return null; }
   }
 
   Future<void> updateInvoice(Invoice invoice) async {
     try {
-      await _box.put(invoice.id, invoice.toJson());
-      final idx = _invoices.indexWhere((i) => i.id == invoice.id);
-      if (idx != -1) { _invoices[idx] = invoice; notifyListeners(); }
+      final toStore = invoice.copyWith(isSynced: false);
+      await _box.put(toStore.id, toStore.toJson());
+      final idx = _invoices.indexWhere((i) => i.id == toStore.id);
+      if (idx != -1) { _invoices[idx] = toStore; notifyListeners(); }
+      _sync.uploadInvoice(toStore).catchError((_) {});
     } catch (e) { _error = e.toString(); notifyListeners(); }
   }
 
@@ -56,6 +71,7 @@ class InvoiceProvider with ChangeNotifier {
     try {
       await _box.delete(id);
       _invoices.removeWhere((i) => i.id == id); notifyListeners();
+      _sync.deleteInvoice(id).catchError((_) {});
     } catch (e) { _error = e.toString(); notifyListeners(); }
   }
 
@@ -85,5 +101,17 @@ class InvoiceProvider with ChangeNotifier {
 
   Invoice? getInvoiceById(String id) {
     try { return _invoices.firstWhere((i) => i.id == id); } catch (_) { return null; }
+  }
+
+  /// Replace a single invoice in local state + storage (used by sync pull).
+  Future<void> upsertFromSync(Invoice invoice) async {
+    await _box.put(invoice.id, invoice.toJson());
+    final idx = _invoices.indexWhere((i) => i.id == invoice.id);
+    if (idx != -1) {
+      _invoices[idx] = invoice;
+    } else {
+      _invoices.insert(0, invoice);
+    }
+    notifyListeners();
   }
 }

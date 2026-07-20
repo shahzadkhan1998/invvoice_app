@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import '../models/client.dart';
+import '../services/sync_service.dart';
 
 class ClientProvider with ChangeNotifier {
   final Box _clientBox = Hive.box('clients');
+  final SyncService _sync = SyncService();
 
   List<Client> _clients = [];
   bool _isLoading = false;
@@ -38,11 +40,13 @@ class ClientProvider with ChangeNotifier {
 
   Future<Client?> createClient(Client client) async {
     try {
-      await _clientBox.put(client.id, client.toJson());
-      _clients.add(client);
+      final toStore = client.copyWith(isSynced: false);
+      await _clientBox.put(toStore.id, toStore.toJson());
+      _clients.add(toStore);
       _clients.sort((a, b) => a.name.compareTo(b.name));
       notifyListeners();
-      return client;
+      _sync.uploadClient(toStore).catchError((_) {});
+      return toStore;
     } catch (e) {
       _error = 'Failed to create client: $e';
       notifyListeners();
@@ -52,12 +56,14 @@ class ClientProvider with ChangeNotifier {
 
   Future<void> updateClient(Client client) async {
     try {
-      await _clientBox.put(client.id, client.toJson());
-      final index = _clients.indexWhere((c) => c.id == client.id);
+      final toStore = client.copyWith(isSynced: false);
+      await _clientBox.put(toStore.id, toStore.toJson());
+      final index = _clients.indexWhere((c) => c.id == toStore.id);
       if (index != -1) {
-        _clients[index] = client;
+        _clients[index] = toStore;
         notifyListeners();
       }
+      _sync.uploadClient(toStore).catchError((_) {});
     } catch (e) {
       _error = 'Failed to update client: $e';
       notifyListeners();
@@ -69,6 +75,7 @@ class ClientProvider with ChangeNotifier {
       await _clientBox.delete(clientId);
       _clients.removeWhere((c) => c.id == clientId);
       notifyListeners();
+      _sync.deleteClient(clientId).catchError((_) {});
     } catch (e) {
       _error = 'Failed to delete client: $e';
       notifyListeners();
@@ -101,6 +108,19 @@ class ClientProvider with ChangeNotifier {
     } catch (_) {
       return null;
     }
+  }
+
+  /// Replace a single client in local state + storage (used by sync pull).
+  Future<void> upsertFromSync(Client client) async {
+    await _clientBox.put(client.id, client.toJson());
+    final index = _clients.indexWhere((c) => c.id == client.id);
+    if (index != -1) {
+      _clients[index] = client;
+    } else {
+      _clients.add(client);
+      _clients.sort((a, b) => a.name.compareTo(b.name));
+    }
+    notifyListeners();
   }
 
   void clearError() {

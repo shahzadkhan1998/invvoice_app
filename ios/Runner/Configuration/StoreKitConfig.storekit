@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>com.apple.storekit</key>
+	<dict>
+		<key>software</key>
+		<array>
+			<dict>
+				<key>id</key>
+				<string>invoiceflow_pro_monthly</string>
+				<key>name</key>
+				<string>InvoiceFlow Pro (Monthly)</string>
+				<key>price</key>
+				<string>4.99</string>
+				<key>locales</key>
+				<dict>
+					<key>en_US</key>
+					<dict>
+						<key>name</key>
+						<string>InvoiceFlow Pro (Monthly)</string>
+						<key>description</key>
+						<string>Unlimited invoices, cloud sync, no watermarks.</string>
+					</dict>
+				</dict>
+			</dict>
+			<dict>
+				<key>id</key>
+				<string>invoiceflow_pro_yearly</string>
+				<key>name</key>
+				<string>InvoiceFlow Pro (Yearly)</string>
+				<key>price</key>
+				<string>39.99</string>
+				<key>locales</key>
+				<dict>
+					<key>en_US</key>
+					<dict>
+						<key>name</key>
+						<string>InvoiceFlow Pro (Yearly)</string>
+						<key>description</key>
+						<string>Unlimited invoices, cloud sync, no watermarks. Best value.</string>
+					</dict>
+				</dict>
+			</dict>
+		</array>
+	</dict>
+</dict>
+</plist>

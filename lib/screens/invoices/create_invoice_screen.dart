@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'dart:ui';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 import 'package:invoice_app/l10n/app_localizations.dart';
 import '../../providers/invoice_provider.dart';
 import '../../providers/client_provider.dart';
+import '../../providers/subscription_provider.dart';
+import '../settings/paywall_screen.dart';
 import '../../models/invoice.dart';
 import '../../models/client.dart';
 import '../../core/theme/app_colors.dart';
@@ -12,6 +15,7 @@ import 'dart:typed_data';
 import 'package:signature/signature.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
+import '../../core/utils/currency_utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../clients/create_client_screen.dart';
 
@@ -71,7 +75,8 @@ class _CreateInvoiceScreenState extends State<CreateInvoiceScreen> {
     final prefs = await SharedPreferences.getInstance();
     if (mounted) {
       setState(() {
-        _defaultCurrency = prefs.getString('default_currency') ?? 'AED';
+        _defaultCurrency = prefs.getString('default_currency') ??
+            CurrencyUtils.currencyForLocale(PlatformDispatcher.instance.locale);
       });
     }
   }
@@ -97,6 +102,19 @@ class _CreateInvoiceScreenState extends State<CreateInvoiceScreen> {
 
   Future<void> _saveInvoice() async {
     if (_selectedClient == null) return;
+
+    final sub = context.read<SubscriptionProvider>();
+    sub.refresh();
+    // Only gate new invoices; editing an existing one never counts against the limit.
+    if (widget.editInvoice == null && !sub.canCreateInvoice) {
+      if (mounted) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => const PaywallScreen()),
+        );
+      }
+      return;
+    }
 
     final provider = context.read<InvoiceProvider>();
     final clientProvider = context.read<ClientProvider>();
@@ -182,7 +200,7 @@ class _CreateInvoiceScreenState extends State<CreateInvoiceScreen> {
               onPressed: _saveInvoice,
               child: Text(
                 AppLocalizations.of(context)!.invoiceSaveDraft,
-                style: const TextStyle(color: AppColors.primaryBlue),
+                style: TextStyle(color: AppColors.primaryBlue),
               ),
             ),
         ],

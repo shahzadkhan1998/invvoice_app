@@ -270,6 +270,20 @@
   "settingsBackupTitle": "Backup your invoices",
   "settingsBackupDescription": "Sign in to sync your data securely and access it from anywhere.",
   "settingsSignInRegister": "Sign In or Register",
+  "settingsProUpsell": "Upgrade to Pro for unlimited invoices, cloud sync & no watermarks.",
+  "subscriptionInvoiceLimit": "You have reached the free plan limit of {limit} invoices. Upgrade to Pro for unlimited invoices and cloud sync.",
+  "@subscriptionInvoiceLimit": {
+    "placeholders": {
+      "limit": {}
+    }
+  },
+  "subscriptionClientLimit": "You have reached the free plan limit of {limit} clients. Upgrade to Pro for unlimited clients and cloud sync.",
+  "@subscriptionClientLimit": {
+    "placeholders": {
+      "limit": {}
+    }
+  },
+  "settingsUpgradePro": "Upgrade",
   "settingsBusinessSection": "BUSINESS SETTINGS",
   "settingsBusinessDetails": "Business Details",
   "settingsBusinessDetailsSubtitle": "Set your business name",
@@ -281,6 +295,12 @@
   "settingsDailyNotificationNotSet": "Not set",
   "settingsLanguage": "Language",
   "settingsLanguageLabel": "English",
+  "languageEnglish": "English",
+  "languageArabic": "العربية",
+  "languageFrench": "Français",
+  "languageSpanish": "Español",
+  "languageUrdu": "اردو",
+  "languageChinese": "中文",
   "settingsAboutSection": "ABOUT",
   "settingsRateApp": "Rate the App",
   "settingsHelpSupport": "Help & Support",
@@ -344,5 +364,32 @@
   "quickAddDevelopment": "Development",
   "quickAddConsulting": "Consulting",
   "quickAddSeo": "SEO",
-  "quickAddContentWriting": "Content Writing"
+  "quickAddContentWriting": "Content Writing",
+
+  "paywallTitle": "Unlock InvoiceFlow Pro",
+  "paywallSubtitle": "Go unlimited and sync everywhere. Cancel anytime.",
+  "paywallFeatureUnlimited": "Unlimited invoices & clients",
+  "paywallFeatureSync": "Cloud sync across devices",
+  "paywallFeatureNoWatermark": "No watermarks, ever",
+  "paywallMonthly": "Monthly",
+  "paywallMonthlySub": "Billed monthly",
+  "paywallYearly": "Yearly",
+  "paywallYearlySub": "Best value — 2 months free",
+  "paywallRestore": "Restore Purchases",
+  "paywallTerms": "Subscriptions auto-renew. Manage in your app store settings.",
+  "purchaseSuccessTitle": "You're Pro!",
+  "purchaseSuccessSubtitle": "Unlimited invoices, cloud sync, and no watermarks are now unlocked. Thank you!",
+  "purchaseSuccessContinue": "Continue",
+  "onboardingSkip": "Skip",
+  "onboardingNext": "Next",
+  "onboardingGetStarted": "Get Started",
+  "onboardingWelcomeTitle": "Invoices in 2 minutes",
+  "onboardingWelcomeBody": "Create professional PDF invoices for your clients — fast and beautiful.",
+  "onboardingSyncTitle": "Sync everywhere",
+  "onboardingSyncBody": "Sign in to securely back up your data to the cloud and access it from any device.",
+  "onboardingProTitle": "Go unlimited with Pro",
+  "onboardingProBody": "Unlock unlimited invoices, cloud sync, and remove watermarks with InvoiceFlow Pro.",
+  "settingsAccentColor": "Accent Color",
+  "settingsAccentColorHint": "Personalize the app with a color of your choice.",
+  "commonDone": "Done"
 }

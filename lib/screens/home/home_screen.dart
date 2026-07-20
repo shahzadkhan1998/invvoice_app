@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:invoice_app/l10n/app_localizations.dart';
-import '../../core/theme/app_colors.dart';
+import '../../services/notification_service.dart';
 import '../dashboard/dashboard_screen.dart';
 import '../invoices/invoice_list_screen.dart';
 import '../clients/client_list_screen.dart';
@@ -15,6 +15,16 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
+  bool _permissionRequested = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!_permissionRequested) {
+      _permissionRequested = true;
+      NotificationService().requestPermissions();
+    }
+  }
 
   final List<Widget> _screens = const [
     DashboardScreen(),

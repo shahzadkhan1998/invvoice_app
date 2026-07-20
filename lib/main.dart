@@ -9,9 +9,15 @@ import 'providers/auth_provider.dart';
 import 'providers/invoice_provider.dart';
 import 'providers/client_provider.dart';
 import 'providers/theme_provider.dart';
+import 'providers/subscription_provider.dart';
+import 'providers/sync_provider.dart';
+import 'providers/purchase_provider.dart';
+import 'providers/color_provider.dart';
+import 'providers/locale_provider.dart';
 
 import 'firebase_options.dart';
 import 'services/notification_service.dart';
+import 'core/utils/currency_utils.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,9 +38,11 @@ void main() async {
   await Hive.openBox('clients');
   await Hive.openBox('settings');
 
+  // Default the currency to the user's device locale on first launch.
+  await CurrencyUtils.ensureDefaultCurrencySet();
+
   final notificationService = NotificationService();
   await notificationService.init();
-  await notificationService.requestPermissions();
 
   runApp(
     MultiProvider(
@@ -43,6 +51,11 @@ void main() async {
         ChangeNotifierProvider(create: (_) => AuthProvider()),
         ChangeNotifierProvider(create: (_) => InvoiceProvider()),
         ChangeNotifierProvider(create: (_) => ClientProvider()),
+        ChangeNotifierProvider(create: (_) => SubscriptionProvider()),
+        ChangeNotifierProvider(create: (_) => SyncProvider()),
+        ChangeNotifierProvider(create: (_) => PurchaseProvider()),
+        ChangeNotifierProvider(create: (_) => ColorProvider()),
+        ChangeNotifierProvider(create: (_) => LocaleProvider()),
       ],
       child: const InvoiceApp(),
     ),

@@ -53,7 +53,7 @@ class ClientDetailScreen extends StatelessWidget {
             Container(
               width: double.infinity,
               padding: const EdgeInsets.all(24),
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [AppColors.primaryBlue, AppColors.primaryDark],
                   begin: Alignment.topLeft,

@@ -234,6 +234,20 @@
   "settingsBackupTitle": "اپنی انوائسز کا بیک اپ لیں",
   "settingsBackupDescription": "محفوظ طریقے سے ڈیٹا سنک کرنے اور کہیں سے بھی رسائی حاصل کرنے کے لیے سائن ان کریں۔",
   "settingsSignInRegister": "سائن ان یا رجسٹر کریں",
+  "settingsProUpsell": "پرو میں اپ گریڈ کریں: لامحدود انوائسز، کلاؤڈ سنک اور بغیر واٹر مارک۔",
+  "subscriptionInvoiceLimit": "آپ مفت پلان کی حد {limit} انوائسز تک پہنچ گئے ہیں۔ پرو میں اپ گریڈ کریں تاکہ لامحدود انوائسز اور کلاؤڈ سنک ملے۔",
+  "@subscriptionInvoiceLimit": {
+    "placeholders": {
+      "limit": {}
+    }
+  },
+  "subscriptionClientLimit": "آپ مفت پلان کی حد {limit} کلائنٹس تک پہنچ گئے ہیں۔ پرو میں اپ گریڈ کریں تاکہ لامحدود کلائنٹس اور کلاؤڈ سنک ملے۔",
+  "@subscriptionClientLimit": {
+    "placeholders": {
+      "limit": {}
+    }
+  },
+  "settingsUpgradePro": "اپ گریڈ",
   "settingsBusinessSection": "کاروباری سیٹنگز",
   "settingsBusinessDetails": "کاروباری تفصیلات",
   "settingsBusinessDetailsSubtitle": "اپنے کاروبار کا نام مقرر کریں",
@@ -245,6 +259,12 @@
   "settingsDailyNotificationNotSet": "مقرر نہیں",
   "settingsLanguage": "زبان",
   "settingsLanguageLabel": "اردو",
+  "languageEnglish": "انگریزی",
+  "languageArabic": "عربی",
+  "languageFrench": "فرانسیسی",
+  "languageSpanish": "ہسپانوی",
+  "languageUrdu": "اردو",
+  "languageChinese": "چینی",
   "settingsAboutSection": "معلومات",
   "settingsRateApp": "ایپ کی درجہ بندی کریں",
   "settingsHelpSupport": "مدد اور معاونت",
@@ -303,5 +323,32 @@
   "quickAddDevelopment": "ڈیولپمنٹ",
   "quickAddConsulting": "کنسلٹنگ",
   "quickAddSeo": "SEO",
-  "quickAddContentWriting": "مواد نویسی"
+  "quickAddContentWriting": "مواد نویسی",
+
+  "paywallTitle": "انوائس فلو پرو کھولیں",
+  "paywallSubtitle": "بغیر حد اور ہر جگہ سنک۔ کبھی بھی منسوخ کریں۔",
+  "paywallFeatureUnlimited": "لامحدود انوائسز اور کلائنٹس",
+  "paywallFeatureSync": "آلات کے درمیان کلاؤڈ سنک",
+  "paywallFeatureNoWatermark": "کبھی بھی بغیر واٹر مارک",
+  "paywallMonthly": "ماہانہ",
+  "paywallMonthlySub": "ماہانہ بلنگ",
+  "paywallYearly": "سالانہ",
+  "paywallYearlySub": "بہترین قیمت — 2 مہینے مفت",
+  "paywallRestore": "خریدیں بحال کریں",
+  "paywallTerms": "سبسکرپشنز خودکار تجدید۔ اپنی اسٹور سیٹنگز میں منظم کریں۔",
+  "purchaseSuccessTitle": "آپ پرو ہیں!",
+  "purchaseSuccessSubtitle": "لامحدود انوائسز، کلاؤڈ سنک اور بغیر واٹر مارک اب کھل گئے۔ شکریہ!",
+  "purchaseSuccessContinue": "جاری رکھیں",
+  "onboardingSkip": "چھوڑیں",
+  "onboardingNext": "اگلا",
+  "onboardingGetStarted": "شروع کریں",
+  "onboardingWelcomeTitle": "2 منٹ میں انوائس",
+  "onboardingWelcomeBody": "اپنے کلائنٹس کے لیے پروفیشنل PDF انوائسز بنائیں — تیز اور خوبصورت۔",
+  "onboardingSyncTitle": "ہر جگہ سنک کریں",
+  "onboardingSyncBody": "سیف کلاؤڈ بیک اپ کے لیے سائن ان کریں اور کسی بھی ڈیوائس سے رسائی حاصل کریں۔",
+  "onboardingProTitle": "پرو سے لامحدود بنیں",
+  "onboardingProBody": "انوائس فلو پرو کے ساتھ لامحدود انوائسز، کلاؤڈ سنک اور بغیر واٹر مارک غیر مقفل کریں۔",
+  "settingsAccentColor": "ایکسنٹ کلر",
+  "settingsAccentColorHint": "اپنی پسند کا رنگ چن کر ایپ کو ذاتی بنائیں۔",
+  "commonDone": "ہو گیا"
 }

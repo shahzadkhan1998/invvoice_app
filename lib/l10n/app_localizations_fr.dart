@@ -696,6 +696,23 @@ class AppLocalizationsFr extends AppLocalizations {
   String get settingsSignInRegister => 'Se connecter ou s\'inscrire';
 
   @override
+  String get settingsProUpsell =>
+      'Passez à Pro pour des factures illimitées, la synchronisation cloud et sans filigrane.';
+
+  @override
+  String subscriptionInvoiceLimit(Object limit) {
+    return 'Vous avez atteint la limite gratuite de $limit factures. Passez à Pro pour des factures illimitées et la synchronisation cloud.';
+  }
+
+  @override
+  String subscriptionClientLimit(Object limit) {
+    return 'Vous avez atteint la limite gratuite de $limit clients. Passez à Pro pour des clients illimités et la synchronisation cloud.';
+  }
+
+  @override
+  String get settingsUpgradePro => 'Passer à Pro';
+
+  @override
   String get settingsBusinessSection => 'PARAMÈTRES ENTREPRISE';
 
   @override
@@ -728,6 +745,24 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get settingsLanguageLabel => 'Français';
+
+  @override
+  String get languageEnglish => 'Anglais';
+
+  @override
+  String get languageArabic => 'Arabe';
+
+  @override
+  String get languageFrench => 'Français';
+
+  @override
+  String get languageSpanish => 'Espagnol';
+
+  @override
+  String get languageUrdu => 'Ourdou';
+
+  @override
+  String get languageChinese => 'Chinois';
 
   @override
   String get settingsAboutSection => 'À PROPOS';
@@ -900,4 +935,89 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get quickAddContentWriting => 'Rédaction de contenu';
+
+  @override
+  String get paywallTitle => 'Débloquez InvoiceFlow Pro';
+
+  @override
+  String get paywallSubtitle =>
+      'Sans limite et synchronisé partout. Résiliable à tout moment.';
+
+  @override
+  String get paywallFeatureUnlimited => 'Factures et clients illimités';
+
+  @override
+  String get paywallFeatureSync => 'Synchronisation cloud multi-appareils';
+
+  @override
+  String get paywallFeatureNoWatermark => 'Sans filigrane, jamais';
+
+  @override
+  String get paywallMonthly => 'Mensuel';
+
+  @override
+  String get paywallMonthlySub => 'Facturé mensuellement';
+
+  @override
+  String get paywallYearly => 'Annuel';
+
+  @override
+  String get paywallYearlySub => 'Meilleur rapport — 2 mois offerts';
+
+  @override
+  String get paywallRestore => 'Restaurer les achats';
+
+  @override
+  String get paywallTerms =>
+      'Renouvellement automatique. Gérez dans les paramètres de votre store.';
+
+  @override
+  String get purchaseSuccessTitle => 'Vous êtes Pro !';
+
+  @override
+  String get purchaseSuccessSubtitle =>
+      'Factures illimitées, synchronisation cloud et sans filigrane débloquées. Merci !';
+
+  @override
+  String get purchaseSuccessContinue => 'Continuer';
+
+  @override
+  String get onboardingSkip => 'Passer';
+
+  @override
+  String get onboardingNext => 'Suivant';
+
+  @override
+  String get onboardingGetStarted => 'Commencer';
+
+  @override
+  String get onboardingWelcomeTitle => 'Des factures en 2 minutes';
+
+  @override
+  String get onboardingWelcomeBody =>
+      'Créez des factures PDF professionnelles pour vos clients — rapidement et avec style.';
+
+  @override
+  String get onboardingSyncTitle => 'Synchronisez partout';
+
+  @override
+  String get onboardingSyncBody =>
+      'Connectez-vous pour sauvegarder vos données sur le cloud en toute sécurité et y accéder depuis n\'importe quel appareil.';
+
+  @override
+  String get onboardingProTitle => 'Passez à Pro sans limite';
+
+  @override
+  String get onboardingProBody =>
+      'Débloquez les factures illimitées, la synchro cloud et retirez le filigrane avec InvoiceFlow Pro.';
+
+  @override
+  String get settingsAccentColor => 'Couleur d\'accent';
+
+  @override
+  String get settingsAccentColorHint =>
+      'Personnalisez l\'application avec la couleur de votre choix.';
+
+  @override
+  String get commonDone => 'Terminé';
 }

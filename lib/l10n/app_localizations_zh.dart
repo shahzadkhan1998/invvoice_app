@@ -678,6 +678,22 @@ class AppLocalizationsZh extends AppLocalizations {
   String get settingsSignInRegister => '登录或注册';
 
   @override
+  String get settingsProUpsell => '升级到 Pro 版，享受无限发票、云同步且无水印。';
+
+  @override
+  String subscriptionInvoiceLimit(Object limit) {
+    return '您已达到免费版 $limit 张发票的限制。升级到 Pro 版，享受无限发票和云同步。';
+  }
+
+  @override
+  String subscriptionClientLimit(Object limit) {
+    return '您已达到免费版 $limit 个客户的限制。升级到 Pro 版，享受无限客户和云同步。';
+  }
+
+  @override
+  String get settingsUpgradePro => '升级';
+
+  @override
   String get settingsBusinessSection => '业务设置';
 
   @override
@@ -709,6 +725,24 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get settingsLanguageLabel => '中文';
+
+  @override
+  String get languageEnglish => '英语';
+
+  @override
+  String get languageArabic => '阿拉伯语';
+
+  @override
+  String get languageFrench => '法语';
+
+  @override
+  String get languageSpanish => '西班牙语';
+
+  @override
+  String get languageUrdu => '乌尔都语';
+
+  @override
+  String get languageChinese => '中文';
 
   @override
   String get settingsAboutSection => '关于';
@@ -876,4 +910,82 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get quickAddContentWriting => '内容撰写';
+
+  @override
+  String get paywallTitle => '解锁 InvoiceFlow Pro';
+
+  @override
+  String get paywallSubtitle => '无限使用，随处同步。随时可取消。';
+
+  @override
+  String get paywallFeatureUnlimited => '无限发票和客户';
+
+  @override
+  String get paywallFeatureSync => '跨设备云同步';
+
+  @override
+  String get paywallFeatureNoWatermark => '永远无水印';
+
+  @override
+  String get paywallMonthly => '月度';
+
+  @override
+  String get paywallMonthlySub => '按月计费';
+
+  @override
+  String get paywallYearly => '年度';
+
+  @override
+  String get paywallYearlySub => '最超值 — 免费两个月';
+
+  @override
+  String get paywallRestore => '恢复购买';
+
+  @override
+  String get paywallTerms => '订阅自动续费。可在应用商店设置中管理。';
+
+  @override
+  String get purchaseSuccessTitle => '您已升级 Pro！';
+
+  @override
+  String get purchaseSuccessSubtitle => '无限发票、云同步和无水印已解锁。谢谢您！';
+
+  @override
+  String get purchaseSuccessContinue => '继续';
+
+  @override
+  String get onboardingSkip => '跳过';
+
+  @override
+  String get onboardingNext => '下一步';
+
+  @override
+  String get onboardingGetStarted => '开始使用';
+
+  @override
+  String get onboardingWelcomeTitle => '两分钟开发票';
+
+  @override
+  String get onboardingWelcomeBody => '为您的客户创建专业的 PDF 发票——快速又美观。';
+
+  @override
+  String get onboardingSyncTitle => '随处同步';
+
+  @override
+  String get onboardingSyncBody => '登录以将您的数据安全备份到云端，并从任何设备访问。';
+
+  @override
+  String get onboardingProTitle => '升级 Pro 畅享无限';
+
+  @override
+  String get onboardingProBody => '使用 InvoiceFlow Pro 解锁无限发票、云同步并去除水印。';
+
+  @override
+  String get settingsAccentColor => '主题色';
+
+  @override
+  String get settingsAccentColorHint => '选择你喜欢的颜色来个性化应用。';
+
+  @override
+  String get commonDone => '完成';
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:invoice_app/l10n/app_localizations.dart';
 import '../../core/theme/app_colors.dart';
 
@@ -14,8 +15,10 @@ class SplashScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.receipt_long_rounded,
-                size: 80, color: Colors.white),
+            Lottie.asset(
+              'assets/animations/splash.json',
+              height: 160,
+            ),
             const SizedBox(height: 16),
             Text(
               l10n.appTitle,

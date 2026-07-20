@@ -234,6 +234,20 @@
   "settingsBackupTitle": "نسخ احتياطي لفواتيرك",
   "settingsBackupDescription": "سجل الدخول لمزامنة بياناتك بشكل آمن والوصول إليها من أي مكان.",
   "settingsSignInRegister": "تسجيل الدخول أو الاشتراك",
+  "settingsProUpsell": "قم بترقية إلى برو للحصول على فواتير غير محدودة ومزامنة سحابية وبدون علامات مائية.",
+  "subscriptionInvoiceLimit": "لقد وصلت إلى حد الخطة المجانية وهو {limit} فواتير. قم بترقية إلى برو للحصول على فواتير غير محدودة ومزامنة سحابية.",
+  "@subscriptionInvoiceLimit": {
+    "placeholders": {
+      "limit": {}
+    }
+  },
+  "subscriptionClientLimit": "لقد وصلت إلى حد الخطة المجانية وهو {limit} عملاء. قم بترقية إلى برو للحصول على عملاء غير محدودين ومزامنة سحابية.",
+  "@subscriptionClientLimit": {
+    "placeholders": {
+      "limit": {}
+    }
+  },
+  "settingsUpgradePro": "ترقية",
   "settingsBusinessSection": "إعدادات الأعمال",
   "settingsBusinessDetails": "تفاصيل النشاط التجاري",
   "settingsBusinessDetailsSubtitle": "حدد اسم نشاطك التجاري",
@@ -245,6 +259,12 @@
   "settingsDailyNotificationNotSet": "غير مضبوط",
   "settingsLanguage": "اللغة",
   "settingsLanguageLabel": "العربية",
+  "languageEnglish": "الإنجليزية",
+  "languageArabic": "العربية",
+  "languageFrench": "الفرنسية",
+  "languageSpanish": "الإسبانية",
+  "languageUrdu": "الأردية",
+  "languageChinese": "الصينية",
   "settingsAboutSection": "حول",
   "settingsRateApp": "تقييم التطبيق",
   "settingsHelpSupport": "المساعدة والدعم",
@@ -303,5 +323,32 @@
   "quickAddDevelopment": "تطوير",
   "quickAddConsulting": "استشارات",
   "quickAddSeo": "تحسين محركات البحث",
-  "quickAddContentWriting": "كتابة المحتوى"
+  "quickAddContentWriting": "كتابة المحتوى",
+
+  "paywallTitle": "افتح إنفويس فلو برو",
+  "paywallSubtitle": "بلا حدود ومزامنة في كل مكان. يمكنك الإلغاء في أي وقت.",
+  "paywallFeatureUnlimited": "فواتير وعملاء غير محدودين",
+  "paywallFeatureSync": "مزامنة سحابية عبر الأجهزة",
+  "paywallFeatureNoWatermark": "بدون علامات مائية أبدًا",
+  "paywallMonthly": "شهري",
+  "paywallMonthlySub": "يُحسب شهريًا",
+  "paywallYearly": "سنوي",
+  "paywallYearlySub": "الأفضل قيمة — شهران مجانًا",
+  "paywallRestore": "استعادة المشتريات",
+  "paywallTerms": "تجديد تلقائي للاشتراكات. إدارة عبر إعدادات متجر التطبيقات.",
+  "purchaseSuccessTitle": "أنت الآن برو!",
+  "purchaseSuccessSubtitle": "تم فتح الفواتير غير المحدودة والمزامنة السحابية وبدون علامات مائية. شكرًا لك!",
+  "purchaseSuccessContinue": "متابعة",
+  "onboardingSkip": "تخطي",
+  "onboardingNext": "التالي",
+  "onboardingGetStarted": "ابدأ الآن",
+  "onboardingWelcomeTitle": "فواتير في دقيقتين",
+  "onboardingWelcomeBody": "أنشئ فواتير PDF احترافية لعملائك — بسرعة وأناقة.",
+  "onboardingSyncTitle": "زامن في كل مكان",
+  "onboardingSyncBody": "سجّل الدخول لعمل نسخة احتياطية آمنة لبياناتك على السحابة والوصول إليها من أي جهاز.",
+  "onboardingProTitle": "كن غير محدود مع برو",
+  "onboardingProBody": "افتح الفواتير غير المحدودة والمزامنة السحابية وأزل العلامات المائية مع إنفويس فلو برو.",
+  "settingsAccentColor": "لون التمييز",
+  "settingsAccentColorHint": "خصّص التطبيق باللون الذي تختاره.",
+  "commonDone": "تم"
 }

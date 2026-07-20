@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:ui';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -7,6 +8,10 @@ import '../../providers/auth_provider.dart';
 import '../../providers/theme_provider.dart';
 import '../../core/theme/app_colors.dart';
 import '../../services/notification_service.dart';
+import '../../core/utils/currency_utils.dart';
+import '../../providers/color_provider.dart';
+import '../../providers/locale_provider.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({Key? key}) : super(key: key);
@@ -20,7 +25,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   String _businessEmail = '';
   String _businessPhone = '';
   String _businessAddress = '';
-  String _defaultCurrency = 'AED';
+  String _defaultCurrency = 'USD';
   TimeOfDay? _notificationTime;
 
   @override
@@ -37,7 +42,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
       _businessEmail = prefs.getString('business_email') ?? '';
       _businessPhone = prefs.getString('business_phone') ?? '';
       _businessAddress = prefs.getString('business_address') ?? '';
-      _defaultCurrency = prefs.getString('default_currency') ?? 'AED';
+      _defaultCurrency = prefs.getString('default_currency') ??
+          CurrencyUtils.currencyForLocale(PlatformDispatcher.instance.locale);
       final timeStr = prefs.getString('notification_time');
       if (timeStr != null) {
         final parts = timeStr.split(':');
@@ -68,7 +74,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 child: Container(
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    gradient: const LinearGradient(
+                    gradient: LinearGradient(
                       colors: [AppColors.primaryBlue, AppColors.primaryDark],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
@@ -141,11 +147,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
                 child: Column(
                   children: [
-                    const Icon(Icons.cloud_upload_outlined, size: 40, color: AppColors.primaryBlue),
+                    Icon(Icons.account_circle_outlined, size: 40, color: AppColors.primaryBlue),
                     const SizedBox(height: 12),
                     Text(
-                      l10n.settingsBackupTitle,
-                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.primaryBlue),
+                      l10n.settingsYourName,
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.primaryBlue),
                     ),
                     const SizedBox(height: 8),
                     Text(
@@ -208,6 +214,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   activeColor: AppColors.primaryBlue,
                 ),
               ),
+              _ColorTile(
+                title: l10n.settingsAccentColor,
+                onTap: () => _showColorPicker(context),
+              ),
               _SettingsTile(
                 icon: Icons.notifications_outlined,
                 title: l10n.settingsDailyNotification,
@@ -220,7 +230,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 icon: Icons.language_outlined,
                 title: l10n.settingsLanguage,
                 subtitle: l10n.settingsLanguageLabel,
-                onTap: () {},
+                onTap: () => _showLanguagePicker(context),
               ),
             ]),
 
@@ -467,7 +477,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               itemBuilder: (c, i) => ListTile(
                 title: Text(currencies[i]),
                 trailing: _defaultCurrency == currencies[i]
-                    ? const Icon(Icons.check, color: AppColors.primaryBlue)
+                    ? Icon(Icons.check, color: AppColors.primaryBlue)
                     : null,
                 onTap: () async {
                   final prefs = await SharedPreferences.getInstance();
@@ -499,6 +509,217 @@ class _SettingsScreenState extends State<SettingsScreen> {
         );
       }
     }
+  }
+
+  void _showColorPicker(BuildContext context) {
+    final colorProvider = context.read<ColorProvider>();
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+      builder: (ctx) {
+        final l10n = AppLocalizations.of(ctx)!;
+        return StatefulBuilder(
+          builder: (ctx, setSheetState) {
+            return Padding(
+              padding: EdgeInsets.only(
+                left: 20,
+                right: 20,
+                top: 24,
+                bottom: MediaQuery.of(ctx).viewInsets.bottom + 24,
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(l10n.settingsAccentColor,
+                      style: const TextStyle(
+                          fontSize: 18, fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 8),
+                  Text(l10n.settingsAccentColorHint,
+                      style: TextStyle(
+                          fontSize: 13,
+                          color: Theme.of(ctx)
+                              .textTheme
+                              .bodyMedium
+                              ?.color
+                              ?.withOpacity(0.7))),
+                  const SizedBox(height: 20),
+                  Wrap(
+                    spacing: 14,
+                    runSpacing: 14,
+                    children: [
+                      ...ColorProvider.presets.map((c) {
+                        final selected = colorProvider.accent.value == c.value;
+                        return GestureDetector(
+                          onTap: () {
+                            colorProvider.setAccent(c);
+                            setSheetState(() {});
+                          },
+                          child: Container(
+                            width: 44,
+                            height: 44,
+                            decoration: BoxDecoration(
+                              color: c,
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color: selected
+                                    ? Theme.of(ctx).colorScheme.onSurface
+                                    : Colors.transparent,
+                                width: 3,
+                              ),
+                              boxShadow: selected
+                                  ? [
+                                      BoxShadow(
+                                        color: c.withOpacity(0.5),
+                                        blurRadius: 8,
+                                        spreadRadius: 2,
+                                      )
+                                    ]
+                                  : null,
+                            ),
+                            child: selected
+                                ? const Icon(Icons.check,
+                                    color: Colors.white, size: 22)
+                                : null,
+                          ),
+                        );
+                      }),
+                      GestureDetector(
+                        onTap: () => _showCustomColorPicker(
+                            ctx, colorProvider, setSheetState),
+                        child: Container(
+                          width: 44,
+                          height: 44,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                                color: AppColors.gray300, width: 2),
+                            gradient: const SweepGradient(
+                              colors: [
+                                Colors.red,
+                                Colors.orange,
+                                Colors.yellow,
+                                Colors.green,
+                                Colors.cyan,
+                                Colors.blue,
+                                Colors.purple,
+                                Colors.red,
+                              ],
+                            ),
+                          ),
+                          child: const Icon(Icons.add,
+                              color: Colors.white, size: 22),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 24),
+                  SizedBox(
+                    width: double.infinity,
+                    height: 52,
+                    child: ElevatedButton(
+                      onPressed: () => Navigator.pop(ctx),
+                      child: Text(l10n.commonDone),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  Future<void> _showCustomColorPicker(
+    BuildContext ctx,
+    ColorProvider colorProvider,
+    void Function(void Function()) setSheetState,
+  ) async {
+    Color picked = colorProvider.accent;
+    final l10n = AppLocalizations.of(ctx)!;
+    await showDialog(
+      context: ctx,
+      builder: (dctx) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: Text(l10n.settingsAccentColor),
+        content: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ColorPicker(
+                pickerColor: picked,
+                onColorChanged: (c) => picked = c,
+                enableAlpha: false,
+                labelTypes: const [],
+              ),
+            ],
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dctx),
+            child: Text(l10n.commonCancel),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(minimumSize: const Size(80, 40)),
+            onPressed: () {
+              colorProvider.setAccent(picked);
+              setSheetState(() {});
+              Navigator.pop(dctx);
+            },
+            child: Text(l10n.commonSave),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showLanguagePicker(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final localeProvider = Provider.of<LocaleProvider>(context, listen: false);
+    final current = localeProvider.locale.languageCode;
+    final items = {
+      'en': l10n.languageEnglish,
+      'ar': l10n.languageArabic,
+      'fr': l10n.languageFrench,
+      'es': l10n.languageSpanish,
+      'ur': l10n.languageUrdu,
+      'zh': l10n.languageChinese,
+    };
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: Text(l10n.settingsLanguage),
+        content: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: items.entries.map((e) {
+              final selected = e.key == current;
+              return ListTile(
+                title: Text(e.value),
+                trailing: selected
+                    ? Icon(Icons.check_circle_rounded, color: AppColors.primary)
+                    : null,
+                onTap: () {
+                  localeProvider.setLocale(e.key);
+                  Navigator.pop(ctx);
+                },
+              );
+            }).toList(),
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text(l10n.commonCancel),
+          ),
+        ],
+      ),
+    );
   }
 
   void _showInvoicePrefixEditor(BuildContext context) {
@@ -637,6 +858,52 @@ class _SettingsGroup extends StatelessWidget {
             ],
           );
         }).toList(),
+      ),
+    );
+  }
+}
+
+class _ColorTile extends StatelessWidget {
+  final String title;
+  final VoidCallback onTap;
+
+  const _ColorTile({required this.title, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    final accent = context.watch<ColorProvider>().accent;
+    return ListTile(
+      onTap: onTap,
+      contentPadding:
+          const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+      leading: Container(
+        width: 36,
+        height: 36,
+        decoration: BoxDecoration(
+          color: AppColors.primaryPale,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Icon(Icons.palette_outlined,
+            size: 18, color: AppColors.primaryBlue),
+      ),
+      title: Text(title,
+          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500)),
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            width: 24,
+            height: 24,
+            decoration: BoxDecoration(
+              color: accent,
+              shape: BoxShape.circle,
+              border: Border.all(color: AppColors.gray300, width: 1.5),
+            ),
+          ),
+          const SizedBox(width: 4),
+          const Icon(Icons.chevron_right,
+              color: AppColors.gray300, size: 20),
+        ],
       ),
     );
   }

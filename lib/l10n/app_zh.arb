@@ -234,6 +234,20 @@
   "settingsBackupTitle": "备份您的发票",
   "settingsBackupDescription": "登录以安全同步数据并随时随地访问。",
   "settingsSignInRegister": "登录或注册",
+  "settingsProUpsell": "升级到 Pro 版，享受无限发票、云同步且无水印。",
+  "subscriptionInvoiceLimit": "您已达到免费版 {limit} 张发票的限制。升级到 Pro 版，享受无限发票和云同步。",
+  "@subscriptionInvoiceLimit": {
+    "placeholders": {
+      "limit": {}
+    }
+  },
+  "subscriptionClientLimit": "您已达到免费版 {limit} 个客户的限制。升级到 Pro 版，享受无限客户和云同步。",
+  "@subscriptionClientLimit": {
+    "placeholders": {
+      "limit": {}
+    }
+  },
+  "settingsUpgradePro": "升级",
   "settingsBusinessSection": "业务设置",
   "settingsBusinessDetails": "业务详情",
   "settingsBusinessDetailsSubtitle": "设置您的业务名称",
@@ -245,6 +259,12 @@
   "settingsDailyNotificationNotSet": "未设置",
   "settingsLanguage": "语言",
   "settingsLanguageLabel": "中文",
+  "languageEnglish": "英语",
+  "languageArabic": "阿拉伯语",
+  "languageFrench": "法语",
+  "languageSpanish": "西班牙语",
+  "languageUrdu": "乌尔都语",
+  "languageChinese": "中文",
   "settingsAboutSection": "关于",
   "settingsRateApp": "评价应用",
   "settingsHelpSupport": "帮助与支持",
@@ -303,5 +323,32 @@
   "quickAddDevelopment": "开发",
   "quickAddConsulting": "咨询",
   "quickAddSeo": "SEO优化",
-  "quickAddContentWriting": "内容撰写"
+  "quickAddContentWriting": "内容撰写",
+
+  "paywallTitle": "解锁 InvoiceFlow Pro",
+  "paywallSubtitle": "无限使用，随处同步。随时可取消。",
+  "paywallFeatureUnlimited": "无限发票和客户",
+  "paywallFeatureSync": "跨设备云同步",
+  "paywallFeatureNoWatermark": "永远无水印",
+  "paywallMonthly": "月度",
+  "paywallMonthlySub": "按月计费",
+  "paywallYearly": "年度",
+  "paywallYearlySub": "最超值 — 免费两个月",
+  "paywallRestore": "恢复购买",
+  "paywallTerms": "订阅自动续费。可在应用商店设置中管理。",
+  "purchaseSuccessTitle": "您已升级 Pro！",
+  "purchaseSuccessSubtitle": "无限发票、云同步和无水印已解锁。谢谢您！",
+  "purchaseSuccessContinue": "继续",
+  "onboardingSkip": "跳过",
+  "onboardingNext": "下一步",
+  "onboardingGetStarted": "开始使用",
+  "onboardingWelcomeTitle": "两分钟开发票",
+  "onboardingWelcomeBody": "为您的客户创建专业的 PDF 发票——快速又美观。",
+  "onboardingSyncTitle": "随处同步",
+  "onboardingSyncBody": "登录以将您的数据安全备份到云端，并从任何设备访问。",
+  "onboardingProTitle": "升级 Pro 畅享无限",
+  "onboardingProBody": "使用 InvoiceFlow Pro 解锁无限发票、云同步并去除水印。",
+  "settingsAccentColor": "主题色",
+  "settingsAccentColorHint": "选择你喜欢的颜色来个性化应用。",
+  "commonDone": "完成"
 }

@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'dart:ui';
 import 'package:provider/provider.dart';
 import 'package:invoice_app/l10n/app_localizations.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../providers/invoice_provider.dart';
 import '../../providers/auth_provider.dart';
 import '../../models/invoice.dart';
 import '../../core/theme/app_colors.dart';
+import '../../core/utils/currency_utils.dart';
 import '../invoices/create_invoice_screen.dart';
 import '../invoices/invoice_detail_screen.dart';
 import '../../widgets/invoice_status_badge.dart';
@@ -19,7 +22,19 @@ class DashboardScreen extends StatelessWidget {
     final name = auth.currentUser?.displayName?.split(' ').first ?? 'there';
     final l10n = AppLocalizations.of(context)!;
 
-    return Scaffold(
+    return FutureBuilder<String>(
+      future: _resolveDefaultCurrency(),
+      initialData: invoiceProvider.invoices.isNotEmpty
+          ? invoiceProvider.invoices.first.currency
+          : 'USD',
+      builder: (context, snapshot) {
+        final defaultCurrency = invoiceProvider.invoices.isNotEmpty
+            ? invoiceProvider.invoices.first.currency
+            : (snapshot.data ??
+                CurrencyUtils.currencyForLocale(
+                    PlatformDispatcher.instance.locale));
+
+        return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
         child: RefreshIndicator(
@@ -226,7 +241,15 @@ class DashboardScreen extends StatelessWidget {
         ),
         backgroundColor: AppColors.primaryBlue,
       ),
+        );
+      },
     );
+  }
+
+  Future<String> _resolveDefaultCurrency() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(CurrencyUtils.defaultCurrencyKey) ??
+        CurrencyUtils.currencyForLocale(PlatformDispatcher.instance.locale);
   }
 
   void _openCreateInvoice(BuildContext context) {

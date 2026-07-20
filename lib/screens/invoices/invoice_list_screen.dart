@@ -5,6 +5,8 @@ import '../../providers/invoice_provider.dart';
 import '../../models/invoice.dart';
 import '../../core/theme/app_colors.dart';
 import '../../widgets/invoice_status_badge.dart';
+import '../../providers/subscription_provider.dart';
+import '../settings/paywall_screen.dart';
 import 'create_invoice_screen.dart';
 import 'invoice_detail_screen.dart';
 
@@ -142,10 +144,21 @@ class _InvoiceListScreenState extends State<InvoiceListScreen>
             }),
           ),
           floatingActionButton: FloatingActionButton(
-            onPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (_) => const CreateInvoiceScreen()),
-            ),
+            onPressed: () {
+              final sub = Provider.of<SubscriptionProvider>(context, listen: false);
+              sub.refresh();
+              if (!sub.canCreateInvoice) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const PaywallScreen()),
+                );
+                return;
+              }
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const CreateInvoiceScreen()),
+              );
+            },
             child: const Icon(Icons.add),
           ),
         );
@@ -371,6 +384,7 @@ class _InvoiceListItem extends StatelessWidget {
 
     if (confirmed == true && context.mounted) {
       context.read<InvoiceProvider>().deleteInvoice(invoice.id);
+      context.read<SubscriptionProvider>().refresh();
     }
   }
 

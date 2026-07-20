@@ -1420,6 +1420,30 @@ abstract class AppLocalizations {
   /// **'Sign In or Register'**
   String get settingsSignInRegister;
 
+  /// No description provided for @settingsProUpsell.
+  ///
+  /// In en, this message translates to:
+  /// **'Upgrade to Pro for unlimited invoices, cloud sync & no watermarks.'**
+  String get settingsProUpsell;
+
+  /// No description provided for @subscriptionInvoiceLimit.
+  ///
+  /// In en, this message translates to:
+  /// **'You have reached the free plan limit of {limit} invoices. Upgrade to Pro for unlimited invoices and cloud sync.'**
+  String subscriptionInvoiceLimit(Object limit);
+
+  /// No description provided for @subscriptionClientLimit.
+  ///
+  /// In en, this message translates to:
+  /// **'You have reached the free plan limit of {limit} clients. Upgrade to Pro for unlimited clients and cloud sync.'**
+  String subscriptionClientLimit(Object limit);
+
+  /// No description provided for @settingsUpgradePro.
+  ///
+  /// In en, this message translates to:
+  /// **'Upgrade'**
+  String get settingsUpgradePro;
+
   /// No description provided for @settingsBusinessSection.
   ///
   /// In en, this message translates to:
@@ -1485,6 +1509,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'English'**
   String get settingsLanguageLabel;
+
+  /// No description provided for @languageEnglish.
+  ///
+  /// In en, this message translates to:
+  /// **'English'**
+  String get languageEnglish;
+
+  /// No description provided for @languageArabic.
+  ///
+  /// In en, this message translates to:
+  /// **'العربية'**
+  String get languageArabic;
+
+  /// No description provided for @languageFrench.
+  ///
+  /// In en, this message translates to:
+  /// **'Français'**
+  String get languageFrench;
+
+  /// No description provided for @languageSpanish.
+  ///
+  /// In en, this message translates to:
+  /// **'Español'**
+  String get languageSpanish;
+
+  /// No description provided for @languageUrdu.
+  ///
+  /// In en, this message translates to:
+  /// **'اردو'**
+  String get languageUrdu;
+
+  /// No description provided for @languageChinese.
+  ///
+  /// In en, this message translates to:
+  /// **'中文'**
+  String get languageChinese;
 
   /// No description provided for @settingsAboutSection.
   ///
@@ -1815,6 +1875,162 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Content Writing'**
   String get quickAddContentWriting;
+
+  /// No description provided for @paywallTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock InvoiceFlow Pro'**
+  String get paywallTitle;
+
+  /// No description provided for @paywallSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Go unlimited and sync everywhere. Cancel anytime.'**
+  String get paywallSubtitle;
+
+  /// No description provided for @paywallFeatureUnlimited.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlimited invoices & clients'**
+  String get paywallFeatureUnlimited;
+
+  /// No description provided for @paywallFeatureSync.
+  ///
+  /// In en, this message translates to:
+  /// **'Cloud sync across devices'**
+  String get paywallFeatureSync;
+
+  /// No description provided for @paywallFeatureNoWatermark.
+  ///
+  /// In en, this message translates to:
+  /// **'No watermarks, ever'**
+  String get paywallFeatureNoWatermark;
+
+  /// No description provided for @paywallMonthly.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly'**
+  String get paywallMonthly;
+
+  /// No description provided for @paywallMonthlySub.
+  ///
+  /// In en, this message translates to:
+  /// **'Billed monthly'**
+  String get paywallMonthlySub;
+
+  /// No description provided for @paywallYearly.
+  ///
+  /// In en, this message translates to:
+  /// **'Yearly'**
+  String get paywallYearly;
+
+  /// No description provided for @paywallYearlySub.
+  ///
+  /// In en, this message translates to:
+  /// **'Best value — 2 months free'**
+  String get paywallYearlySub;
+
+  /// No description provided for @paywallRestore.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore Purchases'**
+  String get paywallRestore;
+
+  /// No description provided for @paywallTerms.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscriptions auto-renew. Manage in your app store settings.'**
+  String get paywallTerms;
+
+  /// No description provided for @purchaseSuccessTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re Pro!'**
+  String get purchaseSuccessTitle;
+
+  /// No description provided for @purchaseSuccessSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlimited invoices, cloud sync, and no watermarks are now unlocked. Thank you!'**
+  String get purchaseSuccessSubtitle;
+
+  /// No description provided for @purchaseSuccessContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get purchaseSuccessContinue;
+
+  /// No description provided for @onboardingSkip.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get onboardingSkip;
+
+  /// No description provided for @onboardingNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get onboardingNext;
+
+  /// No description provided for @onboardingGetStarted.
+  ///
+  /// In en, this message translates to:
+  /// **'Get Started'**
+  String get onboardingGetStarted;
+
+  /// No description provided for @onboardingWelcomeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Invoices in 2 minutes'**
+  String get onboardingWelcomeTitle;
+
+  /// No description provided for @onboardingWelcomeBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Create professional PDF invoices for your clients — fast and beautiful.'**
+  String get onboardingWelcomeBody;
+
+  /// No description provided for @onboardingSyncTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sync everywhere'**
+  String get onboardingSyncTitle;
+
+  /// No description provided for @onboardingSyncBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to securely back up your data to the cloud and access it from any device.'**
+  String get onboardingSyncBody;
+
+  /// No description provided for @onboardingProTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Go unlimited with Pro'**
+  String get onboardingProTitle;
+
+  /// No description provided for @onboardingProBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock unlimited invoices, cloud sync, and remove watermarks with InvoiceFlow Pro.'**
+  String get onboardingProBody;
+
+  /// No description provided for @settingsAccentColor.
+  ///
+  /// In en, this message translates to:
+  /// **'Accent Color'**
+  String get settingsAccentColor;
+
+  /// No description provided for @settingsAccentColorHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Personalize the app with a color of your choice.'**
+  String get settingsAccentColorHint;
+
+  /// No description provided for @commonDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get commonDone;
 }
 
 class _AppLocalizationsDelegate

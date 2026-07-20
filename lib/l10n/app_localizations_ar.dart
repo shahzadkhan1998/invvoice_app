@@ -687,6 +687,23 @@ class AppLocalizationsAr extends AppLocalizations {
   String get settingsSignInRegister => 'تسجيل الدخول أو الاشتراك';
 
   @override
+  String get settingsProUpsell =>
+      'قم بترقية إلى برو للحصول على فواتير غير محدودة ومزامنة سحابية وبدون علامات مائية.';
+
+  @override
+  String subscriptionInvoiceLimit(Object limit) {
+    return 'لقد وصلت إلى حد الخطة المجانية وهو $limit فواتير. قم بترقية إلى برو للحصول على فواتير غير محدودة ومزامنة سحابية.';
+  }
+
+  @override
+  String subscriptionClientLimit(Object limit) {
+    return 'لقد وصلت إلى حد الخطة المجانية وهو $limit عملاء. قم بترقية إلى برو للحصول على عملاء غير محدودين ومزامنة سحابية.';
+  }
+
+  @override
+  String get settingsUpgradePro => 'ترقية';
+
+  @override
   String get settingsBusinessSection => 'إعدادات الأعمال';
 
   @override
@@ -718,6 +735,24 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get settingsLanguageLabel => 'العربية';
+
+  @override
+  String get languageEnglish => 'الإنجليزية';
+
+  @override
+  String get languageArabic => 'العربية';
+
+  @override
+  String get languageFrench => 'الفرنسية';
+
+  @override
+  String get languageSpanish => 'الإسبانية';
+
+  @override
+  String get languageUrdu => 'الأردية';
+
+  @override
+  String get languageChinese => 'الصينية';
 
   @override
   String get settingsAboutSection => 'حول';
@@ -887,4 +922,88 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get quickAddContentWriting => 'كتابة المحتوى';
+
+  @override
+  String get paywallTitle => 'افتح إنفويس فلو برو';
+
+  @override
+  String get paywallSubtitle =>
+      'بلا حدود ومزامنة في كل مكان. يمكنك الإلغاء في أي وقت.';
+
+  @override
+  String get paywallFeatureUnlimited => 'فواتير وعملاء غير محدودين';
+
+  @override
+  String get paywallFeatureSync => 'مزامنة سحابية عبر الأجهزة';
+
+  @override
+  String get paywallFeatureNoWatermark => 'بدون علامات مائية أبدًا';
+
+  @override
+  String get paywallMonthly => 'شهري';
+
+  @override
+  String get paywallMonthlySub => 'يُحسب شهريًا';
+
+  @override
+  String get paywallYearly => 'سنوي';
+
+  @override
+  String get paywallYearlySub => 'الأفضل قيمة — شهران مجانًا';
+
+  @override
+  String get paywallRestore => 'استعادة المشتريات';
+
+  @override
+  String get paywallTerms =>
+      'تجديد تلقائي للاشتراكات. إدارة عبر إعدادات متجر التطبيقات.';
+
+  @override
+  String get purchaseSuccessTitle => 'أنت الآن برو!';
+
+  @override
+  String get purchaseSuccessSubtitle =>
+      'تم فتح الفواتير غير المحدودة والمزامنة السحابية وبدون علامات مائية. شكرًا لك!';
+
+  @override
+  String get purchaseSuccessContinue => 'متابعة';
+
+  @override
+  String get onboardingSkip => 'تخطي';
+
+  @override
+  String get onboardingNext => 'التالي';
+
+  @override
+  String get onboardingGetStarted => 'ابدأ الآن';
+
+  @override
+  String get onboardingWelcomeTitle => 'فواتير في دقيقتين';
+
+  @override
+  String get onboardingWelcomeBody =>
+      'أنشئ فواتير PDF احترافية لعملائك — بسرعة وأناقة.';
+
+  @override
+  String get onboardingSyncTitle => 'زامن في كل مكان';
+
+  @override
+  String get onboardingSyncBody =>
+      'سجّل الدخول لعمل نسخة احتياطية آمنة لبياناتك على السحابة والوصول إليها من أي جهاز.';
+
+  @override
+  String get onboardingProTitle => 'كن غير محدود مع برو';
+
+  @override
+  String get onboardingProBody =>
+      'افتح الفواتير غير المحدودة والمزامنة السحابية وأزل العلامات المائية مع إنفويس فلو برو.';
+
+  @override
+  String get settingsAccentColor => 'لون التمييز';
+
+  @override
+  String get settingsAccentColorHint => 'خصّص التطبيق باللون الذي تختاره.';
+
+  @override
+  String get commonDone => 'تم';
 }

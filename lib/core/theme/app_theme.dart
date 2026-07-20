@@ -5,16 +5,16 @@ class AppTheme {
   static ThemeData get lightTheme => ThemeData(
         useMaterial3: true,
         brightness: Brightness.light,
-        primaryColor: AppColors.primaryBlue,
+        primaryColor: AppColors.primary,
         scaffoldBackgroundColor: AppColors.bgPrimary,
-        colorScheme: const ColorScheme.light(
-          primary: AppColors.primaryBlue,
+        colorScheme: ColorScheme.light(
+          primary: AppColors.primary,
           secondary: AppColors.primaryLight,
           surface: AppColors.bgPrimary,
           background: AppColors.bgSecondary,
           error: AppColors.dangerRed,
         ),
-        appBarTheme: const AppBarTheme(
+        appBarTheme: AppBarTheme(
           backgroundColor: AppColors.bgPrimary,
           elevation: 0,
           iconTheme: IconThemeData(color: AppColors.gray900),
@@ -23,9 +23,9 @@ class AppTheme {
               fontSize: 18,
               fontWeight: FontWeight.w600),
         ),
-        bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+        bottomNavigationBarTheme: BottomNavigationBarThemeData(
           backgroundColor: AppColors.bgPrimary,
-          selectedItemColor: AppColors.primaryBlue,
+          selectedItemColor: AppColors.primary,
           unselectedItemColor: AppColors.gray400,
           type: BottomNavigationBarType.fixed,
           elevation: 8,
@@ -38,7 +38,7 @@ class AppTheme {
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
-            backgroundColor: AppColors.primaryBlue,
+            backgroundColor: AppColors.primary,
             foregroundColor: Colors.white,
             minimumSize: const Size(double.infinity, 56),
             elevation: 0,
@@ -48,8 +48,8 @@ class AppTheme {
         ),
         outlinedButtonTheme: OutlinedButtonThemeData(
           style: OutlinedButton.styleFrom(
-            foregroundColor: AppColors.primaryBlue,
-            side: const BorderSide(color: AppColors.primaryBlue, width: 1.5),
+            foregroundColor: AppColors.primary,
+            side: BorderSide(color: AppColors.primary, width: 1.5),
             minimumSize: const Size(double.infinity, 56),
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -60,21 +60,20 @@ class AppTheme {
           fillColor: AppColors.gray50,
           border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: AppColors.gray300)),
+              borderSide: BorderSide(color: AppColors.gray300)),
           enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: AppColors.gray300)),
+              borderSide: BorderSide(color: AppColors.gray300)),
           focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide:
-                  const BorderSide(color: AppColors.primaryBlue, width: 2)),
+              borderSide: BorderSide(color: AppColors.primary, width: 2)),
           errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: AppColors.dangerRed)),
+              borderSide: BorderSide(color: AppColors.dangerRed)),
           contentPadding: const EdgeInsets.all(16),
         ),
-        floatingActionButtonTheme: const FloatingActionButtonThemeData(
-          backgroundColor: AppColors.primaryBlue,
+        floatingActionButtonTheme: FloatingActionButtonThemeData(
+          backgroundColor: AppColors.primary,
           foregroundColor: Colors.white,
           elevation: 6,
         ),
@@ -83,16 +82,16 @@ class AppTheme {
   static ThemeData get darkTheme => ThemeData(
         useMaterial3: true,
         brightness: Brightness.dark,
-        primaryColor: const Color(0xFF3B82F6),
+        primaryColor: AppColors.primaryLight,
         scaffoldBackgroundColor: AppColors.darkBackground,
-        colorScheme: const ColorScheme.dark(
-          primary: Color(0xFF3B82F6),
+        colorScheme: ColorScheme.dark(
+          primary: AppColors.primaryLight,
           secondary: AppColors.primaryLight,
           surface: AppColors.darkSurface,
           background: AppColors.darkBackground,
           error: AppColors.dangerRed,
         ),
-        appBarTheme: const AppBarTheme(
+        appBarTheme: AppBarTheme(
           backgroundColor: AppColors.darkBackground,
           elevation: 0,
           iconTheme: IconThemeData(color: AppColors.darkText),
@@ -101,9 +100,9 @@ class AppTheme {
               fontSize: 18,
               fontWeight: FontWeight.w600),
         ),
-        bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+        bottomNavigationBarTheme: BottomNavigationBarThemeData(
           backgroundColor: AppColors.darkSurface,
-          selectedItemColor: Color(0xFF3B82F6),
+          selectedItemColor: AppColors.primaryLight,
           unselectedItemColor: AppColors.gray400,
           type: BottomNavigationBarType.fixed,
         ),
@@ -115,7 +114,7 @@ class AppTheme {
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
-            backgroundColor: const Color(0xFF3B82F6),
+            backgroundColor: AppColors.primaryLight,
             foregroundColor: Colors.white,
             minimumSize: const Size(double.infinity, 56),
             elevation: 0,
@@ -128,17 +127,18 @@ class AppTheme {
           fillColor: AppColors.darkSurface,
           border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: AppColors.gray700)),
+              borderSide: BorderSide(color: AppColors.gray700)),
           enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: AppColors.gray700)),
+              borderSide: BorderSide(color: AppColors.gray700)),
           focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: Color(0xFF3B82F6), width: 2)),
+              borderSide:
+                  BorderSide(color: AppColors.primaryLight, width: 2)),
           contentPadding: const EdgeInsets.all(16),
         ),
-        floatingActionButtonTheme: const FloatingActionButtonThemeData(
-          backgroundColor: Color(0xFF3B82F6),
+        floatingActionButtonTheme: FloatingActionButtonThemeData(
+          backgroundColor: AppColors.primaryLight,
           foregroundColor: Colors.white,
         ),
       );

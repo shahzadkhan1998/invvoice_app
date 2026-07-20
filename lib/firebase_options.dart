@@ -26,10 +26,7 @@ class DefaultFirebaseOptions {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for ios - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return ios;
       case TargetPlatform.macOS:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for macos - '
@@ -54,9 +51,21 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyBX4qT1AZZI4yxiBVIxVP_Yu3c-4889Jnw',
-    appId: '1:817604946859:android:c78dfdece6accf59be40ee',
+    appId: '1:817604946859:android:d29ccc9613083d43be40ee',
     messagingSenderId: '817604946859',
     projectId: 'invoice-app-flutter-072026',
     storageBucket: 'invoice-app-flutter-072026.firebasestorage.app',
+  );
+  // IMPORTANT: Download GoogleService-Info.plist from the Firebase console
+  // (Project settings > Your apps > iOS > com.example.invoiceApp) and add it
+  // to ios/Runner/ in Xcode. Then fill the values below from that file.
+
+  static const FirebaseOptions ios = FirebaseOptions(
+    apiKey: 'AIzaSyBTbPEu9wvNzxHIvWTcP5BTuWYin_UyQjU',
+    appId: '1:817604946859:ios:534e71abf1d089e1be40ee',
+    messagingSenderId: '817604946859',
+    projectId: 'invoice-app-flutter-072026',
+    storageBucket: 'invoice-app-flutter-072026.firebasestorage.app',
+    iosBundleId: 'com.invoicemaker.app',
   );
 }

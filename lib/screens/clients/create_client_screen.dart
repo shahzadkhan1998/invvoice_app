@@ -3,7 +3,9 @@ import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 import 'package:invoice_app/l10n/app_localizations.dart';
 import '../../providers/client_provider.dart';
+import '../../providers/subscription_provider.dart';
 import '../../models/client.dart';
+import '../settings/paywall_screen.dart';
 import '../../core/theme/app_colors.dart';
 
 class CreateClientScreen extends StatefulWidget {
@@ -60,6 +62,17 @@ class _CreateClientScreenState extends State<CreateClientScreen> {
 
   Future<void> _save() async {
     if (!_formKey.currentState!.validate()) return;
+
+    if (widget.editClient == null) {
+      final sub = context.read<SubscriptionProvider>();
+      sub.updateCounts(
+          clientCount: context.read<ClientProvider>().clients.length);
+      if (!sub.canCreateClient) {
+        _showLimitDialog();
+        return;
+      }
+    }
+
     setState(() => _isLoading = true);
 
     final provider = context.read<ClientProvider>();
@@ -312,6 +325,34 @@ class _CreateClientScreenState extends State<CreateClientScreen> {
           color: Theme.of(context).textTheme.bodyLarge?.color?.withOpacity(0.7),
         ),
       );
+
+  void _showLimitDialog() {
+    final l10n = AppLocalizations.of(context)!;
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: Text(l10n.settingsBackupTitle),
+        content: Text(l10n.subscriptionClientLimit(SubscriptionProvider.freeClientLimit)),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text(l10n.commonCancel),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pop(ctx);
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const PaywallScreen()),
+              );
+            },
+            child: Text(l10n.settingsUpgradePro),
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 class _SectionHeader extends StatelessWidget {

@@ -179,7 +179,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     onPressed: () => _showForgotPassword(context),
                     child: Text(
                       l10n.loginForgotPassword,
-                      style: const TextStyle(color: AppColors.primaryBlue),
+                      style: TextStyle(color: AppColors.primaryBlue),
                     ),
                   ),
                 ),

@@ -685,6 +685,23 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsSignInRegister => 'Sign In or Register';
 
   @override
+  String get settingsProUpsell =>
+      'Upgrade to Pro for unlimited invoices, cloud sync & no watermarks.';
+
+  @override
+  String subscriptionInvoiceLimit(Object limit) {
+    return 'You have reached the free plan limit of $limit invoices. Upgrade to Pro for unlimited invoices and cloud sync.';
+  }
+
+  @override
+  String subscriptionClientLimit(Object limit) {
+    return 'You have reached the free plan limit of $limit clients. Upgrade to Pro for unlimited clients and cloud sync.';
+  }
+
+  @override
+  String get settingsUpgradePro => 'Upgrade';
+
+  @override
   String get settingsBusinessSection => 'BUSINESS SETTINGS';
 
   @override
@@ -716,6 +733,24 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsLanguageLabel => 'English';
+
+  @override
+  String get languageEnglish => 'English';
+
+  @override
+  String get languageArabic => 'العربية';
+
+  @override
+  String get languageFrench => 'Français';
+
+  @override
+  String get languageSpanish => 'Español';
+
+  @override
+  String get languageUrdu => 'اردو';
+
+  @override
+  String get languageChinese => '中文';
 
   @override
   String get settingsAboutSection => 'ABOUT';
@@ -887,4 +922,89 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get quickAddContentWriting => 'Content Writing';
+
+  @override
+  String get paywallTitle => 'Unlock InvoiceFlow Pro';
+
+  @override
+  String get paywallSubtitle =>
+      'Go unlimited and sync everywhere. Cancel anytime.';
+
+  @override
+  String get paywallFeatureUnlimited => 'Unlimited invoices & clients';
+
+  @override
+  String get paywallFeatureSync => 'Cloud sync across devices';
+
+  @override
+  String get paywallFeatureNoWatermark => 'No watermarks, ever';
+
+  @override
+  String get paywallMonthly => 'Monthly';
+
+  @override
+  String get paywallMonthlySub => 'Billed monthly';
+
+  @override
+  String get paywallYearly => 'Yearly';
+
+  @override
+  String get paywallYearlySub => 'Best value — 2 months free';
+
+  @override
+  String get paywallRestore => 'Restore Purchases';
+
+  @override
+  String get paywallTerms =>
+      'Subscriptions auto-renew. Manage in your app store settings.';
+
+  @override
+  String get purchaseSuccessTitle => 'You\'re Pro!';
+
+  @override
+  String get purchaseSuccessSubtitle =>
+      'Unlimited invoices, cloud sync, and no watermarks are now unlocked. Thank you!';
+
+  @override
+  String get purchaseSuccessContinue => 'Continue';
+
+  @override
+  String get onboardingSkip => 'Skip';
+
+  @override
+  String get onboardingNext => 'Next';
+
+  @override
+  String get onboardingGetStarted => 'Get Started';
+
+  @override
+  String get onboardingWelcomeTitle => 'Invoices in 2 minutes';
+
+  @override
+  String get onboardingWelcomeBody =>
+      'Create professional PDF invoices for your clients — fast and beautiful.';
+
+  @override
+  String get onboardingSyncTitle => 'Sync everywhere';
+
+  @override
+  String get onboardingSyncBody =>
+      'Sign in to securely back up your data to the cloud and access it from any device.';
+
+  @override
+  String get onboardingProTitle => 'Go unlimited with Pro';
+
+  @override
+  String get onboardingProBody =>
+      'Unlock unlimited invoices, cloud sync, and remove watermarks with InvoiceFlow Pro.';
+
+  @override
+  String get settingsAccentColor => 'Accent Color';
+
+  @override
+  String get settingsAccentColorHint =>
+      'Personalize the app with a color of your choice.';
+
+  @override
+  String get commonDone => 'Done';
 }

@@ -234,6 +234,20 @@
   "settingsBackupTitle": "Sauvegarder vos factures",
   "settingsBackupDescription": "Connectez-vous pour synchroniser vos données en toute sécurité et y accéder depuis n'importe où.",
   "settingsSignInRegister": "Se connecter ou s'inscrire",
+  "settingsProUpsell": "Passez à Pro pour des factures illimitées, la synchronisation cloud et sans filigrane.",
+  "subscriptionInvoiceLimit": "Vous avez atteint la limite gratuite de {limit} factures. Passez à Pro pour des factures illimitées et la synchronisation cloud.",
+  "@subscriptionInvoiceLimit": {
+    "placeholders": {
+      "limit": {}
+    }
+  },
+  "subscriptionClientLimit": "Vous avez atteint la limite gratuite de {limit} clients. Passez à Pro pour des clients illimités et la synchronisation cloud.",
+  "@subscriptionClientLimit": {
+    "placeholders": {
+      "limit": {}
+    }
+  },
+  "settingsUpgradePro": "Passer à Pro",
   "settingsBusinessSection": "PARAMÈTRES ENTREPRISE",
   "settingsBusinessDetails": "Détails de l'entreprise",
   "settingsBusinessDetailsSubtitle": "Définissez le nom de votre entreprise",
@@ -245,6 +259,12 @@
   "settingsDailyNotificationNotSet": "Non défini",
   "settingsLanguage": "Langue",
   "settingsLanguageLabel": "Français",
+  "languageEnglish": "Anglais",
+  "languageArabic": "Arabe",
+  "languageFrench": "Français",
+  "languageSpanish": "Espagnol",
+  "languageUrdu": "Ourdou",
+  "languageChinese": "Chinois",
   "settingsAboutSection": "À PROPOS",
   "settingsRateApp": "Noter l'application",
   "settingsHelpSupport": "Aide et support",
@@ -303,5 +323,32 @@
   "quickAddDevelopment": "Développement",
   "quickAddConsulting": "Consulting",
   "quickAddSeo": "SEO",
-  "quickAddContentWriting": "Rédaction de contenu"
+  "quickAddContentWriting": "Rédaction de contenu",
+
+  "paywallTitle": "Débloquez InvoiceFlow Pro",
+  "paywallSubtitle": "Sans limite et synchronisé partout. Résiliable à tout moment.",
+  "paywallFeatureUnlimited": "Factures et clients illimités",
+  "paywallFeatureSync": "Synchronisation cloud multi-appareils",
+  "paywallFeatureNoWatermark": "Sans filigrane, jamais",
+  "paywallMonthly": "Mensuel",
+  "paywallMonthlySub": "Facturé mensuellement",
+  "paywallYearly": "Annuel",
+  "paywallYearlySub": "Meilleur rapport — 2 mois offerts",
+  "paywallRestore": "Restaurer les achats",
+  "paywallTerms": "Renouvellement automatique. Gérez dans les paramètres de votre store.",
+  "purchaseSuccessTitle": "Vous êtes Pro !",
+  "purchaseSuccessSubtitle": "Factures illimitées, synchronisation cloud et sans filigrane débloquées. Merci !",
+  "purchaseSuccessContinue": "Continuer",
+  "onboardingSkip": "Passer",
+  "onboardingNext": "Suivant",
+  "onboardingGetStarted": "Commencer",
+  "onboardingWelcomeTitle": "Des factures en 2 minutes",
+  "onboardingWelcomeBody": "Créez des factures PDF professionnelles pour vos clients — rapidement et avec style.",
+  "onboardingSyncTitle": "Synchronisez partout",
+  "onboardingSyncBody": "Connectez-vous pour sauvegarder vos données sur le cloud en toute sécurité et y accéder depuis n'importe quel appareil.",
+  "onboardingProTitle": "Passez à Pro sans limite",
+  "onboardingProBody": "Débloquez les factures illimitées, la synchro cloud et retirez le filigrane avec InvoiceFlow Pro.",
+  "settingsAccentColor": "Couleur d'accent",
+  "settingsAccentColorHint": "Personnalisez l'application avec la couleur de votre choix.",
+  "commonDone": "Terminé"
 }

@@ -690,6 +690,23 @@ class AppLocalizationsUr extends AppLocalizations {
   String get settingsSignInRegister => 'سائن ان یا رجسٹر کریں';
 
   @override
+  String get settingsProUpsell =>
+      'پرو میں اپ گریڈ کریں: لامحدود انوائسز، کلاؤڈ سنک اور بغیر واٹر مارک۔';
+
+  @override
+  String subscriptionInvoiceLimit(Object limit) {
+    return 'آپ مفت پلان کی حد $limit انوائسز تک پہنچ گئے ہیں۔ پرو میں اپ گریڈ کریں تاکہ لامحدود انوائسز اور کلاؤڈ سنک ملے۔';
+  }
+
+  @override
+  String subscriptionClientLimit(Object limit) {
+    return 'آپ مفت پلان کی حد $limit کلائنٹس تک پہنچ گئے ہیں۔ پرو میں اپ گریڈ کریں تاکہ لامحدود کلائنٹس اور کلاؤڈ سنک ملے۔';
+  }
+
+  @override
+  String get settingsUpgradePro => 'اپ گریڈ';
+
+  @override
   String get settingsBusinessSection => 'کاروباری سیٹنگز';
 
   @override
@@ -721,6 +738,24 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get settingsLanguageLabel => 'اردو';
+
+  @override
+  String get languageEnglish => 'انگریزی';
+
+  @override
+  String get languageArabic => 'عربی';
+
+  @override
+  String get languageFrench => 'فرانسیسی';
+
+  @override
+  String get languageSpanish => 'ہسپانوی';
+
+  @override
+  String get languageUrdu => 'اردو';
+
+  @override
+  String get languageChinese => 'چینی';
 
   @override
   String get settingsAboutSection => 'معلومات';
@@ -892,4 +927,88 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get quickAddContentWriting => 'مواد نویسی';
+
+  @override
+  String get paywallTitle => 'انوائس فلو پرو کھولیں';
+
+  @override
+  String get paywallSubtitle => 'بغیر حد اور ہر جگہ سنک۔ کبھی بھی منسوخ کریں۔';
+
+  @override
+  String get paywallFeatureUnlimited => 'لامحدود انوائسز اور کلائنٹس';
+
+  @override
+  String get paywallFeatureSync => 'آلات کے درمیان کلاؤڈ سنک';
+
+  @override
+  String get paywallFeatureNoWatermark => 'کبھی بھی بغیر واٹر مارک';
+
+  @override
+  String get paywallMonthly => 'ماہانہ';
+
+  @override
+  String get paywallMonthlySub => 'ماہانہ بلنگ';
+
+  @override
+  String get paywallYearly => 'سالانہ';
+
+  @override
+  String get paywallYearlySub => 'بہترین قیمت — 2 مہینے مفت';
+
+  @override
+  String get paywallRestore => 'خریدیں بحال کریں';
+
+  @override
+  String get paywallTerms =>
+      'سبسکرپشنز خودکار تجدید۔ اپنی اسٹور سیٹنگز میں منظم کریں۔';
+
+  @override
+  String get purchaseSuccessTitle => 'آپ پرو ہیں!';
+
+  @override
+  String get purchaseSuccessSubtitle =>
+      'لامحدود انوائسز، کلاؤڈ سنک اور بغیر واٹر مارک اب کھل گئے۔ شکریہ!';
+
+  @override
+  String get purchaseSuccessContinue => 'جاری رکھیں';
+
+  @override
+  String get onboardingSkip => 'چھوڑیں';
+
+  @override
+  String get onboardingNext => 'اگلا';
+
+  @override
+  String get onboardingGetStarted => 'شروع کریں';
+
+  @override
+  String get onboardingWelcomeTitle => '2 منٹ میں انوائس';
+
+  @override
+  String get onboardingWelcomeBody =>
+      'اپنے کلائنٹس کے لیے پروفیشنل PDF انوائسز بنائیں — تیز اور خوبصورت۔';
+
+  @override
+  String get onboardingSyncTitle => 'ہر جگہ سنک کریں';
+
+  @override
+  String get onboardingSyncBody =>
+      'سیف کلاؤڈ بیک اپ کے لیے سائن ان کریں اور کسی بھی ڈیوائس سے رسائی حاصل کریں۔';
+
+  @override
+  String get onboardingProTitle => 'پرو سے لامحدود بنیں';
+
+  @override
+  String get onboardingProBody =>
+      'انوائس فلو پرو کے ساتھ لامحدود انوائسز، کلاؤڈ سنک اور بغیر واٹر مارک غیر مقفل کریں۔';
+
+  @override
+  String get settingsAccentColor => 'ایکسنٹ کلر';
+
+  @override
+  String get settingsAccentColorHint =>
+      'اپنی پسند کا رنگ چن کر ایپ کو ذاتی بنائیں۔';
+
+  @override
+  String get commonDone => 'ہو گیا';
 }

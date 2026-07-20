@@ -234,6 +234,20 @@
   "settingsBackupTitle": "Respaldar tus facturas",
   "settingsBackupDescription": "Inicia sesión para sincronizar tus datos de forma segura y acceder desde cualquier lugar.",
   "settingsSignInRegister": "Iniciar sesión o registrarse",
+  "settingsProUpsell": "Mejora a Pro para facturas ilimitadas, sincronización en la nube y sin marcas de agua.",
+  "subscriptionInvoiceLimit": "Has alcanzado el límite gratuito de {limit} facturas. Mejora a Pro para facturas ilimitadas y sincronización en la nube.",
+  "@subscriptionInvoiceLimit": {
+    "placeholders": {
+      "limit": {}
+    }
+  },
+  "subscriptionClientLimit": "Has alcanzado el límite gratuito de {limit} clientes. Mejora a Pro para clientes ilimitados y sincronización en la nube.",
+  "@subscriptionClientLimit": {
+    "placeholders": {
+      "limit": {}
+    }
+  },
+  "settingsUpgradePro": "Mejorar",
   "settingsBusinessSection": "CONFIGURACIÓN EMPRESARIAL",
   "settingsBusinessDetails": "Detalles de la empresa",
   "settingsBusinessDetailsSubtitle": "Define el nombre de tu empresa",
@@ -245,6 +259,12 @@
   "settingsDailyNotificationNotSet": "No configurado",
   "settingsLanguage": "Idioma",
   "settingsLanguageLabel": "Español",
+  "languageEnglish": "Inglés",
+  "languageArabic": "Árabe",
+  "languageFrench": "Francés",
+  "languageSpanish": "Español",
+  "languageUrdu": "Urdu",
+  "languageChinese": "Chino",
   "settingsAboutSection": "ACERCA DE",
   "settingsRateApp": "Calificar la app",
   "settingsHelpSupport": "Ayuda y soporte",
@@ -303,5 +323,32 @@
   "quickAddDevelopment": "Desarrollo",
   "quickAddConsulting": "Consultoría",
   "quickAddSeo": "SEO",
-  "quickAddContentWriting": "Redacción de contenido"
+  "quickAddContentWriting": "Redacción de contenido",
+
+  "paywallTitle": "Desbloquea InvoiceFlow Pro",
+  "paywallSubtitle": "Ilimitado y sincronizado en todos lados. Cancela cuando quieras.",
+  "paywallFeatureUnlimited": "Facturas y clientes ilimitados",
+  "paywallFeatureSync": "Sincronización en la nube entre dispositivos",
+  "paywallFeatureNoWatermark": "Sin marcas de agua, nunca",
+  "paywallMonthly": "Mensual",
+  "paywallMonthlySub": "Facturado mensualmente",
+  "paywallYearly": "Anual",
+  "paywallYearlySub": "Mejor valor — 2 meses gratis",
+  "paywallRestore": "Restaurar compras",
+  "paywallTerms": "Renovación automática. Gestiona en ajustes de tu tienda.",
+  "purchaseSuccessTitle": "¡Eres Pro!",
+  "purchaseSuccessSubtitle": "Facturas ilimitadas, sincronización en la nube y sin marcas de agua desbloqueadas. ¡Gracias!",
+  "purchaseSuccessContinue": "Continuar",
+  "onboardingSkip": "Omitir",
+  "onboardingNext": "Siguiente",
+  "onboardingGetStarted": "Empezar",
+  "onboardingWelcomeTitle": "Facturas en 2 minutos",
+  "onboardingWelcomeBody": "Crea facturas PDF profesionales para tus clientes — rápido y con estilo.",
+  "onboardingSyncTitle": "Sincroniza en todas partes",
+  "onboardingSyncBody": "Inicia sesión para hacer una copia de seguridad segura en la nube y acceder desde cualquier dispositivo.",
+  "onboardingProTitle": "Ilimitado con Pro",
+  "onboardingProBody": "Desbloquea facturas ilimitadas, sincronización en la nube y quita las marcas de agua con InvoiceFlow Pro.",
+  "settingsAccentColor": "Color de acento",
+  "settingsAccentColorHint": "Personaliza la aplicación con el color que elijas.",
+  "commonDone": "Hecho"
 }
