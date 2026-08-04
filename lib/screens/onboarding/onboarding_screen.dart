@@ -69,7 +69,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             .textTheme
                             .bodyMedium
                             ?.color
-                            ?.withOpacity(0.6))),
+                            ?.withValues(alpha: 0.6))),
               ),
             ),
             Expanded(
@@ -103,7 +103,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                   .textTheme
                                   .bodyMedium
                                   ?.color
-                                  ?.withOpacity(0.6)),
+                                  ?.withValues(alpha: 0.6)),
                           textAlign: TextAlign.center,
                         ),
                       ],
@@ -124,7 +124,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   decoration: BoxDecoration(
                     color: _page == i
                         ? Theme.of(context).colorScheme.primary
-                        : Theme.of(context).colorScheme.surface,
+                        : Theme.of(context).colorScheme.surfaceContainerHighest,
                     borderRadius: BorderRadius.circular(4),
                   ),
                 ),

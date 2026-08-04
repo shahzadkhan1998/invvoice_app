@@ -8,6 +8,7 @@ import '../../providers/invoice_provider.dart';
 import '../../providers/client_provider.dart';
 import '../../core/theme/app_colors.dart';
 import '../../services/pdf_service.dart';
+import '../../widgets/app_avatar.dart';
 import '../../widgets/invoice_status_badge.dart';
 import 'create_invoice_screen.dart';
 
@@ -19,9 +20,7 @@ class InvoiceDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
-    final client = context
-        .watch<ClientProvider>()
-        .getClientById(invoice.clientId);
+    final client = context.watch<ClientProvider>().getClientById(invoice.clientId);
 
     return Scaffold(
       appBar: AppBar(
@@ -32,14 +31,12 @@ class InvoiceDetailScreen extends StatelessWidget {
             onPressed: () => Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (_) =>
-                    CreateInvoiceScreen(editInvoice: invoice),
+                builder: (_) => CreateInvoiceScreen(editInvoice: invoice),
               ),
             ),
           ),
           PopupMenuButton<String>(
-            onSelected: (value) =>
-                _handleAction(context, value),
+            onSelected: (value) => _handleAction(context, value),
             itemBuilder: (_) => [
               if (invoice.status != InvoiceStatus.paid)
                 PopupMenuItem(
@@ -63,8 +60,7 @@ class InvoiceDetailScreen extends StatelessWidget {
               PopupMenuItem(
                 value: 'share',
                 child: Row(children: [
-                  const Icon(Icons.share_outlined,
-                      color: AppColors.primaryBlue),
+                  const Icon(Icons.share_outlined, color: AppColors.primaryBlue),
                   const SizedBox(width: 8),
                   Text(loc.commonSharePdf),
                 ]),
@@ -72,8 +68,7 @@ class InvoiceDetailScreen extends StatelessWidget {
               PopupMenuItem(
                 value: 'delete',
                 child: Row(children: [
-                  const Icon(Icons.delete_outline,
-                      color: AppColors.dangerRed),
+                  const Icon(Icons.delete_outline, color: AppColors.dangerRed),
                   const SizedBox(width: 8),
                   Text(loc.commonDelete,
                       style: const TextStyle(color: AppColors.dangerRed)),
@@ -84,393 +79,40 @@ class InvoiceDetailScreen extends StatelessWidget {
         ],
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // ─── HEADER CARD ───
-            Container(
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    Theme.of(context).colorScheme.primary,
-                    Theme.of(context).colorScheme.primary.withOpacity(0.8),
-                  ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment:
-                        MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment:
-                            CrossAxisAlignment.start,
-                        children: [
-                          if (invoice.logoUrl != null && File(invoice.logoUrl!).existsSync())
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 12.0),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(8),
-                                child: Image.file(
-                                  File(invoice.logoUrl!),
-                                  width: 50,
-                                  height: 50,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            ),
-                          Text(
-                            loc.invoiceDetailTitle,
-                            style: const TextStyle(
-                              color: Colors.white70,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                              letterSpacing: 1.5,
-                            ),
-                          ),
-                          const SizedBox(height: 4),
-                          Text(
-                            invoice.invoiceNumber,
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 22,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                      InvoiceStatusBadge(status: invoice.status),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment:
-                        MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment:
-                            CrossAxisAlignment.start,
-                        children: [
-                          Text(loc.invoiceDetailTotalAmount,
-                              style: const TextStyle(
-                                  color: Colors.white70,
-                                  fontSize: 12)),
-                          Text(
-                            '${invoice.currency} ${invoice.total.toStringAsFixed(2)}',
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 28,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 16),
-                  Row(
-                    children: [
-                      _DateChip(
-                        label: loc.invoiceDetailIssued,
-                        date: invoice.invoiceDate,
-                      ),
-                      const SizedBox(width: 12),
-                      _DateChip(
-                        label: loc.invoiceDetailDue,
-                        date: invoice.dueDate,
-                        isOverdue: invoice.status ==
-                            InvoiceStatus.overdue,
-                      ),
-                      if (invoice.paidDate != null) ...[
-                        const SizedBox(width: 12),
-                        _DateChip(
-                          label: loc.invoiceDetailPaid,
-                          date: invoice.paidDate!,
-                          isPaid: true,
-                        ),
-                      ],
-                    ],
-                  ),
-                ],
-              ),
-            ),
-
+            _HeaderCard(invoice: invoice),
             const SizedBox(height: 20),
 
-            // ─── CLIENT INFO ───
             if (client != null) ...[
-              Text(loc.invoiceDetailBillTo,
-                  style: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w600,
-                    color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.6),
-                    letterSpacing: 0.5,
-                  )),
-              const SizedBox(height: 8),
-              Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).cardTheme.color,
-                  borderRadius: BorderRadius.circular(12),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.04),
-                      blurRadius: 6,
-                    ),
-                  ],
-                ),
-                child: Row(
-                  children: [
-                    Container(
-                      width: 44,
-                      height: 44,
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Center(
-                        child: Text(
-                          client.initials,
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Column(
-                      crossAxisAlignment:
-                          CrossAxisAlignment.start,
-                      children: [
-                        Text(client.name,
-                            style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16)),
-                        Text(client.email,
-                            style: TextStyle(
-                                fontSize: 13,
-                                color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.6))),
-                        if (client.phone != null)
-                          Text(client.phone!,
-                              style: TextStyle(
-                                  fontSize: 13,
-                                  color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.6))),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
+              _sectionTitle(context, loc.invoiceDetailBillTo),
+              const SizedBox(height: 10),
+              _ClientCard(clientName: client.name, clientEmail: client.email, clientPhone: client.phone),
               const SizedBox(height: 20),
             ],
 
-            // ─── LINE ITEMS ───
-            Text(loc.invoiceDetailItems,
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                  color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.6),
-                  letterSpacing: 0.5,
-                )),
-            const SizedBox(height: 8),
-            Container(
-              decoration: BoxDecoration(
-                color: Theme.of(context).cardTheme.color,
-                borderRadius: BorderRadius.circular(12),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.04),
-                    blurRadius: 6,
-                  ),
-                ],
-              ),
-              child: Column(
-                children: [
-                  // Header row
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 10),
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.surface,
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(12),
-                        topRight: Radius.circular(12),
-                      ),
-                    ),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          flex: 3,
-                          child: Text(loc.invoiceItemDescription,
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w600,
-                                  color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.6))),
-                        ),
-                        Text(loc.pdfQty,
-                            style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w600,
-                                color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.6))),
-                        const SizedBox(width: 16),
-                        Text(loc.pdfRate,
-                            style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w600,
-                                color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.6))),
-                        const SizedBox(width: 16),
-                        Text(loc.pdfAmount,
-                            style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w600,
-                                color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.6))),
-                      ],
-                    ),
-                  ),
-                  ...invoice.lineItems.asMap().entries.map((entry) {
-                    final index = entry.key;
-                    final item = entry.value;
-                    return Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 12),
-                      decoration: BoxDecoration(
-                        border: Border(
-                          top: BorderSide(
-                              color: Theme.of(context).dividerColor),
-                        ),
-                        color: index.isEven
-                            ? Colors.transparent
-                            : Theme.of(context).colorScheme.surface,
-                      ),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            flex: 3,
-                            child: Text(
-                              item.description,
-                              style: const TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                          ),
-                          Text(
-                            item.quantity % 1 == 0
-                                ? item.quantity
-                                    .toInt()
-                                    .toString()
-                                : item.quantity
-                                    .toStringAsFixed(2),
-                            style: TextStyle(
-                                fontSize: 13,
-                                color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.6)),
-                          ),
-                          const SizedBox(width: 16),
-                          Text(
-                            item.rate.toStringAsFixed(2),
-                            style: TextStyle(
-                                fontSize: 13,
-                                color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.6)),
-                          ),
-                          const SizedBox(width: 16),
-                          Text(
-                            item.amount.toStringAsFixed(2),
-                            style: const TextStyle(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  }),
-                ],
-              ),
-            ),
-
+            _sectionTitle(context, loc.invoiceDetailItems),
+            const SizedBox(height: 10),
+            _ItemsTable(lineItems: invoice.lineItems),
             const SizedBox(height: 20),
 
-            // ─── TOTALS ───
-            Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Column(
-                children: [
-                  _TotalRow(
-                      label: loc.invoiceSubtotal,
-                      value:
-                          '${invoice.currency} ${invoice.subtotal.toStringAsFixed(2)}'),
-                  const SizedBox(height: 6),
-                  if (invoice.taxAmount > 0)
-                    _TotalRow(
-                        label:
-                            loc.invoiceTax(invoice.taxRate.toStringAsFixed(0)),
-                        value:
-                            '${invoice.currency} ${invoice.taxAmount.toStringAsFixed(2)}'),
-                  Divider(
-                      color: Theme.of(context).colorScheme.primary, height: 20),
-                  _TotalRow(
-                    label: loc.invoiceTotal,
-                    value:
-                        '${invoice.currency} ${invoice.total.toStringAsFixed(2)}',
-                    isTotal: true,
-                  ),
-                ],
-              ),
-            ),
+            _TotalsCard(invoice: invoice),
+            const SizedBox(height: 20),
 
-            // Notes
-            if (invoice.notes != null &&
-                invoice.notes!.isNotEmpty) ...[
+            if (invoice.notes != null && invoice.notes!.isNotEmpty) ...[
+              _sectionTitle(context, loc.invoiceDetailNotes),
+              const SizedBox(height: 10),
+              _InfoCard(child: Text(invoice.notes!)),
               const SizedBox(height: 20),
-              Text(loc.invoiceDetailNotes,
-                  style: TextStyle(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w600,
-                      color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.6),
-                      letterSpacing: 0.5)),
-              const SizedBox(height: 8),
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(14),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.surface,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Text(invoice.notes!,
-                    style: TextStyle(
-                        fontSize: 14, color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.6))),
-              ),
             ],
 
-            // Signature
-            if (invoice.signatureUrl != null && File(invoice.signatureUrl!).existsSync()) ...[
-              const SizedBox(height: 20),
-              Text(loc.invoiceDetailSignature,
-                  style: TextStyle(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w600,
-                      color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.6),
-                      letterSpacing: 0.5)),
-              const SizedBox(height: 8),
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(14),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.surface,
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: Theme.of(context).dividerColor),
-                ),
+            if (invoice.signatureUrl != null &&
+                File(invoice.signatureUrl!).existsSync()) ...[
+              _sectionTitle(context, loc.invoiceDetailSignature),
+              const SizedBox(height: 10),
+              _InfoCard(
                 child: Image.file(
                   File(invoice.signatureUrl!),
                   height: 100,
@@ -478,50 +120,44 @@ class InvoiceDetailScreen extends StatelessWidget {
                   alignment: Alignment.centerLeft,
                 ),
               ),
+              const SizedBox(height: 20),
             ],
 
-            const SizedBox(height: 32),
-
-            // ─── ACTION BUTTONS ───
-            if (invoice.status != InvoiceStatus.paid)
+            if (invoice.status != InvoiceStatus.paid) ...[
               SizedBox(
                 width: double.infinity,
                 height: 52,
-                child: ElevatedButton.icon(
+                child: FilledButton.icon(
                   onPressed: () {
-                    context
-                        .read<InvoiceProvider>()
-                        .markAsPaid(invoice.id);
+                    context.read<InvoiceProvider>().markAsPaid(invoice.id);
                     Navigator.pop(context);
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text(loc.invoiceDetailMarkedPaidSnackbar),
                         backgroundColor: AppColors.successGreen,
-                        behavior: SnackBarBehavior.floating,
                       ),
                     );
                   },
-                  icon: const Icon(Icons.check_circle_outline),
-                  label: Text(loc.invoiceDetailMarkAsPaid,
-                      style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600)),
-                  style: ElevatedButton.styleFrom(
+                  style: FilledButton.styleFrom(
                     backgroundColor: AppColors.successGreen,
+                  ),
+                  icon: const Icon(Icons.check_circle_outline),
+                  label: Text(
+                    loc.invoiceDetailMarkAsPaid,
+                    style: const TextStyle(
+                        fontSize: 15, fontWeight: FontWeight.w700),
                   ),
                 ),
               ),
-
-            const SizedBox(height: 12),
+              const SizedBox(height: 12),
+            ],
 
             Row(
               children: [
                 Expanded(
                   child: OutlinedButton.icon(
-                    onPressed: () =>
-                        _generatePdf(context, share: false),
-                    icon: const Icon(Icons.picture_as_pdf_outlined,
-                        size: 18),
+                    onPressed: () => _generatePdf(context, share: false),
+                    icon: const Icon(Icons.picture_as_pdf_outlined, size: 18),
                     label: Text(loc.commonExportPdf),
                     style: OutlinedButton.styleFrom(
                         minimumSize: const Size(0, 50)),
@@ -530,8 +166,7 @@ class InvoiceDetailScreen extends StatelessWidget {
                 const SizedBox(width: 10),
                 Expanded(
                   child: OutlinedButton.icon(
-                    onPressed: () =>
-                        _generatePdf(context, share: true),
+                    onPressed: () => _generatePdf(context, share: true),
                     icon: const Icon(Icons.share_outlined, size: 18),
                     label: Text(loc.commonShare),
                     style: OutlinedButton.styleFrom(
@@ -547,12 +182,21 @@ class InvoiceDetailScreen extends StatelessWidget {
     );
   }
 
+  Widget _sectionTitle(BuildContext context, String title) {
+    return Text(
+      title,
+      style: Theme.of(context).textTheme.titleSmall?.copyWith(
+            color: Theme.of(context).colorScheme.onSurfaceVariant,
+            letterSpacing: 0.3,
+          ),
+    );
+  }
+
   Future<void> _generatePdf(BuildContext context,
       {required bool share}) async {
     final loc = AppLocalizations.of(context)!;
     final prefs = await SharedPreferences.getInstance();
-    final client =
-        context.read<ClientProvider>().getClientById(invoice.clientId);
+    final client = context.read<ClientProvider>().getClientById(invoice.clientId);
     if (client == null) return;
 
     ScaffoldMessenger.of(context).showSnackBar(
@@ -567,7 +211,6 @@ class InvoiceDetailScreen extends StatelessWidget {
           Text(loc.commonGeneratingPdf),
         ]),
         duration: const Duration(seconds: 2),
-        behavior: SnackBarBehavior.floating,
       ),
     );
 
@@ -594,7 +237,6 @@ class InvoiceDetailScreen extends StatelessWidget {
           SnackBar(
             content: Text(loc.invoiceDetailPdfFailed),
             backgroundColor: AppColors.dangerRed,
-            behavior: SnackBarBehavior.floating,
           ),
         );
       }
@@ -624,18 +266,15 @@ class InvoiceDetailScreen extends StatelessWidget {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16)),
         title: Text(loc.deleteInvoiceTitle),
-        content: Text(
-            loc.deleteInvoiceMessage(invoice.invoiceNumber)),
+        content: Text(loc.deleteInvoiceMessage(invoice.invoiceNumber)),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
             child: Text(loc.commonCancel),
           ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
+          FilledButton(
+            style: FilledButton.styleFrom(
               backgroundColor: AppColors.dangerRed,
               minimumSize: const Size(80, 40),
             ),
@@ -650,6 +289,146 @@ class InvoiceDetailScreen extends StatelessWidget {
       context.read<InvoiceProvider>().deleteInvoice(invoice.id);
       Navigator.pop(context);
     }
+  }
+}
+
+class _HeaderCard extends StatelessWidget {
+  final Invoice invoice;
+  const _HeaderCard({required this.invoice});
+
+  @override
+  Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
+    final scheme = Theme.of(context).colorScheme;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            scheme.primary,
+            Color.lerp(scheme.primary, Colors.black, isDark ? 0.28 : 0.16)!,
+          ],
+        ),
+        borderRadius: BorderRadius.circular(22),
+        boxShadow: [
+          BoxShadow(
+            color: scheme.primary.withValues(alpha: 0.3),
+            blurRadius: 24,
+            offset: const Offset(0, 10),
+          ),
+        ],
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(22),
+        child: Stack(
+          children: [
+            Positioned(
+              right: -50,
+              top: -50,
+              child: Container(
+                width: 160,
+                height: 160,
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.08),
+                  shape: BoxShape.circle,
+                ),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.zero,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          if (invoice.logoUrl != null &&
+                              File(invoice.logoUrl!).existsSync()) ...[
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: Image.file(
+                                File(invoice.logoUrl!),
+                                width: 48,
+                                height: 48,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            const SizedBox(height: 12),
+                          ],
+                          Text(
+                            loc.invoiceDetailTitle,
+                            style: const TextStyle(
+                              color: Colors.white70,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                              letterSpacing: 1.5,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            invoice.invoiceNumber,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ),
+                        ],
+                      ),
+                      InvoiceStatusBadge(status: invoice.status),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  Text(
+                    loc.invoiceDetailTotalAmount,
+                    style: const TextStyle(color: Colors.white70, fontSize: 12),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    '${invoice.currency} ${invoice.total.toStringAsFixed(2)}',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 30,
+                      fontWeight: FontWeight.w800,
+                      height: 1.1,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Wrap(
+                    spacing: 10,
+                    runSpacing: 10,
+                    children: [
+                      _DateChip(
+                        label: loc.invoiceDetailIssued,
+                        date: invoice.invoiceDate,
+                      ),
+                      _DateChip(
+                        label: loc.invoiceDetailDue,
+                        date: invoice.dueDate,
+                        isOverdue: invoice.status == InvoiceStatus.overdue,
+                      ),
+                      if (invoice.paidDate != null)
+                        _DateChip(
+                          label: loc.invoiceDetailPaid,
+                          date: invoice.paidDate!,
+                          isPaid: true,
+                        ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
 
@@ -675,26 +454,250 @@ class _DateChip extends StatelessWidget {
             : Colors.white70;
     const months = [
       'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
     ];
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.15),
-        borderRadius: BorderRadius.circular(8),
+        color: Colors.white.withValues(alpha: 0.16),
+        borderRadius: BorderRadius.circular(10),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(label,
-              style:
-                  TextStyle(fontSize: 10, color: color, fontWeight: FontWeight.w600)),
           Text(
-            '${date.day} ${months[date.month - 1]}',
+            label,
+            style: TextStyle(
+                fontSize: 10, color: color, fontWeight: FontWeight.w600),
+          ),
+          const SizedBox(height: 2),
+          Text(
+            '${date.day} ${months[date.month - 1]} ${date.year}',
             style: const TextStyle(
-                fontSize: 13,
+                fontSize: 12,
                 color: Colors.white,
-                fontWeight: FontWeight.bold),
+                fontWeight: FontWeight.w700),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ClientCard extends StatelessWidget {
+  final String clientName;
+  final String clientEmail;
+  final String? clientPhone;
+
+  const _ClientCard({
+    required this.clientName,
+    required this.clientEmail,
+    this.clientPhone,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: scheme.surface,
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: scheme.outlineVariant),
+      ),
+      child: Row(
+        children: [
+          AppAvatar(initials: clientName.isNotEmpty ? clientName[0] : '?', size: 48),
+          const SizedBox(width: 14),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(clientName,
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleMedium
+                        ?.copyWith(fontWeight: FontWeight.w700)),
+                Text(clientEmail,
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: scheme.onSurfaceVariant,
+                        )),
+                if (clientPhone != null)
+                  Text(clientPhone!,
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            color: scheme.onSurfaceVariant,
+                          )),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ItemsTable extends StatelessWidget {
+  final List<LineItem> lineItems;
+  const _ItemsTable({required this.lineItems});
+
+  @override
+  Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
+    final scheme = Theme.of(context).colorScheme;
+    return Container(
+      decoration: BoxDecoration(
+        color: scheme.surface,
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: scheme.outlineVariant),
+      ),
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            child: Row(
+              children: [
+                Expanded(
+                  flex: 3,
+                  child: Text(loc.invoiceItemDescription,
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            color: scheme.onSurfaceVariant,
+                            fontWeight: FontWeight.w700,
+                          )),
+                ),
+                SizedBox(
+                  width: 36,
+                  child: Text(loc.pdfQty,
+                      textAlign: TextAlign.right,
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            color: scheme.onSurfaceVariant,
+                            fontWeight: FontWeight.w700,
+                          )),
+                ),
+                const SizedBox(width: 12),
+                SizedBox(
+                  width: 56,
+                  child: Text(loc.pdfRate,
+                      textAlign: TextAlign.right,
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            color: scheme.onSurfaceVariant,
+                            fontWeight: FontWeight.w700,
+                          )),
+                ),
+                const SizedBox(width: 12),
+                SizedBox(
+                  width: 64,
+                  child: Text(loc.pdfAmount,
+                      textAlign: TextAlign.right,
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            color: scheme.onSurfaceVariant,
+                            fontWeight: FontWeight.w700,
+                          )),
+                ),
+              ],
+            ),
+          ),
+          Divider(height: 1, color: scheme.outlineVariant),
+          ...lineItems.asMap().entries.map((entry) {
+            final item = entry.value;
+            final isLast = entry.key == lineItems.length - 1;
+            return Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              decoration: BoxDecoration(
+                border: isLast
+                    ? null
+                    : Border(
+                        bottom: BorderSide(color: scheme.outlineVariant)),
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    flex: 3,
+                    child: Text(
+                      item.description,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyMedium
+                          ?.copyWith(fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 36,
+                    child: Text(
+                      _qty(item.quantity),
+                      textAlign: TextAlign.right,
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            color: scheme.onSurfaceVariant,
+                          ),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  SizedBox(
+                    width: 56,
+                    child: Text(
+                      item.rate.toStringAsFixed(2),
+                      textAlign: TextAlign.right,
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            color: scheme.onSurfaceVariant,
+                          ),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  SizedBox(
+                    width: 64,
+                    child: Text(
+                      item.amount.toStringAsFixed(2),
+                      textAlign: TextAlign.right,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyMedium
+                          ?.copyWith(fontWeight: FontWeight.w700),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }),
+        ],
+      ),
+    );
+  }
+
+  String _qty(double quantity) {
+    return quantity % 1 == 0 ? quantity.toInt().toString() : quantity.toStringAsFixed(2);
+  }
+}
+
+class _TotalsCard extends StatelessWidget {
+  final Invoice invoice;
+  const _TotalsCard({required this.invoice});
+
+  @override
+  Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
+    final scheme = Theme.of(context).colorScheme;
+    return Container(
+      padding: const EdgeInsets.all(18),
+      decoration: BoxDecoration(
+        color: scheme.primary.withValues(alpha: 0.08),
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: scheme.primary.withValues(alpha: 0.18)),
+      ),
+      child: Column(
+        children: [
+          _TotalRow(
+              label: loc.invoiceSubtotal,
+              value: '${invoice.currency} ${invoice.subtotal.toStringAsFixed(2)}'),
+          const SizedBox(height: 8),
+          if (invoice.taxAmount > 0)
+            _TotalRow(
+                label: loc.invoiceTax(invoice.taxRate.toStringAsFixed(0)),
+                value:
+                    '${invoice.currency} ${invoice.taxAmount.toStringAsFixed(2)}'),
+          Divider(color: scheme.primary, height: 24),
+          _TotalRow(
+            label: loc.invoiceTotal,
+            value: '${invoice.currency} ${invoice.total.toStringAsFixed(2)}',
+            isTotal: true,
           ),
         ],
       ),
@@ -706,30 +709,58 @@ class _TotalRow extends StatelessWidget {
   final String label, value;
   final bool isTotal;
   const _TotalRow(
-      {required this.label,
-      required this.value,
-      this.isTotal = false});
+      {required this.label, required this.value, this.isTotal = false});
 
   @override
   Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(label,
-            style: TextStyle(
-              fontSize: isTotal ? 15 : 13,
-              color: isTotal
-                  ? Theme.of(context).colorScheme.primary
-                  : Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.6),
-              fontWeight: isTotal ? FontWeight.bold : FontWeight.normal,
-            )),
-        Text(value,
-            style: TextStyle(
-              fontSize: isTotal ? 18 : 13,
-              color: isTotal ? Theme.of(context).colorScheme.primary : null,
-              fontWeight: isTotal ? FontWeight.bold : FontWeight.w500,
-            )),
+        Text(
+          label,
+          style: TextStyle(
+            fontSize: isTotal ? 15 : 13,
+            color: isTotal ? scheme.primary : scheme.onSurfaceVariant,
+            fontWeight: isTotal ? FontWeight.w800 : FontWeight.w500,
+          ),
+        ),
+        Text(
+          value,
+          style: TextStyle(
+            fontSize: isTotal ? 18 : 13,
+            color: isTotal ? scheme.primary : null,
+            fontWeight: isTotal ? FontWeight.w800 : FontWeight.w600,
+          ),
+        ),
       ],
+    );
+  }
+}
+
+class _InfoCard extends StatelessWidget {
+  final Widget child;
+  const _InfoCard({required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: scheme.surface,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: scheme.outlineVariant),
+      ),
+      child: DefaultTextStyle(
+        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              color: scheme.onSurfaceVariant,
+              height: 1.5,
+            ) ??
+            const TextStyle(),
+        child: child,
+      ),
     );
   }
 }

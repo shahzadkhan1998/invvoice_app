@@ -72,6 +72,18 @@ class AuthProvider with ChangeNotifier {
     _user = null; notifyListeners();
   }
 
+  Future<bool> updateDisplayName(String name) async {
+    try {
+      await _user?.updateDisplayName(name.trim());
+      await _user?.reload();
+      _user = _auth.currentUser;
+      notifyListeners();
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
+
   String _msg(FirebaseAuthException e, BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     switch (e.code) {

@@ -116,7 +116,13 @@ class AppLocalizationsZh extends AppLocalizations {
   String get dashboardRecentInvoices => '最近发票';
 
   @override
-  String get dashboardSeeAll => '查看全部 →';
+  String get dashboardSeeAll => '查看全部';
+
+  @override
+  String get dashboardNotifications => '通知';
+
+  @override
+  String get dashboardNotificationsHint => '定期查看逾期和待处理发票，及时掌握您的现金流。';
 
   @override
   String get dashboardNewInvoice => '新建发票';
@@ -364,6 +370,9 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get invoiceNoClientsFound => '未找到客户';
+
+  @override
+  String get invoiceSelectClientEmptyHint => '创建您的第一个客户以开始生成发票';
 
   @override
   String get invoiceAddLineItem => '添加明细';
@@ -757,6 +766,13 @@ class AppLocalizationsZh extends AppLocalizations {
   String get settingsPrivacyPolicy => '隐私政策';
 
   @override
+  String get settingsHelpSupportSheet =>
+      '需要帮助？请发送邮件至 support@invoiceflow.app，我们将在24小时内回复您。';
+
+  @override
+  String get settingsPrivacySheet => '您的数据存储在本地设备上。我们绝不会出售或分享您的个人信息。';
+
+  @override
   String get settingsVersion => '版本';
 
   @override
@@ -806,6 +822,9 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get settingsInvoicePrefixHint => '例如：INV-, #, Bill-';
+
+  @override
+  String get settingsPrefixSaved => '发票前缀已保存';
 
   @override
   String get settingsNotificationScheduled => '每日通知已成功设置！';

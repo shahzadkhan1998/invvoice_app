@@ -266,7 +266,10 @@ class _CreateClientScreenState extends State<CreateClientScreen> {
                                 fontWeight: FontWeight.w600,
                                 color: _taxRate == rate
                                     ? Colors.white
-                                    : Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+                                    : Theme.of(context)
+                                        .colorScheme
+                                        .onSurface
+                                        .withValues(alpha: 0.6),
                               ),
                             ),
                           ),
@@ -321,8 +324,12 @@ class _CreateClientScreenState extends State<CreateClientScreen> {
         text,
         style: TextStyle(
           fontSize: 14,
-          fontWeight: FontWeight.w500,
-          color: Theme.of(context).textTheme.bodyLarge?.color?.withOpacity(0.7),
+          fontWeight: FontWeight.w600,
+          color: Theme.of(context)
+              .textTheme
+              .bodyLarge
+              ?.color
+              ?.withValues(alpha: 0.7),
         ),
       );
 

@@ -7,14 +7,15 @@ import 'package:invoice_app/l10n/app_localizations.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/theme_provider.dart';
 import '../../core/theme/app_colors.dart';
-import '../../services/notification_service.dart';
 import '../../core/utils/currency_utils.dart';
+import '../../core/utils/invoice_number_utils.dart';
+import '../../services/notification_service.dart';
 import '../../providers/color_provider.dart';
 import '../../providers/locale_provider.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 class SettingsScreen extends StatefulWidget {
-  const SettingsScreen({Key? key}) : super(key: key);
+  const SettingsScreen({super.key});
 
   @override
   State<SettingsScreen> createState() => _SettingsScreenState();
@@ -26,6 +27,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   String _businessPhone = '';
   String _businessAddress = '';
   String _defaultCurrency = 'USD';
+  String _invoicePrefix = InvoiceNumberUtils.defaultPrefix;
   TimeOfDay? _notificationTime;
 
   @override
@@ -42,13 +44,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
       _businessEmail = prefs.getString('business_email') ?? '';
       _businessPhone = prefs.getString('business_phone') ?? '';
       _businessAddress = prefs.getString('business_address') ?? '';
-      _defaultCurrency = prefs.getString('default_currency') ??
+      _defaultCurrency = prefs.getString(CurrencyUtils.defaultCurrencyKey) ??
           CurrencyUtils.currencyForLocale(PlatformDispatcher.instance.locale);
+      _invoicePrefix = InvoiceNumberUtils.prefix;
       final timeStr = prefs.getString('notification_time');
       if (timeStr != null) {
         final parts = timeStr.split(':');
         if (parts.length == 2) {
-          _notificationTime = TimeOfDay(hour: int.parse(parts[0]), minute: int.parse(parts[1]));
+          _notificationTime =
+              TimeOfDay(hour: int.parse(parts[0]), minute: int.parse(parts[1]));
         }
       }
     });
@@ -69,109 +73,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             if (auth.isAuthenticated)
-              GestureDetector(
+              _ProfileCard(
+                name: auth.currentUser?.displayName ?? '',
+                email: auth.currentUser?.email ?? '',
+                businessName: _businessName,
                 onTap: () => _showProfileEditor(context),
-                child: Container(
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        Theme.of(context).colorScheme.primary,
-                        Theme.of(context).colorScheme.primary.withOpacity(0.7),
-                      ],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: Row(
-                    children: [
-                      Container(
-                        width: 56,
-                        height: 56,
-                        decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.2),
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        child: Center(
-                          child: Text(
-                            _getInitials(auth.currentUser?.displayName ?? '?'),
-                            style: const TextStyle(
-                              fontSize: 22,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 14),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              auth.currentUser?.displayName ?? l10n.settingsYourName,
-                              style: const TextStyle(
-                                fontSize: 17,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              ),
-                            ),
-                            const SizedBox(height: 2),
-                            Text(
-                              auth.currentUser?.email ?? '',
-                              style: const TextStyle(
-                                  fontSize: 13, color: Colors.white70),
-                            ),
-                            if (_businessName.isNotEmpty) ...[
-                              const SizedBox(height: 2),
-                              Text(
-                                _businessName,
-                                style: const TextStyle(
-                                    fontSize: 12, color: Colors.white60),
-                              ),
-                            ],
-                          ],
-                        ),
-                      ),
-                      const Icon(Icons.edit_outlined,
-                          color: Colors.white70, size: 20),
-                    ],
-                  ),
-                ),
               )
             else
-              Container(
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.surface,
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: Theme.of(context).colorScheme.primary.withOpacity(0.3)),
-                ),
-                child: Column(
-                  children: [
-                    Icon(Icons.account_circle_outlined, size: 40, color: Theme.of(context).colorScheme.primary),
-                    const SizedBox(height: 12),
-                    Text(
-                      l10n.settingsYourName,
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.primary),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      l10n.settingsBackupDescription,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.7)),
-                    ),
-                    const SizedBox(height: 16),
-                    ElevatedButton(
-                      onPressed: () => Navigator.pushNamed(context, '/login'),
-                      style: ElevatedButton.styleFrom(
-                        minimumSize: const Size(double.infinity, 44),
-                      ),
-                      child: Text(l10n.settingsSignInRegister),
-                    ),
-                  ],
-                ),
+              _SignInCard(
+                onSignIn: () => Navigator.pushNamed(context, '/login'),
               ),
 
             const SizedBox(height: 24),
@@ -190,7 +100,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               _SettingsTile(
                 icon: Icons.receipt_long_outlined,
                 title: l10n.settingsInvoicePrefix,
-                subtitle: 'INV-',
+                subtitle: _invoicePrefix,
                 onTap: () => _showInvoicePrefixEditor(context),
               ),
               _SettingsTile(
@@ -214,7 +124,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 trailing: Switch(
                   value: isDark,
                   onChanged: (_) => themeProvider.toggleTheme(),
-                  activeColor: Theme.of(context).colorScheme.primary,
                 ),
               ),
               _ColorTile(
@@ -224,8 +133,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
               _SettingsTile(
                 icon: Icons.notifications_outlined,
                 title: l10n.settingsDailyNotification,
-                subtitle: _notificationTime != null 
-                    ? 'Every day at ${_notificationTime!.format(context)}' 
+                subtitle: _notificationTime != null
+                    ? 'Every day at ${_notificationTime!.format(context)}'
                     : l10n.settingsDailyNotificationNotSet,
                 onTap: () => _showNotificationTimePicker(context),
               ),
@@ -255,12 +164,22 @@ class _SettingsScreenState extends State<SettingsScreen> {
               _SettingsTile(
                 icon: Icons.help_outline,
                 title: l10n.settingsHelpSupport,
-                onTap: () {},
+                onTap: () => _showInfoSheet(
+                  context,
+                  icon: Icons.help_outline,
+                  title: l10n.settingsHelpSupport,
+                  body: l10n.settingsHelpSupportSheet,
+                ),
               ),
               _SettingsTile(
                 icon: Icons.privacy_tip_outlined,
                 title: l10n.settingsPrivacyPolicy,
-                onTap: () {},
+                onTap: () => _showInfoSheet(
+                  context,
+                  icon: Icons.privacy_tip_outlined,
+                  title: l10n.settingsPrivacyPolicy,
+                  body: l10n.settingsPrivacySheet,
+                ),
               ),
               _SettingsTile(
                 icon: Icons.info_outline,
@@ -277,19 +196,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 height: 52,
                 child: OutlinedButton.icon(
                   onPressed: () => _confirmSignOut(context),
-                  icon: const Icon(Icons.logout, color: AppColors.dangerRed),
+                  icon: const Icon(Icons.logout_rounded,
+                      color: AppColors.dangerRed),
                   label: Text(
                     l10n.settingsSignOut,
                     style: const TextStyle(
                       color: AppColors.dangerRed,
                       fontSize: 15,
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
                   style: OutlinedButton.styleFrom(
                     side: const BorderSide(color: AppColors.dangerRed),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12)),
                   ),
                 ),
               ),
@@ -309,37 +227,53 @@ class _SettingsScreenState extends State<SettingsScreen> {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
       builder: (ctx) {
         final l10n = AppLocalizations.of(ctx)!;
         return Padding(
           padding: EdgeInsets.only(
-            left: 20, right: 20, top: 24,
+            left: 20,
+            right: 20,
+            top: 8,
             bottom: MediaQuery.of(ctx).viewInsets.bottom + 24,
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(l10n.settingsEditProfile,
-                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-              const SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(l10n.settingsEditProfile,
+                      style: Theme.of(ctx).textTheme.titleLarge),
+                  IconButton(
+                    onPressed: () => Navigator.pop(ctx),
+                    icon: const Icon(Icons.close_rounded),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
               Text(l10n.settingsProfileNameLabel,
-                  style: TextStyle(
-                      fontSize: 14, fontWeight: FontWeight.w500,
-                      color: Theme.of(ctx).textTheme.bodyLarge?.color?.withOpacity(0.7))),
+                  style: Theme.of(ctx).textTheme.bodyMedium?.copyWith(
+                        color: Theme.of(ctx).colorScheme.onSurfaceVariant,
+                        fontWeight: FontWeight.w600,
+                      )),
               const SizedBox(height: 8),
               TextField(
                 controller: nameCtrl,
-                decoration: InputDecoration(hintText: l10n.settingsProfileNameHint),
+                decoration:
+                    InputDecoration(hintText: l10n.settingsProfileNameHint),
               ),
               const SizedBox(height: 20),
               SizedBox(
                 width: double.infinity,
                 height: 52,
-                child: ElevatedButton(
-                  onPressed: () => Navigator.pop(ctx),
+                child: FilledButton(
+                  onPressed: () async {
+                    final name = nameCtrl.text.trim();
+                    if (name.isEmpty) return;
+                    await auth.updateDisplayName(name);
+                    if (ctx.mounted) Navigator.pop(ctx);
+                  },
                   child: Text(l10n.commonSaveChanges),
                 ),
               ),
@@ -359,13 +293,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
       builder: (ctx) {
         final l10n = AppLocalizations.of(ctx)!;
         return Padding(
           padding: EdgeInsets.only(
-            left: 20, right: 20, top: 24,
+            left: 20,
+            right: 20,
+            top: 8,
             bottom: MediaQuery.of(ctx).viewInsets.bottom + 24,
           ),
           child: SingleChildScrollView(
@@ -377,52 +311,50 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(l10n.settingsBusinessDetails,
-                        style: const TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold)),
+                        style: Theme.of(ctx).textTheme.titleLarge),
                     IconButton(
                         onPressed: () => Navigator.pop(ctx),
-                        icon: const Icon(Icons.close)),
+                        icon: const Icon(Icons.close_rounded)),
                   ],
                 ),
                 const SizedBox(height: 16),
-                _sheetLabel(l10n.settingsBusinessNameLabel),
+                _sheetLabel(ctx, l10n.settingsBusinessNameLabel),
                 const SizedBox(height: 8),
                 TextField(
                   controller: nameCtrl,
-                  decoration: InputDecoration(
-                      hintText: l10n.settingsBusinessNameHint),
+                  decoration:
+                      InputDecoration(hintText: l10n.settingsBusinessNameHint),
                 ),
                 const SizedBox(height: 12),
-                _sheetLabel(l10n.settingsBusinessEmailLabel),
+                _sheetLabel(ctx, l10n.settingsBusinessEmailLabel),
                 const SizedBox(height: 8),
                 TextField(
                   controller: emailCtrl,
                   keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(
-                      hintText: l10n.settingsBusinessEmailHint),
+                  decoration:
+                      InputDecoration(hintText: l10n.settingsBusinessEmailHint),
                 ),
                 const SizedBox(height: 12),
-                _sheetLabel(l10n.settingsPhoneLabel),
+                _sheetLabel(ctx, l10n.settingsPhoneLabel),
                 const SizedBox(height: 8),
                 TextField(
                   controller: phoneCtrl,
                   keyboardType: TextInputType.phone,
-                  decoration: InputDecoration(
-                      hintText: l10n.settingsPhoneHint),
+                  decoration: InputDecoration(hintText: l10n.settingsPhoneHint),
                 ),
                 const SizedBox(height: 12),
-                _sheetLabel(l10n.settingsAddressLabel),
+                _sheetLabel(ctx, l10n.settingsAddressLabel),
                 const SizedBox(height: 8),
                 TextField(
                   controller: addressCtrl,
-                  decoration: InputDecoration(
-                      hintText: l10n.settingsAddressHint),
+                  decoration:
+                      InputDecoration(hintText: l10n.settingsAddressHint),
                 ),
                 const SizedBox(height: 24),
                 SizedBox(
                   width: double.infinity,
                   height: 52,
-                  child: ElevatedButton(
+                  child: FilledButton(
                     onPressed: () async {
                       final prefs = await SharedPreferences.getInstance();
                       await prefs.setString(
@@ -434,20 +366,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       await prefs.setString(
                           'business_address', addressCtrl.text.trim());
 
-                      if (mounted) {
-                        setState(() {
-                          _businessName = nameCtrl.text.trim();
-                          _businessEmail = emailCtrl.text.trim();
-                          _businessPhone = phoneCtrl.text.trim();
-                          _businessAddress = addressCtrl.text.trim();
-                        });
-                      }
-                      Navigator.pop(ctx);
+                      if (!mounted) return;
+                      setState(() {
+                        _businessName = nameCtrl.text.trim();
+                        _businessEmail = emailCtrl.text.trim();
+                        _businessPhone = phoneCtrl.text.trim();
+                        _businessAddress = addressCtrl.text.trim();
+                      });
+                      if (ctx.mounted) Navigator.pop(ctx);
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
-                          content: Text(AppLocalizations.of(context)!.settingsBusinessDetailsSaved),
+                          content: Text(AppLocalizations.of(context)!
+                              .settingsBusinessDetailsSaved),
                           backgroundColor: AppColors.successGreen,
-                          behavior: SnackBarBehavior.floating,
                         ),
                       );
                     },
@@ -469,7 +400,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
       builder: (ctx) {
         final l10n = AppLocalizations.of(ctx)!;
         return AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
           title: Text(l10n.settingsDefaultCurrency),
           content: SizedBox(
             width: double.maxFinite,
@@ -478,15 +408,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
               itemCount: currencies.length,
               separatorBuilder: (c, i) => const Divider(),
               itemBuilder: (c, i) => ListTile(
-                title: Text(currencies[i]),
+                title: Text(currencies[i],
+                    style: const TextStyle(fontWeight: FontWeight.w600)),
                 trailing: _defaultCurrency == currencies[i]
-                    ? Icon(Icons.check, color: Theme.of(ctx).colorScheme.primary)
+                    ? Icon(Icons.check_rounded,
+                        color: Theme.of(ctx).colorScheme.primary)
                     : null,
                 onTap: () async {
                   final prefs = await SharedPreferences.getInstance();
-                  await prefs.setString('default_currency', currencies[i]);
+                  await prefs.setString(
+                      CurrencyUtils.defaultCurrencyKey, currencies[i]);
+                  if (!c.mounted) return;
                   setState(() => _defaultCurrency = currencies[i]);
-                  if (mounted) Navigator.pop(ctx);
+                  Navigator.pop(ctx);
                 },
               ),
             ),
@@ -501,16 +435,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
       context: context,
       initialTime: _notificationTime ?? const TimeOfDay(hour: 9, minute: 0),
     );
-    if (time != null) {
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setString('notification_time', '${time.hour}:${time.minute}');
-      setState(() => _notificationTime = time);
-      await NotificationService().scheduleDailyNotification(time: time);
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(AppLocalizations.of(context)!.settingsNotificationScheduled)),
-        );
-      }
+    if (time == null || !mounted) return;
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('notification_time', '${time.hour}:${time.minute}');
+    setState(() => _notificationTime = time);
+    await NotificationService().scheduleDailyNotification(time: time);
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+            content: Text(
+                AppLocalizations.of(context)!.settingsNotificationScheduled)),
+      );
     }
   }
 
@@ -519,8 +454,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
       builder: (ctx) {
         final l10n = AppLocalizations.of(ctx)!;
         return StatefulBuilder(
@@ -529,32 +462,37 @@ class _SettingsScreenState extends State<SettingsScreen> {
               padding: EdgeInsets.only(
                 left: 20,
                 right: 20,
-                top: 24,
+                top: 8,
                 bottom: MediaQuery.of(ctx).viewInsets.bottom + 24,
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(l10n.settingsAccentColor,
-                      style: const TextStyle(
-                          fontSize: 18, fontWeight: FontWeight.bold)),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(l10n.settingsAccentColor,
+                          style: Theme.of(ctx).textTheme.titleLarge),
+                      IconButton(
+                        onPressed: () => Navigator.pop(ctx),
+                        icon: const Icon(Icons.close_rounded),
+                      ),
+                    ],
+                  ),
                   const SizedBox(height: 8),
                   Text(l10n.settingsAccentColorHint,
-                      style: TextStyle(
-                          fontSize: 13,
-                          color: Theme.of(ctx)
-                              .textTheme
-                              .bodyMedium
-                              ?.color
-                              ?.withOpacity(0.7))),
+                      style: Theme.of(ctx).textTheme.bodySmall?.copyWith(
+                            color: Theme.of(ctx).colorScheme.onSurfaceVariant,
+                          )),
                   const SizedBox(height: 20),
                   Wrap(
                     spacing: 14,
                     runSpacing: 14,
                     children: [
                       ...ColorProvider.presets.map((c) {
-                        final selected = colorProvider.accent.value == c.value;
+                        final selected =
+                            colorProvider.accent.toARGB32() == c.toARGB32();
                         return GestureDetector(
                           onTap: () {
                             colorProvider.setAccent(c);
@@ -575,7 +513,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               boxShadow: selected
                                   ? [
                                       BoxShadow(
-                                        color: c.withOpacity(0.5),
+                                        color: c.withValues(alpha: 0.5),
                                         blurRadius: 8,
                                         spreadRadius: 2,
                                       )
@@ -583,7 +521,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   : null,
                             ),
                             child: selected
-                                ? const Icon(Icons.check,
+                                ? const Icon(Icons.check_rounded,
                                     color: Colors.white, size: 22)
                                 : null,
                           ),
@@ -598,7 +536,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             border: Border.all(
-                                color: Theme.of(ctx).dividerColor, width: 2),
+                                color: Theme.of(ctx).colorScheme.outline,
+                                width: 2),
                             gradient: const SweepGradient(
                               colors: [
                                 Colors.red,
@@ -622,7 +561,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   SizedBox(
                     width: double.infinity,
                     height: 52,
-                    child: ElevatedButton(
+                    child: FilledButton(
                       onPressed: () => Navigator.pop(ctx),
                       child: Text(l10n.commonDone),
                     ),
@@ -646,7 +585,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
     await showDialog(
       context: ctx,
       builder: (dctx) => AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: Text(l10n.settingsAccentColor),
         content: SingleChildScrollView(
           child: Column(
@@ -666,8 +604,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
             onPressed: () => Navigator.pop(dctx),
             child: Text(l10n.commonCancel),
           ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(minimumSize: const Size(80, 40)),
+          FilledButton(
+            style: FilledButton.styleFrom(
+                minimumSize: const Size(80, 40)),
             onPressed: () {
               colorProvider.setAccent(picked);
               setSheetState(() {});
@@ -695,7 +634,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: Text(l10n.settingsLanguage),
         content: SingleChildScrollView(
           child: Column(
@@ -703,9 +641,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
             children: items.entries.map((e) {
               final selected = e.key == current;
               return ListTile(
-                title: Text(e.value),
+                title: Text(e.value,
+                    style: const TextStyle(fontWeight: FontWeight.w600)),
                 trailing: selected
-                    ? Icon(Icons.check_circle_rounded, color: Theme.of(ctx).colorScheme.primary)
+                    ? Icon(Icons.check_circle_rounded,
+                        color: Theme.of(ctx).colorScheme.primary)
                     : null,
                 onTap: () {
                   localeProvider.setLocale(e.key);
@@ -726,41 +666,95 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   void _showInvoicePrefixEditor(BuildContext context) {
-    final ctrl = TextEditingController(text: 'INV-');
+    final ctrl = TextEditingController(text: _invoicePrefix);
+    final l10n = AppLocalizations.of(context)!;
     showDialog(
       context: context,
-      builder: (ctx) {
-        final l10n = AppLocalizations.of(ctx)!;
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16)),
-          title: Text(l10n.settingsInvoicePrefixTitle),
-          content: TextField(
-            controller: ctrl,
-            decoration: InputDecoration(hintText: l10n.settingsInvoicePrefixHint),
+      builder: (ctx) => AlertDialog(
+        title: Text(l10n.settingsInvoicePrefixTitle),
+        content: TextField(
+          controller: ctrl,
+          autofocus: true,
+          decoration:
+              InputDecoration(hintText: l10n.settingsInvoicePrefixHint),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text(l10n.commonCancel),
           ),
-          actions: [
-            TextButton(
-                onPressed: () => Navigator.pop(ctx),
-                child: Text(l10n.commonCancel)),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(minimumSize: const Size(80, 40)),
-              onPressed: () => Navigator.pop(ctx),
-              child: Text(l10n.commonSave),
-            ),
-          ],
-        );
-      },
+          FilledButton(
+            style: FilledButton.styleFrom(minimumSize: const Size(80, 40)),
+            onPressed: () async {
+              await InvoiceNumberUtils.setPrefix(ctrl.text);
+              if (!mounted) return;
+              setState(() => _invoicePrefix = InvoiceNumberUtils.prefix);
+              if (ctx.mounted) Navigator.pop(ctx);
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(l10n.settingsPrefixSaved),
+                  backgroundColor: AppColors.successGreen,
+                ),
+              );
+            },
+            child: Text(l10n.commonSave),
+          ),
+        ],
+      ),
     );
   }
 
-  Widget _sheetLabel(String text) => Text(
-        text,
-        style: TextStyle(
-          fontSize: 14,
-          fontWeight: FontWeight.w500,
-          color: Theme.of(context).textTheme.bodyLarge?.color?.withOpacity(0.7),
+  void _showInfoSheet(BuildContext context,
+      {required IconData icon, required String title, required String body}) {
+    final scheme = Theme.of(context).colorScheme;
+    showModalBottomSheet(
+      context: context,
+      builder: (ctx) => Padding(
+        padding: const EdgeInsets.fromLTRB(24, 8, 24, 32),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              width: 52,
+              height: 52,
+              decoration: BoxDecoration(
+                color: scheme.primary.withValues(alpha: 0.12),
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Icon(icon, color: scheme.primary, size: 26),
+            ),
+            const SizedBox(height: 16),
+            Text(title, style: Theme.of(context).textTheme.titleLarge),
+            const SizedBox(height: 8),
+            Text(
+              body,
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: scheme.onSurfaceVariant,
+                    height: 1.5,
+                  ),
+            ),
+            const SizedBox(height: 24),
+            SizedBox(
+              width: double.infinity,
+              height: 48,
+              child: FilledButton(
+                onPressed: () => Navigator.pop(ctx),
+                child: Text(AppLocalizations.of(ctx)!.commonDone),
+              ),
+            ),
+          ],
         ),
+      ),
+    );
+  }
+
+  Widget _sheetLabel(BuildContext ctx, String text) => Text(
+        text,
+        style: Theme.of(ctx).textTheme.bodyMedium?.copyWith(
+              fontWeight: FontWeight.w600,
+              color: Theme.of(ctx).colorScheme.onSurfaceVariant,
+            ),
       );
 
   void _confirmSignOut(BuildContext context) async {
@@ -769,18 +763,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
       builder: (ctx) {
         final l10n = AppLocalizations.of(ctx)!;
         return AlertDialog(
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16)),
           title: Text(l10n.settingsSignOutTitle),
-          content: Text(
-              l10n.settingsSignOutMessage),
+          content: Text(l10n.settingsSignOutMessage),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(ctx, false),
               child: Text(l10n.commonCancel),
             ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
+            FilledButton(
+              style: FilledButton.styleFrom(
                 backgroundColor: AppColors.dangerRed,
                 minimumSize: const Size(80, 40),
               ),
@@ -792,24 +783,178 @@ class _SettingsScreenState extends State<SettingsScreen> {
       },
     );
 
-    if (confirmed == true && context.mounted) {
+    if (confirmed == true && mounted) {
       await context.read<AuthProvider>().signOut();
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(AppLocalizations.of(context)!.settingsSignedOut),
-          backgroundColor: AppColors.successGreen,
-        ),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(AppLocalizations.of(context)!.settingsSignedOut),
+            backgroundColor: AppColors.successGreen,
+          ),
+        );
+      }
     }
   }
+}
 
-  String _getInitials(String name) {
-    final parts = name.trim().split(' ');
-    if (parts.length >= 2) {
-      return '${parts[0][0]}${parts[1][0]}'.toUpperCase();
-    }
-    if (name.isNotEmpty) return name[0].toUpperCase();
-    return '?';
+class _ProfileCard extends StatelessWidget {
+  final String name;
+  final String email;
+  final String businessName;
+  final VoidCallback onTap;
+
+  const _ProfileCard({
+    required this.name,
+    required this.email,
+    required this.businessName,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final scheme = Theme.of(context).colorScheme;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final initials = name.trim().isEmpty ? '?' : name.trim()[0].toUpperCase();
+
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.all(18),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              scheme.primary,
+              Color.lerp(scheme.primary, Colors.black, isDark ? 0.28 : 0.16)!,
+            ],
+          ),
+          borderRadius: BorderRadius.circular(22),
+          boxShadow: [
+            BoxShadow(
+              color: scheme.primary.withValues(alpha: 0.3),
+              blurRadius: 24,
+              offset: const Offset(0, 10),
+            ),
+          ],
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 56,
+              height: 56,
+              decoration: BoxDecoration(
+                color: Colors.white.withValues(alpha: 0.2),
+                borderRadius: BorderRadius.circular(18),
+              ),
+              child: Center(
+                child: Text(
+                  initials,
+                  style: const TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.w800,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(width: 14),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    name.isEmpty ? l10n.settingsYourName : name,
+                    style: const TextStyle(
+                      fontSize: 17,
+                      fontWeight: FontWeight.w800,
+                      color: Colors.white,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    email,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(fontSize: 13, color: Colors.white70),
+                  ),
+                  if (businessName.isNotEmpty) ...[
+                    const SizedBox(height: 2),
+                    Text(
+                      businessName,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style:
+                          const TextStyle(fontSize: 12, color: Colors.white60),
+                    ),
+                  ],
+                ],
+              ),
+            ),
+            const Icon(Icons.edit_outlined, color: Colors.white70, size: 20),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _SignInCard extends StatelessWidget {
+  final VoidCallback onSignIn;
+  const _SignInCard({required this.onSignIn});
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final scheme = Theme.of(context).colorScheme;
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: scheme.surface,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: scheme.outlineVariant),
+      ),
+      child: Column(
+        children: [
+          Container(
+            width: 52,
+            height: 52,
+            decoration: BoxDecoration(
+              color: scheme.primary.withValues(alpha: 0.12),
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Icon(Icons.account_circle_outlined,
+                size: 28, color: scheme.primary),
+          ),
+          const SizedBox(height: 12),
+          Text(
+            l10n.settingsYourName,
+            style: Theme.of(context)
+                .textTheme
+                .titleLarge
+                ?.copyWith(color: scheme.primary),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            l10n.settingsBackupDescription,
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: scheme.onSurfaceVariant,
+                ),
+          ),
+          const SizedBox(height: 16),
+          SizedBox(
+            width: double.infinity,
+            height: 48,
+            child: FilledButton(
+              onPressed: onSignIn,
+              child: Text(l10n.settingsSignInRegister),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
 
@@ -824,7 +969,7 @@ class _SectionHeader extends StatelessWidget {
       style: TextStyle(
         fontSize: 11,
         fontWeight: FontWeight.w700,
-        color: Theme.of(context).hintColor,
+        color: Theme.of(context).colorScheme.onSurfaceVariant,
         letterSpacing: 1.2,
       ),
     );
@@ -837,16 +982,12 @@ class _SettingsGroup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
     return Container(
       decoration: BoxDecoration(
-        color: Theme.of(context).cardTheme.color,
-        borderRadius: BorderRadius.circular(14),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.04),
-            blurRadius: 8,
-          ),
-        ],
+        color: scheme.surface,
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: scheme.outlineVariant),
       ),
       child: Column(
         children: items.asMap().entries.map((entry) {
@@ -856,8 +997,7 @@ class _SettingsGroup extends StatelessWidget {
               entry.value,
               if (!isLast)
                 Divider(
-                    height: 1, color: Theme.of(context).dividerColor,
-                    indent: 56, endIndent: 0),
+                    height: 1, color: scheme.outlineVariant, indent: 56),
             ],
           );
         }).toList(),
@@ -875,22 +1015,21 @@ class _ColorTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final accent = context.watch<ColorProvider>().accent;
+    final scheme = Theme.of(context).colorScheme;
     return ListTile(
       onTap: onTap,
-      contentPadding:
-          const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       leading: Container(
         width: 36,
         height: 36,
         decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.surface,
-          borderRadius: BorderRadius.circular(10),
+          color: scheme.primary.withValues(alpha: 0.1),
+          borderRadius: BorderRadius.circular(11),
         ),
-        child: Icon(Icons.palette_outlined,
-            size: 18, color: Theme.of(context).colorScheme.primary),
+        child: Icon(Icons.palette_outlined, size: 18, color: scheme.primary),
       ),
       title: Text(title,
-          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500)),
+          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600)),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -900,12 +1039,11 @@ class _ColorTile extends StatelessWidget {
             decoration: BoxDecoration(
               color: accent,
               shape: BoxShape.circle,
-              border: Border.all(color: Theme.of(context).dividerColor, width: 1.5),
+              border: Border.all(color: scheme.outlineVariant, width: 1.5),
             ),
           ),
           const SizedBox(width: 4),
-          Icon(Icons.chevron_right,
-              color: Theme.of(context).dividerColor, size: 20),
+          Icon(Icons.chevron_right, color: scheme.outline, size: 20),
         ],
       ),
     );
@@ -929,35 +1067,33 @@ class _SettingsTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
     return ListTile(
       onTap: onTap,
-      contentPadding:
-          const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       leading: Container(
         width: 36,
         height: 36,
         decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.surface,
-          borderRadius: BorderRadius.circular(10),
+          color: scheme.primary.withValues(alpha: 0.1),
+          borderRadius: BorderRadius.circular(11),
         ),
-        child: Icon(icon, size: 18, color: Theme.of(context).colorScheme.primary),
+        child: Icon(icon, size: 18, color: scheme.primary),
       ),
-      title: Text(
-        title,
-        style: const TextStyle(
-            fontSize: 15, fontWeight: FontWeight.w500),
-      ),
+      title: Text(title,
+          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600)),
       subtitle: subtitle != null
           ? Text(
               subtitle!,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
               style: TextStyle(
-                  fontSize: 12, color: Theme.of(context).hintColor),
+                  fontSize: 12, color: scheme.onSurfaceVariant),
             )
           : null,
       trailing: trailing ??
           (onTap != null
-              ? Icon(Icons.chevron_right,
-                  color: Theme.of(context).dividerColor, size: 20)
+              ? Icon(Icons.chevron_right, color: scheme.outline, size: 20)
               : null),
     );
   }

@@ -32,9 +32,9 @@ class InvoiceStatusBadge extends StatelessWidget {
         vertical: compact ? 3 : 5,
       ),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.12),
+        color: color.withValues(alpha: 0.12),
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: color.withOpacity(0.3), width: 1),
+        border: Border.all(color: color.withValues(alpha: 0.3), width: 1),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -66,7 +66,10 @@ class InvoiceStatusBadge extends StatelessWidget {
       case InvoiceStatus.draft:
         return AppColors.infoGray;
       case InvoiceStatus.cancelled:
-        return Theme.of(context).colorScheme.onSurface.withOpacity(0.5);
+        return Theme.of(context)
+            .colorScheme
+            .onSurface
+            .withValues(alpha: 0.5);
     }
   }
 

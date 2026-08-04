@@ -116,7 +116,14 @@ class AppLocalizationsUr extends AppLocalizations {
   String get dashboardRecentInvoices => 'حالیہ انوائسز';
 
   @override
-  String get dashboardSeeAll => 'سب دیکھیں →';
+  String get dashboardSeeAll => 'سب دیکھیں';
+
+  @override
+  String get dashboardNotifications => 'اطلاعات';
+
+  @override
+  String get dashboardNotificationsHint =>
+      'موخر اور ادھوری انوائسز کا باقاعدگی سے جائزہ لے کر اپنی کیش فلو پر نظر رکھیں۔';
 
   @override
   String get dashboardNewInvoice => 'نئی انوائس';
@@ -370,6 +377,10 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get invoiceNoClientsFound => 'کوئی کلائنٹ نہیں ملا';
+
+  @override
+  String get invoiceSelectClientEmptyHint =>
+      'انوائس بنانا شروع کرنے کے لیے اپنا پہلا کلائنٹ بنائیں';
 
   @override
   String get invoiceAddLineItem => 'آئٹم شامل کریں';
@@ -770,6 +781,14 @@ class AppLocalizationsUr extends AppLocalizations {
   String get settingsPrivacyPolicy => 'رازداری کی پالیسی';
 
   @override
+  String get settingsHelpSupportSheet =>
+      'مدد چاہیے؟ support@invoiceflow.app پر لکھیں، ہم 24 گھنٹوں میں جواب دیں گے۔';
+
+  @override
+  String get settingsPrivacySheet =>
+      'آپ کا ڈیٹا آپ کے آلے پر مقامی طور پر محفوظ ہوتا ہے۔ ہم آپ کی ذاتی معلومات کبھی فروخت یا شیئر نہیں کرتے۔';
+
+  @override
   String get settingsVersion => 'ورژن';
 
   @override
@@ -819,6 +838,9 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get settingsInvoicePrefixHint => 'مثلاً INV-, #, Bill-';
+
+  @override
+  String get settingsPrefixSaved => 'انوائس کا سابقہ محفوظ ہو گیا';
 
   @override
   String get settingsNotificationScheduled =>

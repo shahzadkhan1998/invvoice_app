@@ -319,8 +319,20 @@ abstract class AppLocalizations {
   /// No description provided for @dashboardSeeAll.
   ///
   /// In en, this message translates to:
-  /// **'See All →'**
+  /// **'See All'**
   String get dashboardSeeAll;
+
+  /// No description provided for @dashboardNotifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get dashboardNotifications;
+
+  /// No description provided for @dashboardNotificationsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Stay on top of cash flow by reviewing overdue and pending invoices regularly.'**
+  String get dashboardNotificationsHint;
 
   /// No description provided for @dashboardNewInvoice.
   ///
@@ -807,6 +819,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No clients found'**
   String get invoiceNoClientsFound;
+
+  /// No description provided for @invoiceSelectClientEmptyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Create your first client to start building invoices'**
+  String get invoiceSelectClientEmptyHint;
 
   /// No description provided for @invoiceAddLineItem.
   ///
@@ -1570,6 +1588,18 @@ abstract class AppLocalizations {
   /// **'Privacy Policy'**
   String get settingsPrivacyPolicy;
 
+  /// No description provided for @settingsHelpSupportSheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Need help? Reach out to support@invoiceflow.app and we\'ll get back to you within 24 hours.'**
+  String get settingsHelpSupportSheet;
+
+  /// No description provided for @settingsPrivacySheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Your data is stored locally on your device. We never sell or share your personal information.'**
+  String get settingsPrivacySheet;
+
   /// No description provided for @settingsVersion.
   ///
   /// In en, this message translates to:
@@ -1671,6 +1701,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'e.g. INV-, #, Bill-'**
   String get settingsInvoicePrefixHint;
+
+  /// No description provided for @settingsPrefixSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Invoice prefix saved'**
+  String get settingsPrefixSaved;
 
   /// No description provided for @settingsNotificationScheduled.
   ///

@@ -93,11 +93,26 @@ class _LoginScreenState extends State<LoginScreen> {
 
                 // Header
                 Container(
-                  width: 64,
-                  height: 64,
+                  width: 68,
+                  height: 68,
                   decoration: BoxDecoration(
-                    color: colorScheme.primary,
-                    borderRadius: BorderRadius.circular(16),
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                        colorScheme.primary,
+                        Color.lerp(
+                            colorScheme.primary, Colors.black, 0.16)!,
+                      ],
+                    ),
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: [
+                      BoxShadow(
+                        color: colorScheme.primary.withValues(alpha: 0.35),
+                        blurRadius: 20,
+                        offset: const Offset(0, 8),
+                      ),
+                    ],
                   ),
                   child: Icon(
                     Icons.receipt_long_rounded,
@@ -110,7 +125,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   l10n.loginHeading,
                   style: textTheme.headlineSmall?.copyWith(
                     fontSize: 28,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.w800,
                   ),
                 ),
                 const SizedBox(height: 8),
@@ -118,7 +133,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   l10n.loginSubtitle,
                   style: textTheme.bodyMedium?.copyWith(
                     fontSize: 15,
-                    color: textTheme.bodyMedium?.color?.withOpacity(0.6),
+                    color: textTheme.bodyMedium?.color?.withValues(alpha: 0.6),
                   ),
                 ),
                 const SizedBox(height: 40),
@@ -258,7 +273,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     Text(
                       l10n.loginNoAccount,
                       style: TextStyle(
-                          color: textTheme.bodyMedium?.color?.withOpacity(0.6)),
+                          color:
+                              textTheme.bodyMedium?.color?.withValues(alpha: 0.6)),
                     ),
                     GestureDetector(
                       onTap: () {
@@ -291,8 +307,9 @@ class _LoginScreenState extends State<LoginScreen> {
       text,
       style: TextStyle(
         fontSize: 14,
-        fontWeight: FontWeight.w500,
-        color: Theme.of(context).textTheme.bodyLarge?.color?.withOpacity(0.7),
+        fontWeight: FontWeight.w600,
+        color:
+            Theme.of(context).textTheme.bodyLarge?.color?.withValues(alpha: 0.7),
       ),
     );
   }

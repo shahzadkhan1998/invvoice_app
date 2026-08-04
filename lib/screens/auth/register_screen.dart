@@ -96,7 +96,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   l10n.registerSubtitle,
                   style: textTheme.bodyMedium?.copyWith(
                     fontSize: 15,
-                    color: textTheme.bodyMedium?.color?.withOpacity(0.6),
+                    color: textTheme.bodyMedium?.color?.withValues(alpha: 0.6),
                   ),
                 ),
                 const SizedBox(height: 36),
@@ -228,7 +228,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   children: [
                     Text(l10n.registerHaveAccount,
                         style: TextStyle(
-                            color: textTheme.bodyMedium?.color?.withOpacity(0.6))),
+                            color: textTheme.bodyMedium?.color
+                                ?.withValues(alpha: 0.6))),
                     GestureDetector(
                       onTap: () => Navigator.pop(context),
                       child: Text(
@@ -253,8 +254,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
         text,
         style: TextStyle(
           fontSize: 14,
-          fontWeight: FontWeight.w500,
-          color: Theme.of(context).textTheme.bodyLarge?.color?.withOpacity(0.7),
+          fontWeight: FontWeight.w600,
+          color: Theme.of(context)
+              .textTheme
+              .bodyLarge
+              ?.color
+              ?.withValues(alpha: 0.7),
         ),
       );
 }

@@ -44,11 +44,15 @@ class AppColors {
   static const primaryBlueLight = defaultPrimaryLight;
   static const primaryBluePale = defaultPrimaryPale;
 
-  // Semantic / fixed colors.
+  // ─── Semantic / status colors ───
   static const successGreen = Color(0xFF10B981);
+  static const successGreenDark = Color(0xFF0E9F6E);
   static const warningAmber = Color(0xFFF59E0B);
   static const dangerRed = Color(0xFFEF4444);
+  static const dangerRedDark = Color(0xFFDC2626);
   static const infoGray = Color(0xFF6B7280);
+
+  // ─── Legacy grays (kept for compatibility) ───
   static const gray50 = Color(0xFFF9FAFB);
   static const gray100 = Color(0xFFF3F4F6);
   static const gray200 = Color(0xFFE5E7EB);
@@ -59,11 +63,33 @@ class AppColors {
   static const gray700 = Color(0xFF374151);
   static const gray800 = Color(0xFF1F2937);
   static const gray900 = Color(0xFF111827);
+
+  // Legacy surface tokens (kept for compatibility).
   static const bgPrimary = Color(0xFFFFFFFF);
   static const bgSecondary = Color(0xFFF9FAFB);
-  static const darkBackground = Color(0xFF111827);
-  static const darkSurface = Color(0xFF1F2937);
   static const darkText = Color(0xFFF9FAFB);
+
+  // ─── Premium surface / text tokens ───
+  // Light mode.
+  static const lightBackground = Color(0xFFF5F6FA);
+  static const lightSurface = Color(0xFFFFFFFF);
+  static const lightSurfaceMuted = Color(0xFFF1F3F9);
+  static const lightBorder = Color(0xFFE7E9F2);
+  static const lightTextPrimary = Color(0xFF0C1220);
+  static const lightTextSecondary = Color(0xFF566078);
+  static const lightTextMuted = Color(0xFF98A1B3);
+
+  // Dark mode.
+  static const darkBackground = Color(0xFF0A0E17);
+  static const darkSurface = Color(0xFF141B28);
+  static const darkSurfaceMuted = Color(0xFF1C2434);
+  static const darkBorder = Color(0xFF272F42);
+  static const darkTextPrimary = Color(0xFFF2F4F8);
+  static const darkTextSecondary = Color(0xFFA6AFC2);
+  static const darkTextMuted = Color(0xFF69728A);
+
+  // ─── Premium shadow tokens ───
+  static const Color shadowColor = Color(0xFF1F2A44);
 
   // ---- color math helpers ----
   static Color _darken(Color c, double amount) {

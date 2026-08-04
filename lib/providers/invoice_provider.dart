@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import '../models/invoice.dart';
 import '../services/sync_service.dart';
+import '../core/utils/invoice_number_utils.dart';
 import 'subscription_provider.dart';
 
 class InvoiceProvider with ChangeNotifier {
@@ -86,7 +87,7 @@ class InvoiceProvider with ChangeNotifier {
   String generateInvoiceNumber() {
     final year = DateTime.now().year;
     final count = _invoices.length + 1;
-    return 'INV-$year-${count.toString().padLeft(4, '0')}';
+    return '${InvoiceNumberUtils.prefix}$year-${count.toString().padLeft(4, '0')}';
   }
 
   void _updateOverdue() {

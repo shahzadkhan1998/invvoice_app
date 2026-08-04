@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:invoice_app/l10n/app_localizations.dart';
 import '../../services/notification_service.dart';
+import '../../widgets/app_bottom_nav.dart';
+import '../../providers/invoice_provider.dart';
 import '../dashboard/dashboard_screen.dart';
 import '../invoices/invoice_list_screen.dart';
 import '../clients/client_list_screen.dart';
@@ -26,61 +29,54 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  final List<Widget> _screens = const [
-    DashboardScreen(),
-    InvoiceListScreen(),
-    ClientListScreen(),
-    SettingsScreen(),
-  ];
+  void _switchTab(int index) => setState(() => _currentIndex = index);
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final overdueCount = context.select<InvoiceProvider, int>(
+      (p) => p.overdueInvoices.length,
+    );
+
+    final screens = [
+      DashboardScreen(onSeeAllInvoices: () => _switchTab(1)),
+      const InvoiceListScreen(),
+      const ClientListScreen(),
+      const SettingsScreen(),
+    ];
+
     return Scaffold(
+      extendBody: true,
       body: IndexedStack(
         index: _currentIndex,
-        children: _screens,
+        children: screens,
       ),
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.08),
-              blurRadius: 12,
-              offset: const Offset(0, -4),
-            ),
-          ],
-        ),
-        child: BottomNavigationBar(
-          currentIndex: _currentIndex,
-          onTap: (index) => setState(() => _currentIndex = index),
-          type: BottomNavigationBarType.fixed,
-          selectedLabelStyle: const TextStyle(
-              fontWeight: FontWeight.w600, fontSize: 11),
-          unselectedLabelStyle: const TextStyle(fontSize: 11),
-          items: [
-            BottomNavigationBarItem(
-              icon: const Icon(Icons.dashboard_outlined),
-              activeIcon: const Icon(Icons.dashboard_rounded),
-              label: l10n.bottomNavDashboard,
-            ),
-            BottomNavigationBarItem(
-              icon: const Icon(Icons.receipt_long_outlined),
-              activeIcon: const Icon(Icons.receipt_long_rounded),
-              label: l10n.bottomNavInvoices,
-            ),
-            BottomNavigationBarItem(
-              icon: const Icon(Icons.people_outline),
-              activeIcon: const Icon(Icons.people_rounded),
-              label: l10n.bottomNavClients,
-            ),
-            BottomNavigationBarItem(
-              icon: const Icon(Icons.settings_outlined),
-              activeIcon: const Icon(Icons.settings_rounded),
-              label: l10n.bottomNavSettings,
-            ),
-          ],
-        ),
+      bottomNavigationBar: AppBottomNav(
+        currentIndex: _currentIndex,
+        onTap: _switchTab,
+        items: [
+          AppNavItem(
+            icon: Icons.grid_view_outlined,
+            activeIcon: Icons.grid_view_rounded,
+            label: l10n.bottomNavDashboard,
+          ),
+          AppNavItem(
+            icon: Icons.receipt_long_outlined,
+            activeIcon: Icons.receipt_long_rounded,
+            label: l10n.bottomNavInvoices,
+            badge: overdueCount,
+          ),
+          AppNavItem(
+            icon: Icons.people_outline,
+            activeIcon: Icons.people_rounded,
+            label: l10n.bottomNavClients,
+          ),
+          AppNavItem(
+            icon: Icons.tune_outlined,
+            activeIcon: Icons.tune_rounded,
+            label: l10n.bottomNavSettings,
+          ),
+        ],
       ),
     );
   }

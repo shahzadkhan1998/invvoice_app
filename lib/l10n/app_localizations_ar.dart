@@ -116,7 +116,14 @@ class AppLocalizationsAr extends AppLocalizations {
   String get dashboardRecentInvoices => 'الفواتير الأخيرة';
 
   @override
-  String get dashboardSeeAll => 'عرض الكل ←';
+  String get dashboardSeeAll => 'عرض الكل';
+
+  @override
+  String get dashboardNotifications => 'الإشعارات';
+
+  @override
+  String get dashboardNotificationsHint =>
+      'ابقَ على اطلاع بتدفقك النقدي من خلال مراجعة الفواتير المتأخرة والمعلقة بانتظام.';
 
   @override
   String get dashboardNewInvoice => 'فاتورة جديدة';
@@ -370,6 +377,10 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get invoiceNoClientsFound => 'لم يتم العثور على عملاء';
+
+  @override
+  String get invoiceSelectClientEmptyHint =>
+      'أنشئ أول عميل لديك لبدء إنشاء الفواتير';
 
   @override
   String get invoiceAddLineItem => 'إضافة بند';
@@ -767,6 +778,14 @@ class AppLocalizationsAr extends AppLocalizations {
   String get settingsPrivacyPolicy => 'سياسة الخصوصية';
 
   @override
+  String get settingsHelpSupportSheet =>
+      'هل تحتاج إلى مساعدة؟ تواصل معنا عبر support@invoiceflow.app وسنرد عليك خلال 24 ساعة.';
+
+  @override
+  String get settingsPrivacySheet =>
+      'يتم تخزين بياناتك محلياً على جهازك. نحن لا نبيع أو نشارك معلوماتك الشخصية.';
+
+  @override
   String get settingsVersion => 'الإصدار';
 
   @override
@@ -816,6 +835,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get settingsInvoicePrefixHint => 'مثال: INV-, #, Bill-';
+
+  @override
+  String get settingsPrefixSaved => 'تم حفظ بادئة الفاتورة';
 
   @override
   String get settingsNotificationScheduled => 'تم جدولة الإشعار اليومي بنجاح!';

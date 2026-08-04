@@ -2,14 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:invoice_app/l10n/app_localizations.dart';
 import '../../providers/client_provider.dart';
-import '../../providers/invoice_provider.dart';
 import '../../models/client.dart';
 import '../../core/theme/app_colors.dart';
+import '../../core/utils/currency_utils.dart';
+import '../../widgets/app_avatar.dart';
+import '../../widgets/app_empty_state.dart';
 import 'create_client_screen.dart';
 import 'client_detail_screen.dart';
 
 class ClientListScreen extends StatefulWidget {
-  const ClientListScreen({Key? key}) : super(key: key);
+  const ClientListScreen({super.key});
 
   @override
   State<ClientListScreen> createState() => _ClientListScreenState();
@@ -19,6 +21,13 @@ class _ClientListScreenState extends State<ClientListScreen> {
   final _searchCtrl = TextEditingController();
   String _query = '';
   bool _showSearch = false;
+  late Future<String> _currencyFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _currencyFuture = CurrencyUtils.resolveDefaultCurrency();
+  }
 
   @override
   void dispose() {
@@ -28,12 +37,13 @@ class _ClientListScreenState extends State<ClientListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Consumer<ClientProvider>(
       builder: (context, provider, _) {
         final clients = provider.searchClients(_query);
         final totalBilled = provider.clients
             .fold<double>(0, (sum, c) => sum + c.totalBilled);
-        final l10n = AppLocalizations.of(context)!;
 
         return Scaffold(
           appBar: AppBar(
@@ -61,123 +71,211 @@ class _ClientListScreenState extends State<ClientListScreen> {
                 }),
               ),
               IconButton(
-                icon: Icon(Icons.add),
-                onPressed: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (_) => const CreateClientScreen()),
-                ),
+                icon: const Icon(Icons.add_rounded),
+                onPressed: _openCreateClient,
               ),
             ],
           ),
           body: provider.isLoading
               ? const Center(child: CircularProgressIndicator())
               : provider.clients.isEmpty
-                  ? _EmptyClients(
-                      onAdd: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (_) => const CreateClientScreen()),
-                      ),
+                  ? AppEmptyState(
+                      icon: Icons.people_outline_rounded,
+                      title: l10n.clientListEmpty,
+                      subtitle: l10n.clientListEmptySubtitle,
+                      actionLabel: l10n.clientListAddClient,
+                      onAction: _openCreateClient,
                     )
                   : Column(
                       children: [
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 12),
-                          color: AppColors.primaryPale,
-                          child: Row(
-                            children: [
-                              _StatItem(
-                                label: l10n.clientListTotalClients,
-                                value:
-                                    provider.clients.length.toString(),
-                                icon: Icons.people_outline,
-                              ),
-                              const SizedBox(width: 24),
-                              _StatItem(
-                                label: l10n.clientListTotalBilled,
-                                value:
-                                    'AED ${totalBilled.toStringAsFixed(0)}',
-                                icon:
-                                    Icons.account_balance_wallet_outlined,
-                              ),
-                            ],
-                          ),
+                        _SummaryHeader(
+                          clientCount: provider.clients.length,
+                          totalBilled: totalBilled,
+                          currencyFuture: _currencyFuture,
                         ),
                         Expanded(
                           child: RefreshIndicator(
                             onRefresh: provider.loadClients,
                             child: clients.isEmpty
-                                ? Center(
-                                    child: Text(
-                                      l10n.clientListEmptySearch,
-                                      style: TextStyle(
-                                          color: Theme.of(context).hintColor),
-                                    ),
-                                  )
+                                ? _NoResults(message: l10n.clientListEmptySearch)
                                 : ListView.separated(
-                                    padding: const EdgeInsets.all(16),
+                                    padding:
+                                        const EdgeInsets.fromLTRB(16, 4, 16, 100),
                                     itemCount: clients.length,
                                     separatorBuilder: (_, __) =>
                                         const SizedBox(height: 10),
-                                    itemBuilder: (ctx, i) =>
-                                        _ClientCard(
-                                          client: clients[i],
-                                          onTap: () => Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (_) =>
-                                                  ClientDetailScreen(
-                                                      client: clients[i]),
-                                            ),
-                                          ),
+                                    itemBuilder: (ctx, i) => _ClientCard(
+                                      client: clients[i],
+                                      onTap: () => Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (_) => ClientDetailScreen(
+                                              client: clients[i]),
                                         ),
+                                      ),
+                                    ),
                                   ),
                           ),
                         ),
                       ],
                     ),
           floatingActionButton: FloatingActionButton(
-            onPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (_) => const CreateClientScreen()),
+            onPressed: _openCreateClient,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(18),
             ),
-            child: Icon(Icons.add),
+            child: const Icon(Icons.add_rounded, size: 28),
           ),
         );
       },
     );
   }
+
+  void _openCreateClient() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => const CreateClientScreen()),
+    );
+  }
 }
 
-class _StatItem extends StatelessWidget {
-  final String label, value;
-  final IconData icon;
-  const _StatItem(
-      {required this.label, required this.value, required this.icon});
+class _SummaryHeader extends StatelessWidget {
+  final int clientCount;
+  final double totalBilled;
+  final Future<String> currencyFuture;
+
+  const _SummaryHeader({
+    required this.clientCount,
+    required this.totalBilled,
+    required this.currencyFuture,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Icon(icon, color: Theme.of(context).colorScheme.primary, size: 20),
-        const SizedBox(width: 8),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+    final l10n = AppLocalizations.of(context)!;
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
+      child: Row(
+        children: [
+          Expanded(
+            child: _StatCard(
+              icon: Icons.people_outline_rounded,
+              label: l10n.clientListTotalClients,
+              value: clientCount.toString(),
+            ),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: FutureBuilder<String>(
+              future: currencyFuture,
+              builder: (context, snap) {
+                final currency = snap.data ?? 'AED';
+                return _StatCard(
+                  icon: Icons.account_balance_wallet_outlined,
+                  label: l10n.clientListTotalBilled,
+                  value: '$currency ${totalBilled.toStringAsFixed(0)}',
+                  accent: AppColors.successGreen,
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _StatCard extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final String value;
+  final Color accent;
+
+  const _StatCard({
+    required this.icon,
+    required this.label,
+    required this.value,
+    this.accent = AppColors.primaryBlue,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
+      decoration: BoxDecoration(
+        color: scheme.surface,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: scheme.outlineVariant),
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 36,
+            height: 36,
+            decoration: BoxDecoration(
+              color: accent.withValues(alpha: 0.12),
+              borderRadius: BorderRadius.circular(11),
+            ),
+            child: Icon(icon, size: 19, color: accent),
+          ),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  label,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: scheme.onSurfaceVariant,
+                      ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  value,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleMedium
+                      ?.copyWith(fontWeight: FontWeight.w800),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _NoResults extends StatelessWidget {
+  final String message;
+  const _NoResults({required this.message});
+
+  @override
+  Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(32),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(label,
-                style: TextStyle(
-                    fontSize: 11, color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6))),
-            Text(value,
-                style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    color: Theme.of(context).colorScheme.primary)),
+            Icon(Icons.search_off_rounded,
+                size: 48, color: scheme.onSurfaceVariant),
+            const SizedBox(height: 12),
+            Text(
+              message,
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: scheme.onSurfaceVariant,
+                  ),
+            ),
           ],
         ),
-      ],
+      ),
     );
   }
 }
@@ -190,48 +288,20 @@ class _ClientCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final scheme = Theme.of(context).colorScheme;
+
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(14),
         decoration: BoxDecoration(
-          color: Theme.of(context).cardTheme.color,
-          borderRadius: BorderRadius.circular(14),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.04),
-              blurRadius: 8,
-              offset: const Offset(0, 2),
-            ),
-          ],
+          color: scheme.surface,
+          borderRadius: BorderRadius.circular(18),
+          border: Border.all(color: scheme.outlineVariant),
         ),
         child: Row(
           children: [
-            Container(
-              width: 50,
-              height: 50,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    Theme.of(context).colorScheme.primary,
-                    AppColors.primaryLight
-                  ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-                borderRadius: BorderRadius.circular(14),
-              ),
-              child: Center(
-                child: Text(
-                  client.initials,
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ),
+            AppAvatar(initials: client.initials, size: 50),
             const SizedBox(width: 14),
             Expanded(
               child: Column(
@@ -239,22 +309,28 @@ class _ClientCard extends StatelessWidget {
                 children: [
                   Text(
                     client.name,
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleMedium
+                        ?.copyWith(fontWeight: FontWeight.w700),
                   ),
                   const SizedBox(height: 2),
                   Text(
                     client.email,
-                    style: TextStyle(
-                        fontSize: 13, color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6)),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: scheme.onSurfaceVariant,
+                        ),
                   ),
-                  const SizedBox(height: 6),
+                  const SizedBox(height: 8),
                   Row(
                     children: [
                       _ClientChip(
-                        label: l10n.clientListInvoiceCount(client.totalInvoices.toString()),
+                        label: l10n.clientListInvoiceCount(
+                            client.totalInvoices.toString()),
                         icon: Icons.receipt_long_outlined,
                       ),
                       const SizedBox(width: 8),
@@ -271,22 +347,23 @@ class _ClientCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
-                  'AED ${client.totalBilled.toStringAsFixed(0)}',
-                  style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
+                  '${client.currency} ${client.totalBilled.toStringAsFixed(0)}',
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleSmall
+                      ?.copyWith(fontWeight: FontWeight.w800),
                 ),
                 const SizedBox(height: 4),
                 Text(
                   l10n.clientListTotalBilledLabel,
-                  style: TextStyle(
-                      fontSize: 11, color: Theme.of(context).hintColor),
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: scheme.onSurfaceVariant,
+                        fontSize: 10,
+                      ),
                 ),
-                const SizedBox(height: 6),
-                Icon(Icons.chevron_right,
-                    color: Theme.of(context).colorScheme.outline, size: 20),
+                const SizedBox(height: 8),
+                Icon(Icons.chevron_right_rounded,
+                    color: scheme.outline, size: 20),
               ],
             ),
           ],
@@ -303,73 +380,26 @@ class _ClientChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
     return Container(
-      padding:
-          const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surface,
-        borderRadius: BorderRadius.circular(6),
+        color: scheme.surfaceContainerHighest,
+        borderRadius: BorderRadius.circular(8),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 11, color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6)),
+          Icon(icon, size: 11, color: scheme.onSurfaceVariant),
           const SizedBox(width: 4),
-          Text(label,
-              style: TextStyle(
-                  fontSize: 11, color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6))),
+          Text(
+            label,
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  fontSize: 11,
+                  color: scheme.onSurfaceVariant,
+                ),
+          ),
         ],
-      ),
-    );
-  }
-}
-
-class _EmptyClients extends StatelessWidget {
-  final VoidCallback onAdd;
-  const _EmptyClients({required this.onAdd});
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(32),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              width: 80,
-              height: 80,
-              decoration: BoxDecoration(
-                color: AppColors.primaryPale,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Icon(Icons.people_outline,
-                  size: 40, color: Theme.of(context).colorScheme.primary),
-            ),
-            const SizedBox(height: 16),
-            Text(
-              l10n.clientListEmpty,
-              style: TextStyle(
-                  fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              l10n.clientListEmptySubtitle,
-              textAlign: TextAlign.center,
-              style:
-                  TextStyle(fontSize: 14, color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6)),
-            ),
-            const SizedBox(height: 24),
-            ElevatedButton.icon(
-              onPressed: onAdd,
-              icon: Icon(Icons.add),
-              label: Text(l10n.clientListAddClient),
-              style: ElevatedButton.styleFrom(
-                  minimumSize: const Size(160, 48)),
-            ),
-          ],
-        ),
       ),
     );
   }

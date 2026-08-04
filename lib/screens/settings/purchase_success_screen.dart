@@ -49,7 +49,11 @@ class PurchaseSuccessScreen extends StatelessWidget {
                 l10n.purchaseSuccessSubtitle,
                 style: TextStyle(
                     fontSize: 15,
-                    color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.6)),
+                    color: Theme.of(context)
+                        .textTheme
+                        .bodyMedium
+                        ?.color
+                        ?.withValues(alpha: 0.6)),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 40),

@@ -116,7 +116,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dashboardRecentInvoices => 'Recent Invoices';
 
   @override
-  String get dashboardSeeAll => 'See All →';
+  String get dashboardSeeAll => 'See All';
+
+  @override
+  String get dashboardNotifications => 'Notifications';
+
+  @override
+  String get dashboardNotificationsHint =>
+      'Stay on top of cash flow by reviewing overdue and pending invoices regularly.';
 
   @override
   String get dashboardNewInvoice => 'New Invoice';
@@ -367,6 +374,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get invoiceNoClientsFound => 'No clients found';
+
+  @override
+  String get invoiceSelectClientEmptyHint =>
+      'Create your first client to start building invoices';
 
   @override
   String get invoiceAddLineItem => 'Add Line Item';
@@ -765,6 +776,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsPrivacyPolicy => 'Privacy Policy';
 
   @override
+  String get settingsHelpSupportSheet =>
+      'Need help? Reach out to support@invoiceflow.app and we\'ll get back to you within 24 hours.';
+
+  @override
+  String get settingsPrivacySheet =>
+      'Your data is stored locally on your device. We never sell or share your personal information.';
+
+  @override
   String get settingsVersion => 'Version';
 
   @override
@@ -814,6 +833,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsInvoicePrefixHint => 'e.g. INV-, #, Bill-';
+
+  @override
+  String get settingsPrefixSaved => 'Invoice prefix saved';
 
   @override
   String get settingsNotificationScheduled =>

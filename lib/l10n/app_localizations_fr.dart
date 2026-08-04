@@ -116,7 +116,14 @@ class AppLocalizationsFr extends AppLocalizations {
   String get dashboardRecentInvoices => 'Factures récentes';
 
   @override
-  String get dashboardSeeAll => 'Voir tout →';
+  String get dashboardSeeAll => 'Voir tout';
+
+  @override
+  String get dashboardNotifications => 'Notifications';
+
+  @override
+  String get dashboardNotificationsHint =>
+      'Restez au fait de votre trésorerie en consultant régulièrement les factures en retard et en attente.';
 
   @override
   String get dashboardNewInvoice => 'Nouvelle facture';
@@ -377,6 +384,10 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get invoiceNoClientsFound => 'Aucun client trouvé';
+
+  @override
+  String get invoiceSelectClientEmptyHint =>
+      'Créez votre premier client pour commencer à créer des factures';
 
   @override
   String get invoiceAddLineItem => 'Ajouter une ligne';
@@ -777,6 +788,14 @@ class AppLocalizationsFr extends AppLocalizations {
   String get settingsPrivacyPolicy => 'Politique de confidentialité';
 
   @override
+  String get settingsHelpSupportSheet =>
+      'Besoin d\'aide ? Écrivez-nous à support@invoiceflow.app et nous vous répondrons sous 24 heures.';
+
+  @override
+  String get settingsPrivacySheet =>
+      'Vos données sont stockées localement sur votre appareil. Nous ne vendons ni ne partageons jamais vos informations personnelles.';
+
+  @override
   String get settingsVersion => 'Version';
 
   @override
@@ -827,6 +846,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get settingsInvoicePrefixHint => 'ex. INV-, #, Fact-';
+
+  @override
+  String get settingsPrefixSaved => 'Préfixe de facture enregistré';
 
   @override
   String get settingsNotificationScheduled =>

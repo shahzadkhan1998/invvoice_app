@@ -66,7 +66,11 @@ class _PaywallScreenState extends State<PaywallScreen> {
                   l10n.paywallSubtitle,
                   style: TextStyle(
                       fontSize: 14,
-                      color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.6)),
+                      color: Theme.of(context)
+                          .textTheme
+                          .bodyMedium
+                          ?.color
+                          ?.withValues(alpha: 0.6)),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 24),
@@ -88,7 +92,7 @@ class _PaywallScreenState extends State<PaywallScreen> {
                     padding: const EdgeInsets.all(12),
                     margin: const EdgeInsets.only(bottom: 16),
                     decoration: BoxDecoration(
-                      color: AppColors.dangerRed.withOpacity(0.1),
+                      color: AppColors.dangerRed.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Text(
@@ -149,7 +153,7 @@ class _PaywallScreenState extends State<PaywallScreen> {
           ),
           if (purchase.isPurchasing || purchase.isStoreLoading)
             Container(
-              color: Colors.black.withOpacity(0.3),
+              color: Colors.black.withValues(alpha: 0.3),
               child: const Center(
                 child: CircularProgressIndicator(),
               ),
@@ -175,8 +179,9 @@ class _FeatureTile extends StatelessWidget {
             width: 36,
             height: 36,
             decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.surface,
-              borderRadius: BorderRadius.circular(10),
+              color:
+                  Theme.of(context).colorScheme.primary.withValues(alpha: 0.12),
+              borderRadius: BorderRadius.circular(11),
             ),
             child: Icon(icon, color: Theme.of(context).colorScheme.primary, size: 20),
           ),
@@ -209,23 +214,44 @@ class _PlanCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return GestureDetector(
       onTap: onTap,
       child: Container(
         width: double.infinity,
         padding: const EdgeInsets.all(18),
         decoration: BoxDecoration(
-          color: isPopular ? Theme.of(context).colorScheme.primary : Theme.of(context).cardTheme.color,
-          borderRadius: BorderRadius.circular(16),
+          gradient: isPopular
+              ? LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    scheme.primary,
+                    Color.lerp(scheme.primary, Colors.black,
+                        isDark ? 0.3 : 0.16)!,
+                  ],
+                )
+              : null,
+          color: isPopular ? null : Theme.of(context).cardTheme.color,
+          borderRadius: BorderRadius.circular(18),
           border: isPopular
               ? null
               : Border.all(color: Theme.of(context).dividerColor),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.05),
-              blurRadius: 8,
-            ),
-          ],
+          boxShadow: isPopular
+              ? [
+                  BoxShadow(
+                    color: scheme.primary.withValues(alpha: 0.35),
+                    blurRadius: 18,
+                    offset: const Offset(0, 8),
+                  ),
+                ]
+              : [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.05),
+                    blurRadius: 8,
+                  ),
+                ],
         ),
         child: Row(
           children: [

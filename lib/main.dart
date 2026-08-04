@@ -18,6 +18,7 @@ import 'providers/locale_provider.dart';
 import 'firebase_options.dart';
 import 'services/notification_service.dart';
 import 'core/utils/currency_utils.dart';
+import 'core/utils/invoice_number_utils.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -40,6 +41,7 @@ void main() async {
 
   // Default the currency to the user's device locale on first launch.
   await CurrencyUtils.ensureDefaultCurrencySet();
+  await InvoiceNumberUtils.load();
 
   final notificationService = NotificationService();
   await notificationService.init();

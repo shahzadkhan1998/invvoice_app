@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../models/invoice.dart';
-import '../models/client.dart';
 import '../services/sync_service.dart';
 import 'invoice_provider.dart';
 import 'client_provider.dart';
