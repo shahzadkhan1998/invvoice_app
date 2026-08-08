@@ -288,6 +288,33 @@ class AppLocalizationsUr extends AppLocalizations {
   String get registerSignIn => 'سائن ان';
 
   @override
+  String get authTermsOfService => 'خدمات کے شرائط و ضوابط';
+
+  @override
+  String get authPrivacyPolicy => 'رازداری کی پالیسی';
+
+  @override
+  String get authAgreeRequired =>
+      'جاری رکھنے کے لیے براہ کرم خدمات کے شرائط و ضوابط اور رازداری کی پالیسی سے اتفاق کریں';
+
+  @override
+  String get loginAgreePrefix => 'جاری رکھنے سے، آپ ہماری ';
+
+  @override
+  String get registerAgreePrefix => 'میں متفق ہوں ';
+
+  @override
+  String get authAgreeAnd => ' اور ';
+
+  @override
+  String get authTermsSheet =>
+      'یہ شرائط و ضوابط InvoiceFlow کے آپ کے استعمال کو کنٹرول کرتے ہیں۔ ایپ تک رسائی یا استعمال کرنے سے آپ ان شرائط کا پابند ہونے پر رضامند ہوتے ہیں۔\n\n1. آپ اپنی تخلیق کردہ رسیدیوں، تخمینوں اور دیگر ڈیٹا کی درستگی کے ذمہ دار ہیں۔\n2. ایپ \"جیسے کی تیسری\" فراہم کی جاتی ہے، بغیر کسی قسم کی وارنٹی کے، واضح یا مضمر۔\n3. ہم سروس کے استعمال سے پیدا ہونے والے نقصانات کے ذمہ دار نہیں ہیں۔\n4. آپ کو ایپ کو کسی غیر قانونی یا ممنوعہ مقصد کے لیے استعمال نہیں کرنا چاہیے۔\n5. ہم وقتاً فوقتاً ان شرائط کو اپ ڈیٹ کر سکتے ہیں؛ ایپ کا استعمال جاری رکھنا اپ ڈیٹ شدہ شرائط کو قبول کرنے کے مترادف ہے۔';
+
+  @override
+  String get authPrivacySheet =>
+      'آپ کی رازداری ہمارے لیے اہم ہے۔\n\n1. ڈیٹا ذخیرہ: آپ کی رسیدیں، کلائنٹس اور ترتیبات آپ کے آلے پر مقامی طور پر محفوظ ہوتی ہیں۔\n2. کلاؤڈ ہم آہنگی: اگر آپ سائن ان کرتے ہیں، تو آپ کا ڈیٹا آپ کے اکاؤنٹ کے ساتھ ہم آہنگ ہو جاتا ہے تاکہ یہ آپ کے تمام آلات پر دستیاب ہو۔\n3. ہم آپ کی ذاتی معلومات کبھی فروخت یا شیئر نہیں کرتے۔\n4. تجزیات: ایپ کو بہتر بنانے کے لیے ہم گمنام استعمال کا ڈیٹا جمع کر سکتے ہیں۔\n5. رابطہ: رازداری سے متعلق کسی بھی سوال کے لیے support@invoiceflow.app سے رابطہ کریں۔';
+
+  @override
   String get authErrorWeakPassword => 'پاس ورڈ بہت کمزور ہے';
 
   @override
@@ -995,6 +1022,46 @@ class AppLocalizationsUr extends AppLocalizations {
   String get purchaseSuccessContinue => 'جاری رکھیں';
 
   @override
+  String get paywallLoading => 'پلانز لوڈ ہو رہے ہیں…';
+
+  @override
+  String get paywallLoadError =>
+      'پلانز لوڈ نہیں ہو سکے۔ اپنا کنکشن چیک کریں اور دوبارہ کوشش کریں۔';
+
+  @override
+  String get paywallNoOffering => 'اس وقت کوئی پلان دستیاب نہیں ہے۔';
+
+  @override
+  String get purchaseRestored => 'خریداریاں کامیابی سے بحال ہو گئیں';
+
+  @override
+  String get purchaseErrorGeneric =>
+      'خریداری ناکام ہو گئی۔ براہ کرم دوبارہ کوشش کریں۔';
+
+  @override
+  String get settingsProTitle => 'InvoiceFlow Pro';
+
+  @override
+  String get settingsProActive =>
+      'Pro فعال ہے — واٹر مارک کے بغیر لامحدود رسیدیں اور کلائنٹس';
+
+  @override
+  String get settingsFreePlan => 'مفت پلان';
+
+  @override
+  String get settingsFreeHint =>
+      'لامحدود رسیدیں، کلاؤڈ ہم آہنگی اور مزید کے لیے اپ گریڈ کریں';
+
+  @override
+  String get settingsUpgradeToPro => 'Pro میں اپ گریڈ کریں';
+
+  @override
+  String get settingsManageSubscription => 'سبسکرپشن کا نظم کریں';
+
+  @override
+  String get customerCenterFailed => 'سبسکرپشن کا نظم نہیں کھولا جا سکا۔';
+
+  @override
   String get onboardingSkip => 'چھوڑیں';
 
   @override
@@ -1032,5 +1099,317 @@ class AppLocalizationsUr extends AppLocalizations {
       'اپنی پسند کا رنگ چن کر ایپ کو ذاتی بنائیں۔';
 
   @override
+  String get settingsCountry => 'ملک';
+
+  @override
+  String get settingsTaxId => 'ٹیکس رجسٹریشن نمبر';
+
+  @override
+  String get settingsTaxIdNotSet => 'مقرر نہیں';
+
+  @override
+  String get settingsTaxIdHint => 'مثال: 123456789012345';
+
+  @override
+  String get settingsTaxIdSaved => 'ٹیکس نمبر محفوظ ہو گیا';
+
+  @override
+  String get catalogTitle => 'مصنوعات اور خدمات';
+
+  @override
+  String catalogItemCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count اشیاء',
+      one: '$count شے',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get catalogEmpty => 'ابھی کوئی مصنوعات نہیں';
+
+  @override
+  String get catalogEmptySubtitle =>
+      'دوبارہ استعمال کے قابل مصنوعات اور خدمات محفوظ کریں تاکہ انہیں تیزی سے انوائسز میں شامل کیا جا سکے۔';
+
+  @override
+  String get catalogFromSaved => 'اپنے کیٹلاگ سے';
+
+  @override
+  String get catalogSaveToCatalog =>
+      'دوبارہ استعمال کے لیے کیٹلاگ میں محفوظ کریں';
+
+  @override
+  String get catalogAddSnackbar => 'کیٹلاگ میں شامل کر دیا گیا';
+
+  @override
+  String get catalogDeleteTitle => 'آئٹم حذف کریں؟';
+
+  @override
+  String catalogDeleteMessage(String description) {
+    return 'کیا \"$description\" حذف کریں؟ یہ عمل واپس نہیں ہو سکتا۔';
+  }
+
+  @override
   String get commonDone => 'ہو گیا';
+
+  @override
+  String get estimateListTitle => 'تخمینے';
+
+  @override
+  String get estimateListSearchHint => 'تخمینے تلاش کریں…';
+
+  @override
+  String get estimateListEmpty => 'ابھی کوئی تخمینہ نہیں';
+
+  @override
+  String get estimateListTabAll => 'تمام';
+
+  @override
+  String get estimateListTabDraft => 'مسودہ';
+
+  @override
+  String get estimateListTabSent => 'بھیجا گیا';
+
+  @override
+  String get estimateListTabAccepted => 'منظور شدہ';
+
+  @override
+  String get estimateListTabExpired => 'میعاد ختم';
+
+  @override
+  String get estimateCreateTitle => 'نیا تخمینہ';
+
+  @override
+  String get estimateEditTitle => 'تخمینہ میں ترمیم';
+
+  @override
+  String get estimateCreatedSnackbar => 'تخمینہ محفوظ ہو گیا';
+
+  @override
+  String get estimateUpdatedSnackbar => 'تخمینہ اپ ڈیٹ ہو گیا';
+
+  @override
+  String get estimateIssueDate => 'جاری کرنے کی تاریخ';
+
+  @override
+  String get estimateExpiryDate => 'میعاد کی تاریخ';
+
+  @override
+  String get estimateExpiresPrefix => 'میعاد ';
+
+  @override
+  String get estimateConvertToInvoice => 'انوائس میں تبدیل کریں';
+
+  @override
+  String get estimateConvertedSnackbar => 'تخمینہ انوائس میں تبدیل ہو گیا';
+
+  @override
+  String get estimateConvertFailed => 'تخمینہ تبدیل نہیں ہو سکا';
+
+  @override
+  String get estimateMarkSent => 'بھیجے گئے کے طور پر نشان زد کریں';
+
+  @override
+  String get estimateMarkAccepted => 'منظور شدہ کے طور پر نشان زد کریں';
+
+  @override
+  String get estimateMarkDeclined => 'مسترد شدہ کے طور پر نشان زد کریں';
+
+  @override
+  String get estimateConvertedTitle => 'تبدیل شدہ';
+
+  @override
+  String estimateConvertedMessage(String invoiceId) {
+    return 'انوائس $invoiceId میں تبدیل کر دیا گیا';
+  }
+
+  @override
+  String get estimateDetailTotal => 'تخمینہ کی کل رقم';
+
+  @override
+  String get estimateStatusSent => 'بھیجا گیا';
+
+  @override
+  String get estimateStatusAccepted => 'منظور شدہ';
+
+  @override
+  String get estimateStatusDeclined => 'مسترد';
+
+  @override
+  String get estimateStatusExpired => 'میعاد ختم';
+
+  @override
+  String estimateOpenCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count کھلے',
+      one: '1 کھلا',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get deleteEstimateTitle => 'تخمینہ حذف کریں؟';
+
+  @override
+  String deleteEstimateMessage(String estimateNumber) {
+    return 'کیا \"$estimateNumber\" حذف کریں؟ یہ عمل واپس نہیں ہو سکتا۔';
+  }
+
+  @override
+  String get estimatePdfFailed => 'PDF بنانے میں ناکامی';
+
+  @override
+  String get pdfEstimate => 'تخمینہ';
+
+  @override
+  String get pdfEstimateNumber => 'تخمینہ نمبر:';
+
+  @override
+  String get pdfValidUntil => 'میعاد تک درست:';
+
+  @override
+  String get invoiceDetailPaymentTerms => 'ادائیگی کی شرائط';
+
+  @override
+  String get recurringListTitle => 'بار بار آنے والی رسیدیں';
+
+  @override
+  String get recurringListEmpty => 'ابھی کوئی بار بار آنے والی رسید نہیں';
+
+  @override
+  String get recurringListEmptySubtitle =>
+      'باقاعدہ کلائنٹس اور خدمات کے لیے خودکار رسیدیں مرتب کریں۔';
+
+  @override
+  String get recurringCreateTitle => 'نئی بار بار';
+
+  @override
+  String get recurringEditTitle => 'بار بار میں ترمیم';
+
+  @override
+  String get recurringCreatedSnackbar => 'بار بار آنے والی رسید محفوظ ہو گئی';
+
+  @override
+  String get recurringUpdatedSnackbar => 'بار بار آنے والی رسید اپ ڈیٹ ہو گئی';
+
+  @override
+  String get recurringDeleteTitle => 'بار بار آنے والی رسید حذف کریں؟';
+
+  @override
+  String recurringDeleteMessage(String title) {
+    return 'حذف کریں \"$title\"؟ موجودہ رسیدیں نہیں ہٹیں گی۔';
+  }
+
+  @override
+  String get recurringTitleLabel => 'عنوان';
+
+  @override
+  String get recurringTitleHint => 'مثلاً ماہانہ فیس';
+
+  @override
+  String get recurringClientLabel => 'کلائنٹ';
+
+  @override
+  String get recurringFrequencyLabel => 'تعدد';
+
+  @override
+  String get recurringFrequencyWeekly => 'ہفتہ وار';
+
+  @override
+  String get recurringFrequencyBiweekly => 'دو ہفتہ وار';
+
+  @override
+  String get recurringFrequencyMonthly => 'ماہانہ';
+
+  @override
+  String get recurringFrequencyQuarterly => 'سہ ماہی';
+
+  @override
+  String get recurringFrequencyYearly => 'سالانہ';
+
+  @override
+  String get recurringNextRun => 'اگلی تاریخ';
+
+  @override
+  String get recurringDueDays => 'واجب الادا';
+
+  @override
+  String get recurringDays => 'دن';
+
+  @override
+  String recurringActiveCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count فعال',
+      one: '1 فعال',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get reportsTitle => 'رپورٹس';
+
+  @override
+  String get reportsSubtitle => 'کاروباری تجزیات';
+
+  @override
+  String get reportsEmpty => 'رپورٹس دیکھنے کے لیے رسیدیں بنائیں';
+
+  @override
+  String get reportsCollected => 'وصول شدہ';
+
+  @override
+  String get reportsOutstanding => 'بقایا';
+
+  @override
+  String get reportsMonthlyRevenue => 'ماہانہ آمدنی';
+
+  @override
+  String get reportsLast6Months => 'پچھلے 6 مہینے';
+
+  @override
+  String get reportsByStatus => 'حیثیت کے مطابق';
+
+  @override
+  String get reportsTopClients => 'بہترین کلائنٹس';
+
+  @override
+  String get paymentLinkTitle => 'ادائیگی کا لنک';
+
+  @override
+  String get paymentLinkNotSet => 'سیٹنگز میں کوئی ادائیگی لنک نہیں';
+
+  @override
+  String get paymentLinkHint => 'https://buy.stripe.com/...';
+
+  @override
+  String get paymentLinkHelp =>
+      'آپ کا ادائیگی لنک رسید کے PDF میں شامل ہوتا ہے اور رسید کے مینو سے کاپی کیا جا سکتا ہے۔';
+
+  @override
+  String get paymentLinkSaved => 'ادائیگی کا لنک محفوظ ہو گیا';
+
+  @override
+  String get settingsPaymentLinkNotSet => 'مقرر نہیں';
+
+  @override
+  String get invoiceDetailCopyPaymentLink => 'ادائیگی کا لنک کاپی کریں';
+
+  @override
+  String get paymentLinkCopied => 'ادائیگی کا لنک کاپی ہو گیا';
+
+  @override
+  String get pdfPayOnline => 'آن لائن ادائیگی کریں';
+
+  @override
+  String get exportXml => 'XML ایکسپورٹ کریں';
+
+  @override
+  String get exportXmlFailed => 'XML ایکسپورٹ نہ ہو سکی';
 }

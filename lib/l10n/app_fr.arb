@@ -356,5 +356,171 @@
   "onboardingProBody": "Débloquez les factures illimitées, la synchro cloud et retirez le filigrane avec InvoiceFlow Pro.",
   "settingsAccentColor": "Couleur d'accent",
   "settingsAccentColorHint": "Personnalisez l'application avec la couleur de votre choix.",
-  "commonDone": "Terminé"
+  "settingsCountry": "Pays",
+  "settingsTaxId": "Numéro d'immatriculation fiscale",
+  "settingsTaxIdNotSet": "Non défini",
+  "settingsTaxIdHint": "ex. 123456789012345",
+  "settingsTaxIdSaved": "Numéro fiscal enregistré",
+  "catalogTitle": "Produits & services",
+  "catalogItemCount": "{count, plural, =1{{count} produit} other{{count} produits}}",
+  "@catalogItemCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "catalogEmpty": "Aucun produit pour l'instant",
+  "catalogEmptySubtitle": "Enregistrez des produits et services réutilisables pour les ajouter plus vite à vos factures.",
+  "catalogFromSaved": "Depuis votre catalogue",
+  "catalogSaveToCatalog": "Enregistrer dans le catalogue pour réutilisation",
+  "catalogAddSnackbar": "Ajouté au catalogue",
+  "catalogDeleteTitle": "Supprimer l'élément ?",
+  "catalogDeleteMessage": "Supprimer « {description} » ? Cette action est irréversible.",
+  "@catalogDeleteMessage": {
+    "placeholders": {
+      "description": {
+        "type": "String"
+      }
+    }
+  },
+  "commonDone": "Terminé",
+  "estimateListTitle": "Devis",
+  "estimateListSearchHint": "Rechercher un devis…",
+  "estimateListEmpty": "Aucun devis pour l'instant",
+  "estimateListTabAll": "Tous",
+  "estimateListTabDraft": "Brouillon",
+  "estimateListTabSent": "Envoyé",
+  "estimateListTabAccepted": "Accepté",
+  "estimateListTabExpired": "Expiré",
+  "estimateCreateTitle": "Nouveau devis",
+  "estimateEditTitle": "Modifier le devis",
+  "estimateCreatedSnackbar": "Devis enregistré",
+  "estimateUpdatedSnackbar": "Devis mis à jour",
+  "estimateIssueDate": "Date d'émission",
+  "estimateExpiryDate": "Date d'expiration",
+  "estimateExpiresPrefix": "Expire le ",
+  "estimateConvertToInvoice": "Convertir en facture",
+  "estimateConvertedSnackbar": "Devis converti en facture",
+  "estimateConvertFailed": "Impossible de convertir le devis",
+  "estimateMarkSent": "Marquer comme envoyé",
+  "estimateMarkAccepted": "Marquer comme accepté",
+  "estimateMarkDeclined": "Marquer comme refusé",
+  "estimateConvertedTitle": "Converti",
+  "estimateConvertedMessage": "Converti en facture {invoiceId}",
+  "@estimateConvertedMessage": {
+    "placeholders": {
+      "invoiceId": {
+        "type": "String"
+      }
+    }
+  },
+  "estimateDetailTotal": "TOTAL DU DEVIS",
+  "estimateStatusSent": "Envoyé",
+  "estimateStatusAccepted": "Accepté",
+  "estimateStatusDeclined": "Refusé",
+  "estimateStatusExpired": "Expiré",
+  "estimateOpenCount": "{count, plural, =1{1 ouvert} other{{count} ouverts}}",
+  "@estimateOpenCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "deleteEstimateTitle": "Supprimer le devis ?",
+  "deleteEstimateMessage": "Supprimer « {estimateNumber} » ? Cette action est irréversible.",
+  "@deleteEstimateMessage": {
+    "placeholders": {
+      "estimateNumber": {
+        "type": "String"
+      }
+    }
+  },
+  "estimatePdfFailed": "Impossible de générer le PDF",
+  "pdfEstimate": "DEVIS",
+  "pdfEstimateNumber": "Devis n° :",
+  "pdfValidUntil": "Valable jusqu'au :",
+  "invoiceDetailPaymentTerms": "Conditions de paiement",
+
+  "recurringListTitle": "Factures récurrentes",
+  "recurringListEmpty": "Aucune facture récurrente",
+  "recurringListEmptySubtitle": "Configurez des factures automatiques pour vos clients et services réguliers.",
+  "recurringCreateTitle": "Nouvelle récurrente",
+  "recurringEditTitle": "Modifier la récurrente",
+  "recurringCreatedSnackbar": "Facture récurrente enregistrée",
+  "recurringUpdatedSnackbar": "Facture récurrente mise à jour",
+  "recurringDeleteTitle": "Supprimer la facture récurrente ?",
+  "recurringDeleteMessage": "Supprimer « {title} » ? Les factures existantes ne seront pas supprimées.",
+  "@recurringDeleteMessage": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "recurringTitleLabel": "Titre",
+  "recurringTitleHint": "ex. Honoraires mensuels",
+  "recurringClientLabel": "Client",
+  "recurringFrequencyLabel": "Fréquence",
+  "recurringFrequencyWeekly": "Hebdomadaire",
+  "recurringFrequencyBiweekly": "Bi-hebdomadaire",
+  "recurringFrequencyMonthly": "Mensuelle",
+  "recurringFrequencyQuarterly": "Trimestrielle",
+  "recurringFrequencyYearly": "Annuelle",
+  "recurringNextRun": "Prochaine échéance",
+  "recurringDueDays": "Échéance sous",
+  "recurringDays": "jours",
+  "recurringActiveCount": "{count, plural, =1{1 active} other{{count} actives}}",
+  "@recurringActiveCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+
+  "reportsTitle": "Rapports",
+  "reportsSubtitle": "Analyses d'entreprise",
+  "reportsEmpty": "Créez des factures pour voir les rapports",
+  "reportsCollected": "Encaissé",
+  "reportsOutstanding": "Impayé",
+  "reportsMonthlyRevenue": "Revenu mensuel",
+  "reportsLast6Months": "6 derniers mois",
+  "reportsByStatus": "Par statut",
+  "reportsTopClients": "Meilleurs clients",
+
+  "paymentLinkTitle": "Lien de paiement",
+  "paymentLinkNotSet": "Aucun lien de paiement défini",
+  "paymentLinkHint": "https://buy.stripe.com/...",
+  "paymentLinkHelp": "Votre lien de paiement est inclus sur le PDF de la facture et peut être copié depuis le menu de la facture.",
+  "paymentLinkSaved": "Lien de paiement enregistré",
+  "settingsPaymentLinkNotSet": "Non défini",
+  "invoiceDetailCopyPaymentLink": "Copier le lien de paiement",
+  "paymentLinkCopied": "Lien de paiement copié",
+
+  "pdfPayOnline": "Payer en ligne",
+
+  "exportXml": "Exporter XML",
+  "exportXmlFailed": "Impossible d'exporter le XML",
+  "authTermsOfService": "Conditions d'utilisation",
+  "authPrivacyPolicy": "Politique de confidentialité",
+  "authAgreeRequired": "Veuillez accepter les conditions d'utilisation et la politique de confidentialité pour continuer",
+  "loginAgreePrefix": "En continuant, vous acceptez nos ",
+  "registerAgreePrefix": "J'accepte les ",
+  "authAgreeAnd": " et la ",
+  "authTermsSheet": "Ces conditions d'utilisation régissent votre utilisation d'InvoiceFlow. En accédant à l'application ou en l'utilisant, vous acceptez d'être lié par ces conditions.\n\n1. Vous êtes responsable de l'exactitude des factures, devis et autres données que vous créez.\n2. L'application est fournie \"en l'état\", sans garantie d'aucune sorte, expresse ou implicite.\n3. Nous ne sommes pas responsables des pertes découlant de votre utilisation du service.\n4. Vous ne devez pas utiliser l'application à des fins illégales ou interdites.\n5. Nous pouvons mettre à jour ces conditions de temps à autre ; l'utilisation continue de l'application constitue une acceptation des conditions mises à jour.",
+  "authPrivacySheet": "Votre vie privée compte pour nous.\n\n1. Stockage des données : vos factures, clients et paramètres sont stockés localement sur votre appareil.\n2. Synchronisation cloud : si vous vous connectez, vos données sont synchronisées avec votre compte afin d'être accessibles sur tous vos appareils.\n3. Nous ne vendons ni ne partageons jamais vos informations personnelles.\n4. Analyses : nous pouvons collecter des données d'utilisation anonymisées pour améliorer l'application.\n5. Contact : pour toute question relative à la confidentialité, écrivez à support@invoiceflow.app.",
+  "paywallLoading": "Chargement des formules…",
+  "paywallLoadError": "Impossible de charger les formules. Vérifiez votre connexion et réessayez.",
+  "paywallNoOffering": "Aucune formule n'est disponible pour le moment.",
+  "purchaseRestored": "Achats restaurés avec succès",
+  "purchaseErrorGeneric": "L'achat a échoué. Veuillez réessayer.",
+  "settingsProTitle": "InvoiceFlow Pro",
+  "settingsProActive": "Pro est actif — factures et clients illimités sans filigrane",
+  "settingsFreePlan": "Formule gratuite",
+  "settingsFreeHint": "Passez à la version supérieure pour des factures illimitées, la synchronisation cloud et plus encore",
+  "settingsUpgradeToPro": "Passer à Pro",
+  "settingsManageSubscription": "Gérer l'abonnement",
+  "customerCenterFailed": "Impossible d'ouvrir la gestion de l'abonnement."
 }

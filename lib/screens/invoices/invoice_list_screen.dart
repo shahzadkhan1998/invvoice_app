@@ -14,7 +14,7 @@ import 'invoice_detail_screen.dart';
 enum _SortOption { date, amount, client }
 
 class InvoiceListScreen extends StatefulWidget {
-  const InvoiceListScreen({Key? key}) : super(key: key);
+  const InvoiceListScreen({super.key});
 
   @override
   State<InvoiceListScreen> createState() => _InvoiceListScreenState();
@@ -45,16 +45,20 @@ class _InvoiceListScreenState extends State<InvoiceListScreen>
     List<Invoice> filtered;
     switch (tabIndex) {
       case 1:
-        filtered = invoices.where((i) => i.status == InvoiceStatus.paid).toList();
+        filtered =
+            invoices.where((i) => i.status == InvoiceStatus.paid).toList();
         break;
       case 2:
-        filtered = invoices.where((i) => i.status == InvoiceStatus.sent).toList();
+        filtered =
+            invoices.where((i) => i.status == InvoiceStatus.sent).toList();
         break;
       case 3:
-        filtered = invoices.where((i) => i.status == InvoiceStatus.overdue).toList();
+        filtered =
+            invoices.where((i) => i.status == InvoiceStatus.overdue).toList();
         break;
       case 4:
-        filtered = invoices.where((i) => i.status == InvoiceStatus.draft).toList();
+        filtered =
+            invoices.where((i) => i.status == InvoiceStatus.draft).toList();
         break;
       default:
         filtered = invoices;
@@ -76,7 +80,8 @@ class _InvoiceListScreenState extends State<InvoiceListScreen>
         filtered.sort((a, b) => b.total.compareTo(a.total));
         break;
       case _SortOption.client:
-        filtered.sort((a, b) => a.clientName.toLowerCase().compareTo(b.clientName.toLowerCase()));
+        filtered.sort((a, b) =>
+            a.clientName.toLowerCase().compareTo(b.clientName.toLowerCase()));
         break;
     }
     return filtered;
@@ -200,6 +205,7 @@ class _InvoiceListScreenState extends State<InvoiceListScreen>
             }),
           ),
           floatingActionButton: FloatingActionButton(
+            heroTag: 'fab-invoices',
             onPressed: () => _openCreateInvoice(context),
             child: const Icon(Icons.add_rounded),
           ),
@@ -252,8 +258,10 @@ class _SegmentedFilter extends StatelessWidget {
         overlayColor: WidgetStateProperty.all(Colors.transparent),
         labelColor: scheme.onSurface,
         unselectedLabelColor: scheme.onSurfaceVariant,
-        labelStyle: const TextStyle(fontWeight: FontWeight.w700, fontSize: 12.5),
-        unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.w500, fontSize: 12.5),
+        labelStyle:
+            const TextStyle(fontWeight: FontWeight.w700, fontSize: 12.5),
+        unselectedLabelStyle:
+            const TextStyle(fontWeight: FontWeight.w500, fontSize: 12.5),
         tabs: List.generate(labels.length, (i) {
           final count = counts[i] ?? 0;
           return Tab(
@@ -263,7 +271,8 @@ class _SegmentedFilter extends StatelessWidget {
                 Text(labels[i]),
                 const SizedBox(width: 5),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
                   decoration: BoxDecoration(
                     color: scheme.primary.withValues(alpha: 0.12),
                     borderRadius: BorderRadius.circular(10),
@@ -324,7 +333,8 @@ class _InvoiceTab extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(Icons.receipt_long_outlined,
-                size: 56, color: Theme.of(context).colorScheme.onSurfaceVariant),
+                size: 56,
+                color: Theme.of(context).colorScheme.onSurfaceVariant),
             const SizedBox(height: 12),
             Text(
               AppLocalizations.of(context)!.invoiceListEmpty,
@@ -377,8 +387,9 @@ class _InvoiceListItem extends StatelessWidget {
             Row(
               children: [
                 AppAvatar(
-                  initials:
-                      invoice.clientName.isNotEmpty ? invoice.clientName[0] : '?',
+                  initials: invoice.clientName.isNotEmpty
+                      ? invoice.clientName[0]
+                      : '?',
                   size: 44,
                   radius: 13,
                 ),
@@ -392,13 +403,11 @@ class _InvoiceListItem extends StatelessWidget {
                         children: [
                           Text(
                             invoice.invoiceNumber,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodySmall
-                                ?.copyWith(
-                                  color: scheme.onSurfaceVariant,
-                                  fontWeight: FontWeight.w600,
-                                ),
+                            style:
+                                Theme.of(context).textTheme.bodySmall?.copyWith(
+                                      color: scheme.onSurfaceVariant,
+                                      fontWeight: FontWeight.w600,
+                                    ),
                           ),
                           Text(
                             '${invoice.currency} ${_money(invoice.total)}',
@@ -513,8 +522,18 @@ class _InvoiceListItem extends StatelessWidget {
 
   String _date(DateTime date) {
     const months = [
-      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
     ];
     return '${date.day} ${months[date.month - 1]}';
   }

@@ -356,5 +356,171 @@
   "onboardingProBody": "انوائس فلو پرو کے ساتھ لامحدود انوائسز، کلاؤڈ سنک اور بغیر واٹر مارک غیر مقفل کریں۔",
   "settingsAccentColor": "ایکسنٹ کلر",
   "settingsAccentColorHint": "اپنی پسند کا رنگ چن کر ایپ کو ذاتی بنائیں۔",
-  "commonDone": "ہو گیا"
+  "settingsCountry": "ملک",
+  "settingsTaxId": "ٹیکس رجسٹریشن نمبر",
+  "settingsTaxIdNotSet": "مقرر نہیں",
+  "settingsTaxIdHint": "مثال: 123456789012345",
+  "settingsTaxIdSaved": "ٹیکس نمبر محفوظ ہو گیا",
+  "catalogTitle": "مصنوعات اور خدمات",
+  "catalogItemCount": "{count, plural, =1{{count} شے} other{{count} اشیاء}}",
+  "@catalogItemCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "catalogEmpty": "ابھی کوئی مصنوعات نہیں",
+  "catalogEmptySubtitle": "دوبارہ استعمال کے قابل مصنوعات اور خدمات محفوظ کریں تاکہ انہیں تیزی سے انوائسز میں شامل کیا جا سکے۔",
+  "catalogFromSaved": "اپنے کیٹلاگ سے",
+  "catalogSaveToCatalog": "دوبارہ استعمال کے لیے کیٹلاگ میں محفوظ کریں",
+  "catalogAddSnackbar": "کیٹلاگ میں شامل کر دیا گیا",
+  "catalogDeleteTitle": "آئٹم حذف کریں؟",
+  "catalogDeleteMessage": "کیا \"{description}\" حذف کریں؟ یہ عمل واپس نہیں ہو سکتا۔",
+  "@catalogDeleteMessage": {
+    "placeholders": {
+      "description": {
+        "type": "String"
+      }
+    }
+  },
+  "commonDone": "ہو گیا",
+  "estimateListTitle": "تخمینے",
+  "estimateListSearchHint": "تخمینے تلاش کریں…",
+  "estimateListEmpty": "ابھی کوئی تخمینہ نہیں",
+  "estimateListTabAll": "تمام",
+  "estimateListTabDraft": "مسودہ",
+  "estimateListTabSent": "بھیجا گیا",
+  "estimateListTabAccepted": "منظور شدہ",
+  "estimateListTabExpired": "میعاد ختم",
+  "estimateCreateTitle": "نیا تخمینہ",
+  "estimateEditTitle": "تخمینہ میں ترمیم",
+  "estimateCreatedSnackbar": "تخمینہ محفوظ ہو گیا",
+  "estimateUpdatedSnackbar": "تخمینہ اپ ڈیٹ ہو گیا",
+  "estimateIssueDate": "جاری کرنے کی تاریخ",
+  "estimateExpiryDate": "میعاد کی تاریخ",
+  "estimateExpiresPrefix": "میعاد ",
+  "estimateConvertToInvoice": "انوائس میں تبدیل کریں",
+  "estimateConvertedSnackbar": "تخمینہ انوائس میں تبدیل ہو گیا",
+  "estimateConvertFailed": "تخمینہ تبدیل نہیں ہو سکا",
+  "estimateMarkSent": "بھیجے گئے کے طور پر نشان زد کریں",
+  "estimateMarkAccepted": "منظور شدہ کے طور پر نشان زد کریں",
+  "estimateMarkDeclined": "مسترد شدہ کے طور پر نشان زد کریں",
+  "estimateConvertedTitle": "تبدیل شدہ",
+  "estimateConvertedMessage": "انوائس {invoiceId} میں تبدیل کر دیا گیا",
+  "@estimateConvertedMessage": {
+    "placeholders": {
+      "invoiceId": {
+        "type": "String"
+      }
+    }
+  },
+  "estimateDetailTotal": "تخمینہ کی کل رقم",
+  "estimateStatusSent": "بھیجا گیا",
+  "estimateStatusAccepted": "منظور شدہ",
+  "estimateStatusDeclined": "مسترد",
+  "estimateStatusExpired": "میعاد ختم",
+  "estimateOpenCount": "{count, plural, =1{1 کھلا} other{{count} کھلے}}",
+  "@estimateOpenCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "deleteEstimateTitle": "تخمینہ حذف کریں؟",
+  "deleteEstimateMessage": "کیا \"{estimateNumber}\" حذف کریں؟ یہ عمل واپس نہیں ہو سکتا۔",
+  "@deleteEstimateMessage": {
+    "placeholders": {
+      "estimateNumber": {
+        "type": "String"
+      }
+    }
+  },
+  "estimatePdfFailed": "PDF بنانے میں ناکامی",
+  "pdfEstimate": "تخمینہ",
+  "pdfEstimateNumber": "تخمینہ نمبر:",
+  "pdfValidUntil": "میعاد تک درست:",
+  "invoiceDetailPaymentTerms": "ادائیگی کی شرائط",
+
+  "recurringListTitle": "بار بار آنے والی رسیدیں",
+  "recurringListEmpty": "ابھی کوئی بار بار آنے والی رسید نہیں",
+  "recurringListEmptySubtitle": "باقاعدہ کلائنٹس اور خدمات کے لیے خودکار رسیدیں مرتب کریں۔",
+  "recurringCreateTitle": "نئی بار بار",
+  "recurringEditTitle": "بار بار میں ترمیم",
+  "recurringCreatedSnackbar": "بار بار آنے والی رسید محفوظ ہو گئی",
+  "recurringUpdatedSnackbar": "بار بار آنے والی رسید اپ ڈیٹ ہو گئی",
+  "recurringDeleteTitle": "بار بار آنے والی رسید حذف کریں؟",
+  "recurringDeleteMessage": "حذف کریں \"{title}\"؟ موجودہ رسیدیں نہیں ہٹیں گی۔",
+  "@recurringDeleteMessage": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "recurringTitleLabel": "عنوان",
+  "recurringTitleHint": "مثلاً ماہانہ فیس",
+  "recurringClientLabel": "کلائنٹ",
+  "recurringFrequencyLabel": "تعدد",
+  "recurringFrequencyWeekly": "ہفتہ وار",
+  "recurringFrequencyBiweekly": "دو ہفتہ وار",
+  "recurringFrequencyMonthly": "ماہانہ",
+  "recurringFrequencyQuarterly": "سہ ماہی",
+  "recurringFrequencyYearly": "سالانہ",
+  "recurringNextRun": "اگلی تاریخ",
+  "recurringDueDays": "واجب الادا",
+  "recurringDays": "دن",
+  "recurringActiveCount": "{count, plural, =1{1 فعال} other{{count} فعال}}",
+  "@recurringActiveCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+
+  "reportsTitle": "رپورٹس",
+  "reportsSubtitle": "کاروباری تجزیات",
+  "reportsEmpty": "رپورٹس دیکھنے کے لیے رسیدیں بنائیں",
+  "reportsCollected": "وصول شدہ",
+  "reportsOutstanding": "بقایا",
+  "reportsMonthlyRevenue": "ماہانہ آمدنی",
+  "reportsLast6Months": "پچھلے 6 مہینے",
+  "reportsByStatus": "حیثیت کے مطابق",
+  "reportsTopClients": "بہترین کلائنٹس",
+
+  "paymentLinkTitle": "ادائیگی کا لنک",
+  "paymentLinkNotSet": "سیٹنگز میں کوئی ادائیگی لنک نہیں",
+  "paymentLinkHint": "https://buy.stripe.com/...",
+  "paymentLinkHelp": "آپ کا ادائیگی لنک رسید کے PDF میں شامل ہوتا ہے اور رسید کے مینو سے کاپی کیا جا سکتا ہے۔",
+  "paymentLinkSaved": "ادائیگی کا لنک محفوظ ہو گیا",
+  "settingsPaymentLinkNotSet": "مقرر نہیں",
+  "invoiceDetailCopyPaymentLink": "ادائیگی کا لنک کاپی کریں",
+  "paymentLinkCopied": "ادائیگی کا لنک کاپی ہو گیا",
+
+  "pdfPayOnline": "آن لائن ادائیگی کریں",
+
+  "exportXml": "XML ایکسپورٹ کریں",
+  "exportXmlFailed": "XML ایکسپورٹ نہ ہو سکی",
+  "authTermsOfService": "خدمات کے شرائط و ضوابط",
+  "authPrivacyPolicy": "رازداری کی پالیسی",
+  "authAgreeRequired": "جاری رکھنے کے لیے براہ کرم خدمات کے شرائط و ضوابط اور رازداری کی پالیسی سے اتفاق کریں",
+  "loginAgreePrefix": "جاری رکھنے سے، آپ ہماری ",
+  "registerAgreePrefix": "میں متفق ہوں ",
+  "authAgreeAnd": " اور ",
+  "authTermsSheet": "یہ شرائط و ضوابط InvoiceFlow کے آپ کے استعمال کو کنٹرول کرتے ہیں۔ ایپ تک رسائی یا استعمال کرنے سے آپ ان شرائط کا پابند ہونے پر رضامند ہوتے ہیں۔\n\n1. آپ اپنی تخلیق کردہ رسیدیوں، تخمینوں اور دیگر ڈیٹا کی درستگی کے ذمہ دار ہیں۔\n2. ایپ \"جیسے کی تیسری\" فراہم کی جاتی ہے، بغیر کسی قسم کی وارنٹی کے، واضح یا مضمر۔\n3. ہم سروس کے استعمال سے پیدا ہونے والے نقصانات کے ذمہ دار نہیں ہیں۔\n4. آپ کو ایپ کو کسی غیر قانونی یا ممنوعہ مقصد کے لیے استعمال نہیں کرنا چاہیے۔\n5. ہم وقتاً فوقتاً ان شرائط کو اپ ڈیٹ کر سکتے ہیں؛ ایپ کا استعمال جاری رکھنا اپ ڈیٹ شدہ شرائط کو قبول کرنے کے مترادف ہے۔",
+  "authPrivacySheet": "آپ کی رازداری ہمارے لیے اہم ہے۔\n\n1. ڈیٹا ذخیرہ: آپ کی رسیدیں، کلائنٹس اور ترتیبات آپ کے آلے پر مقامی طور پر محفوظ ہوتی ہیں۔\n2. کلاؤڈ ہم آہنگی: اگر آپ سائن ان کرتے ہیں، تو آپ کا ڈیٹا آپ کے اکاؤنٹ کے ساتھ ہم آہنگ ہو جاتا ہے تاکہ یہ آپ کے تمام آلات پر دستیاب ہو۔\n3. ہم آپ کی ذاتی معلومات کبھی فروخت یا شیئر نہیں کرتے۔\n4. تجزیات: ایپ کو بہتر بنانے کے لیے ہم گمنام استعمال کا ڈیٹا جمع کر سکتے ہیں۔\n5. رابطہ: رازداری سے متعلق کسی بھی سوال کے لیے support@invoiceflow.app سے رابطہ کریں۔",
+  "paywallLoading": "پلانز لوڈ ہو رہے ہیں…",
+  "paywallLoadError": "پلانز لوڈ نہیں ہو سکے۔ اپنا کنکشن چیک کریں اور دوبارہ کوشش کریں۔",
+  "paywallNoOffering": "اس وقت کوئی پلان دستیاب نہیں ہے۔",
+  "purchaseRestored": "خریداریاں کامیابی سے بحال ہو گئیں",
+  "purchaseErrorGeneric": "خریداری ناکام ہو گئی۔ براہ کرم دوبارہ کوشش کریں۔",
+  "settingsProTitle": "InvoiceFlow Pro",
+  "settingsProActive": "Pro فعال ہے — واٹر مارک کے بغیر لامحدود رسیدیں اور کلائنٹس",
+  "settingsFreePlan": "مفت پلان",
+  "settingsFreeHint": "لامحدود رسیدیں، کلاؤڈ ہم آہنگی اور مزید کے لیے اپ گریڈ کریں",
+  "settingsUpgradeToPro": "Pro میں اپ گریڈ کریں",
+  "settingsManageSubscription": "سبسکرپشن کا نظم کریں",
+  "customerCenterFailed": "سبسکرپشن کا نظم نہیں کھولا جا سکا۔"
 }

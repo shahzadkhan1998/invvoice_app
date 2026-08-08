@@ -286,6 +286,33 @@ class AppLocalizationsEn extends AppLocalizations {
   String get registerSignIn => 'Sign in';
 
   @override
+  String get authTermsOfService => 'Terms of Service';
+
+  @override
+  String get authPrivacyPolicy => 'Privacy Policy';
+
+  @override
+  String get authAgreeRequired =>
+      'Please agree to the Terms of Service and Privacy Policy to continue';
+
+  @override
+  String get loginAgreePrefix => 'By continuing, you agree to our ';
+
+  @override
+  String get registerAgreePrefix => 'I agree to the ';
+
+  @override
+  String get authAgreeAnd => ' and ';
+
+  @override
+  String get authTermsSheet =>
+      'These Terms of Service govern your use of InvoiceFlow. By accessing or using the app you agree to be bound by these terms.\n\n1. You are responsible for the accuracy of the invoices, estimates, and other data you create.\n2. The app is provided \"as is\" without warranties of any kind, express or implied.\n3. We are not liable for any losses arising from your use of the service.\n4. You must not use the app for any unlawful or prohibited purpose.\n5. We may update these terms from time to time; continued use of the app constitutes acceptance of the updated terms.';
+
+  @override
+  String get authPrivacySheet =>
+      'Your privacy matters to us.\n\n1. Data storage: Your invoices, clients, and settings are stored locally on your device.\n2. Cloud sync: If you sign in, your data is synchronized to your account so it is accessible across your devices.\n3. We never sell or share your personal information.\n4. Analytics: We may collect anonymized usage data to help improve the app.\n5. Contact: For any privacy questions, reach out to support@invoiceflow.app.';
+
+  @override
   String get authErrorWeakPassword => 'Password is too weak';
 
   @override
@@ -991,6 +1018,45 @@ class AppLocalizationsEn extends AppLocalizations {
   String get purchaseSuccessContinue => 'Continue';
 
   @override
+  String get paywallLoading => 'Loading plans…';
+
+  @override
+  String get paywallLoadError =>
+      'Couldn\'t load plans. Check your connection and try again.';
+
+  @override
+  String get paywallNoOffering => 'No plans are available right now.';
+
+  @override
+  String get purchaseRestored => 'Purchases restored successfully';
+
+  @override
+  String get purchaseErrorGeneric => 'Purchase failed. Please try again.';
+
+  @override
+  String get settingsProTitle => 'InvoiceFlow Pro';
+
+  @override
+  String get settingsProActive =>
+      'Pro is active — unlimited invoices, clients & no watermarks';
+
+  @override
+  String get settingsFreePlan => 'Free plan';
+
+  @override
+  String get settingsFreeHint =>
+      'Upgrade for unlimited invoices, cloud sync and more';
+
+  @override
+  String get settingsUpgradeToPro => 'Upgrade to Pro';
+
+  @override
+  String get settingsManageSubscription => 'Manage Subscription';
+
+  @override
+  String get customerCenterFailed => 'Unable to open subscription management.';
+
+  @override
   String get onboardingSkip => 'Skip';
 
   @override
@@ -1028,5 +1094,316 @@ class AppLocalizationsEn extends AppLocalizations {
       'Personalize the app with a color of your choice.';
 
   @override
+  String get settingsCountry => 'Country';
+
+  @override
+  String get settingsTaxId => 'Tax Registration Number';
+
+  @override
+  String get settingsTaxIdNotSet => 'Not set';
+
+  @override
+  String get settingsTaxIdHint => 'e.g. 123456789012345';
+
+  @override
+  String get settingsTaxIdSaved => 'Tax ID saved';
+
+  @override
+  String get catalogTitle => 'Products & Services';
+
+  @override
+  String catalogItemCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count items',
+      one: '$count item',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get catalogEmpty => 'No products yet';
+
+  @override
+  String get catalogEmptySubtitle =>
+      'Save reusable products and services to add them to invoices faster.';
+
+  @override
+  String get catalogFromSaved => 'From your catalog';
+
+  @override
+  String get catalogSaveToCatalog => 'Save to catalog for reuse';
+
+  @override
+  String get catalogAddSnackbar => 'Added to catalog';
+
+  @override
+  String get catalogDeleteTitle => 'Delete item?';
+
+  @override
+  String catalogDeleteMessage(String description) {
+    return 'Delete \"$description\"? This can\'t be undone.';
+  }
+
+  @override
   String get commonDone => 'Done';
+
+  @override
+  String get estimateListTitle => 'Estimates';
+
+  @override
+  String get estimateListSearchHint => 'Search estimates…';
+
+  @override
+  String get estimateListEmpty => 'No estimates yet';
+
+  @override
+  String get estimateListTabAll => 'All';
+
+  @override
+  String get estimateListTabDraft => 'Draft';
+
+  @override
+  String get estimateListTabSent => 'Sent';
+
+  @override
+  String get estimateListTabAccepted => 'Accepted';
+
+  @override
+  String get estimateListTabExpired => 'Expired';
+
+  @override
+  String get estimateCreateTitle => 'New Estimate';
+
+  @override
+  String get estimateEditTitle => 'Edit Estimate';
+
+  @override
+  String get estimateCreatedSnackbar => 'Estimate saved';
+
+  @override
+  String get estimateUpdatedSnackbar => 'Estimate updated';
+
+  @override
+  String get estimateIssueDate => 'Issue date';
+
+  @override
+  String get estimateExpiryDate => 'Expiry date';
+
+  @override
+  String get estimateExpiresPrefix => 'Expires ';
+
+  @override
+  String get estimateConvertToInvoice => 'Convert to Invoice';
+
+  @override
+  String get estimateConvertedSnackbar => 'Estimate converted to invoice';
+
+  @override
+  String get estimateConvertFailed => 'Could not convert estimate';
+
+  @override
+  String get estimateMarkSent => 'Mark as sent';
+
+  @override
+  String get estimateMarkAccepted => 'Mark as accepted';
+
+  @override
+  String get estimateMarkDeclined => 'Mark as declined';
+
+  @override
+  String get estimateConvertedTitle => 'Converted';
+
+  @override
+  String estimateConvertedMessage(String invoiceId) {
+    return 'Converted to invoice $invoiceId';
+  }
+
+  @override
+  String get estimateDetailTotal => 'ESTIMATE TOTAL';
+
+  @override
+  String get estimateStatusSent => 'Sent';
+
+  @override
+  String get estimateStatusAccepted => 'Accepted';
+
+  @override
+  String get estimateStatusDeclined => 'Declined';
+
+  @override
+  String get estimateStatusExpired => 'Expired';
+
+  @override
+  String estimateOpenCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count open',
+      one: '1 open',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get deleteEstimateTitle => 'Delete estimate?';
+
+  @override
+  String deleteEstimateMessage(String estimateNumber) {
+    return 'Delete \"$estimateNumber\"? This can\'t be undone.';
+  }
+
+  @override
+  String get estimatePdfFailed => 'Could not generate PDF';
+
+  @override
+  String get pdfEstimate => 'ESTIMATE';
+
+  @override
+  String get pdfEstimateNumber => 'Estimate #:';
+
+  @override
+  String get pdfValidUntil => 'Valid until:';
+
+  @override
+  String get invoiceDetailPaymentTerms => 'Payment Terms';
+
+  @override
+  String get recurringListTitle => 'Recurring Invoices';
+
+  @override
+  String get recurringListEmpty => 'No recurring invoices yet';
+
+  @override
+  String get recurringListEmptySubtitle =>
+      'Set up automatic invoices for regular clients and services.';
+
+  @override
+  String get recurringCreateTitle => 'New Recurring';
+
+  @override
+  String get recurringEditTitle => 'Edit Recurring';
+
+  @override
+  String get recurringCreatedSnackbar => 'Recurring invoice saved';
+
+  @override
+  String get recurringUpdatedSnackbar => 'Recurring invoice updated';
+
+  @override
+  String get recurringDeleteTitle => 'Delete recurring invoice?';
+
+  @override
+  String recurringDeleteMessage(String title) {
+    return 'Delete \"$title\"? Existing invoices won\'t be removed.';
+  }
+
+  @override
+  String get recurringTitleLabel => 'Title';
+
+  @override
+  String get recurringTitleHint => 'e.g. Monthly retainer';
+
+  @override
+  String get recurringClientLabel => 'Client';
+
+  @override
+  String get recurringFrequencyLabel => 'Frequency';
+
+  @override
+  String get recurringFrequencyWeekly => 'Weekly';
+
+  @override
+  String get recurringFrequencyBiweekly => 'Bi-weekly';
+
+  @override
+  String get recurringFrequencyMonthly => 'Monthly';
+
+  @override
+  String get recurringFrequencyQuarterly => 'Quarterly';
+
+  @override
+  String get recurringFrequencyYearly => 'Yearly';
+
+  @override
+  String get recurringNextRun => 'Next run';
+
+  @override
+  String get recurringDueDays => 'Due in';
+
+  @override
+  String get recurringDays => 'days';
+
+  @override
+  String recurringActiveCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count active',
+      one: '1 active',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get reportsTitle => 'Reports';
+
+  @override
+  String get reportsSubtitle => 'Business analytics';
+
+  @override
+  String get reportsEmpty => 'Create invoices to see reports';
+
+  @override
+  String get reportsCollected => 'Collected';
+
+  @override
+  String get reportsOutstanding => 'Outstanding';
+
+  @override
+  String get reportsMonthlyRevenue => 'Monthly Revenue';
+
+  @override
+  String get reportsLast6Months => 'Last 6 months';
+
+  @override
+  String get reportsByStatus => 'By Status';
+
+  @override
+  String get reportsTopClients => 'Top Clients';
+
+  @override
+  String get paymentLinkTitle => 'Payment Link';
+
+  @override
+  String get paymentLinkNotSet => 'No payment link set in Settings';
+
+  @override
+  String get paymentLinkHint => 'https://buy.stripe.com/...';
+
+  @override
+  String get paymentLinkHelp =>
+      'Your payment link is included on the invoice PDF and can be copied from the invoice menu.';
+
+  @override
+  String get paymentLinkSaved => 'Payment link saved';
+
+  @override
+  String get settingsPaymentLinkNotSet => 'Not set';
+
+  @override
+  String get invoiceDetailCopyPaymentLink => 'Copy Payment Link';
+
+  @override
+  String get paymentLinkCopied => 'Payment link copied';
+
+  @override
+  String get pdfPayOnline => 'Pay online';
+
+  @override
+  String get exportXml => 'Export XML';
+
+  @override
+  String get exportXmlFailed => 'Could not export XML';
 }

@@ -102,7 +102,7 @@ class SyncService {
     // --- Pull remote invoices, merge by updatedAt ---
     final invSnap = await _invoiceCol!.get();
     for (final doc in invSnap.docs) {
-      final remote = Invoice.fromJson(doc.data());
+      final remote = Invoice.fromJson(_normalize(doc.data()));
       final local = localInvoices.cast<Invoice?>().firstWhere(
             (i) => i?.id == remote.id,
             orElse: () => null,
@@ -118,7 +118,7 @@ class SyncService {
       } else {
         // Both synced: keep whichever was updated more recently.
         final remoteTs = _timestamp(doc.data()['updatedAt']);
-        if (remoteTs != null && remoteTs.isAfter(local.invoiceDate)) {
+        if (remoteTs != null && remoteTs.isAfter(local.updatedAt)) {
           await onUpdateLocalInvoice(remote.copyWith(isSynced: true));
           downloaded++;
         }
@@ -136,7 +136,7 @@ class SyncService {
     // --- Pull remote clients ---
     final clientSnap = await _clientCol!.get();
     for (final doc in clientSnap.docs) {
-      final remote = Client.fromJson(doc.data());
+      final remote = Client.fromJson(_normalize(doc.data()));
       final local = localClients.cast<Client?>().firstWhere(
             (c) => c?.id == remote.id,
             orElse: () => null,
@@ -148,7 +148,7 @@ class SyncService {
         // Local wins on conflict.
       } else {
         final remoteTs = _timestamp(doc.data()['updatedAt']);
-        if (remoteTs != null && remoteTs.isAfter(local.createdAt)) {
+        if (remoteTs != null && remoteTs.isAfter(local.updatedAt)) {
           await onUpdateLocalClient(remote.copyWith(isSynced: true));
           downloaded++;
         }
@@ -156,6 +156,19 @@ class SyncService {
     }
 
     return SyncResult(uploaded: uploaded, downloaded: downloaded, success: true);
+  }
+
+  /// Converts a Firestore doc into a plain map the models can parse. Firestore
+  /// returns `updatedAt` (written via `FieldValue.serverTimestamp()`) as a
+  /// [Timestamp]; the models expect ISO-8601 strings, so normalize it here.
+  Map<String, dynamic> _normalize(Map<String, dynamic> data) {
+    final updatedAt = data['updatedAt'];
+    if (updatedAt is Timestamp) {
+      final copy = Map<String, dynamic>.from(data);
+      copy['updatedAt'] = updatedAt.toDate().toIso8601String();
+      return copy;
+    }
+    return data;
   }
 
   DateTime? _timestamp(dynamic value) {

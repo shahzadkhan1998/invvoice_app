@@ -356,5 +356,171 @@
   "onboardingProBody": "Desbloquea facturas ilimitadas, sincronización en la nube y quita las marcas de agua con InvoiceFlow Pro.",
   "settingsAccentColor": "Color de acento",
   "settingsAccentColorHint": "Personaliza la aplicación con el color que elijas.",
-  "commonDone": "Hecho"
+  "settingsCountry": "País",
+  "settingsTaxId": "Número de registro fiscal",
+  "settingsTaxIdNotSet": "No establecido",
+  "settingsTaxIdHint": "p. ej. 123456789012345",
+  "settingsTaxIdSaved": "Número fiscal guardado",
+  "catalogTitle": "Productos y servicios",
+  "catalogItemCount": "{count, plural, =1{{count} producto} other{{count} productos}}",
+  "@catalogItemCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "catalogEmpty": "Aún no hay productos",
+  "catalogEmptySubtitle": "Guarda productos y servicios reutilizables para añadirlos a las facturas más rápido.",
+  "catalogFromSaved": "Desde tu catálogo",
+  "catalogSaveToCatalog": "Guardar en el catálogo para reutilizar",
+  "catalogAddSnackbar": "Añadido al catálogo",
+  "catalogDeleteTitle": "¿Eliminar elemento?",
+  "catalogDeleteMessage": "¿Eliminar \"{description}\"? Esta acción no se puede deshacer.",
+  "@catalogDeleteMessage": {
+    "placeholders": {
+      "description": {
+        "type": "String"
+      }
+    }
+  },
+  "commonDone": "Hecho",
+  "estimateListTitle": "Presupuestos",
+  "estimateListSearchHint": "Buscar presupuestos…",
+  "estimateListEmpty": "Aún no hay presupuestos",
+  "estimateListTabAll": "Todos",
+  "estimateListTabDraft": "Borrador",
+  "estimateListTabSent": "Enviado",
+  "estimateListTabAccepted": "Aceptado",
+  "estimateListTabExpired": "Expirado",
+  "estimateCreateTitle": "Nuevo presupuesto",
+  "estimateEditTitle": "Editar presupuesto",
+  "estimateCreatedSnackbar": "Presupuesto guardado",
+  "estimateUpdatedSnackbar": "Presupuesto actualizado",
+  "estimateIssueDate": "Fecha de emisión",
+  "estimateExpiryDate": "Fecha de vencimiento",
+  "estimateExpiresPrefix": "Vence el ",
+  "estimateConvertToInvoice": "Convertir en factura",
+  "estimateConvertedSnackbar": "Presupuesto convertido en factura",
+  "estimateConvertFailed": "No se pudo convertir el presupuesto",
+  "estimateMarkSent": "Marcar como enviado",
+  "estimateMarkAccepted": "Marcar como aceptado",
+  "estimateMarkDeclined": "Marcar como rechazado",
+  "estimateConvertedTitle": "Convertido",
+  "estimateConvertedMessage": "Convertido en factura {invoiceId}",
+  "@estimateConvertedMessage": {
+    "placeholders": {
+      "invoiceId": {
+        "type": "String"
+      }
+    }
+  },
+  "estimateDetailTotal": "TOTAL DEL PRESUPUESTO",
+  "estimateStatusSent": "Enviado",
+  "estimateStatusAccepted": "Aceptado",
+  "estimateStatusDeclined": "Rechazado",
+  "estimateStatusExpired": "Expirado",
+  "estimateOpenCount": "{count, plural, =1{1 abierto} other{{count} abiertos}}",
+  "@estimateOpenCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "deleteEstimateTitle": "¿Eliminar presupuesto?",
+  "deleteEstimateMessage": "¿Eliminar \"{estimateNumber}\"? Esta acción no se puede deshacer.",
+  "@deleteEstimateMessage": {
+    "placeholders": {
+      "estimateNumber": {
+        "type": "String"
+      }
+    }
+  },
+  "estimatePdfFailed": "No se pudo generar el PDF",
+  "pdfEstimate": "PRESUPUESTO",
+  "pdfEstimateNumber": "Presupuesto n.º:",
+  "pdfValidUntil": "Válido hasta:",
+  "invoiceDetailPaymentTerms": "Términos de pago",
+
+  "recurringListTitle": "Facturas recurrentes",
+  "recurringListEmpty": "Aún no hay facturas recurrentes",
+  "recurringListEmptySubtitle": "Crea facturas automáticas para clientes y servicios habituales.",
+  "recurringCreateTitle": "Nueva recurrente",
+  "recurringEditTitle": "Editar recurrente",
+  "recurringCreatedSnackbar": "Factura recurrente guardada",
+  "recurringUpdatedSnackbar": "Factura recurrente actualizada",
+  "recurringDeleteTitle": "¿Eliminar factura recurrente?",
+  "recurringDeleteMessage": "¿Eliminar \"{title}\"? Las facturas existentes no se eliminarán.",
+  "@recurringDeleteMessage": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "recurringTitleLabel": "Título",
+  "recurringTitleHint": "p. ej. Honorarios mensuales",
+  "recurringClientLabel": "Cliente",
+  "recurringFrequencyLabel": "Frecuencia",
+  "recurringFrequencyWeekly": "Semanal",
+  "recurringFrequencyBiweekly": "Quincenal",
+  "recurringFrequencyMonthly": "Mensual",
+  "recurringFrequencyQuarterly": "Trimestral",
+  "recurringFrequencyYearly": "Anual",
+  "recurringNextRun": "Próxima ejecución",
+  "recurringDueDays": "Vence en",
+  "recurringDays": "días",
+  "recurringActiveCount": "{count, plural, =1{1 activa} other{{count} activas}}",
+  "@recurringActiveCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+
+  "reportsTitle": "Informes",
+  "reportsSubtitle": "Analítica de negocio",
+  "reportsEmpty": "Crea facturas para ver informes",
+  "reportsCollected": "Cobrado",
+  "reportsOutstanding": "Pendiente",
+  "reportsMonthlyRevenue": "Ingresos mensuales",
+  "reportsLast6Months": "Últimos 6 meses",
+  "reportsByStatus": "Por estado",
+  "reportsTopClients": "Mejores clientes",
+
+  "paymentLinkTitle": "Enlace de pago",
+  "paymentLinkNotSet": "No hay enlace de pago en Ajustes",
+  "paymentLinkHint": "https://buy.stripe.com/...",
+  "paymentLinkHelp": "Tu enlace de pago se incluye en el PDF de la factura y puedes copiarlo desde el menú de la factura.",
+  "paymentLinkSaved": "Enlace de pago guardado",
+  "settingsPaymentLinkNotSet": "No configurado",
+  "invoiceDetailCopyPaymentLink": "Copiar enlace de pago",
+  "paymentLinkCopied": "Enlace de pago copiado",
+
+  "pdfPayOnline": "Pagar en línea",
+
+  "exportXml": "Exportar XML",
+  "exportXmlFailed": "No se pudo exportar el XML",
+  "authTermsOfService": "Términos del Servicio",
+  "authPrivacyPolicy": "Política de Privacidad",
+  "authAgreeRequired": "Acepta los Términos del Servicio y la Política de Privacidad para continuar",
+  "loginAgreePrefix": "Al continuar, aceptas nuestros ",
+  "registerAgreePrefix": "Acepto los ",
+  "authAgreeAnd": " y la ",
+  "authTermsSheet": "Estos Términos del Servicio regulan el uso de InvoiceFlow. Al acceder o usar la aplicación aceptas estar sujeto a estos términos.\n\n1. Eres responsable de la exactitud de las facturas, presupuestos y demás datos que crees.\n2. La aplicación se proporciona \"tal cual\", sin garantías de ningún tipo, expresas o implícitas.\n3. No somos responsables de las pérdidas derivadas del uso del servicio.\n4. No debes usar la aplicación para ningún fin ilícito o prohibido.\n5. Podemos actualizar estos términos periódicamente; el uso continuado de la aplicación constituye la aceptación de los términos actualizados.",
+  "authPrivacySheet": "Tu privacidad es importante para nosotros.\n\n1. Almacenamiento de datos: tus facturas, clientes y ajustes se guardan localmente en tu dispositivo.\n2. Sincronización en la nube: si inicias sesión, tus datos se sincronizan con tu cuenta para que estén disponibles en todos tus dispositivos.\n3. Nunca vendemos ni compartimos tu información personal.\n4. Analítica: podemos recopilar datos de uso anonimizados para mejorar la aplicación.\n5. Contacto: para cualquier duda sobre privacidad, escribe a support@invoiceflow.app.",
+  "paywallLoading": "Cargando planes…",
+  "paywallLoadError": "No se pudieron cargar los planes. Revisa tu conexión e inténtalo de nuevo.",
+  "paywallNoOffering": "No hay planes disponibles en este momento.",
+  "purchaseRestored": "Compras restauradas correctamente",
+  "purchaseErrorGeneric": "La compra falló. Inténtalo de nuevo.",
+  "settingsProTitle": "InvoiceFlow Pro",
+  "settingsProActive": "Pro está activo: facturas y clientes ilimitados sin marcas de agua",
+  "settingsFreePlan": "Plan gratuito",
+  "settingsFreeHint": "Actualiza para facturas ilimitadas, sincronización en la nube y más",
+  "settingsUpgradeToPro": "Actualizar a Pro",
+  "settingsManageSubscription": "Gestionar suscripción",
+  "customerCenterFailed": "No se pudo abrir la gestión de la suscripción."
 }

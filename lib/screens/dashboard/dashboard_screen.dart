@@ -19,7 +19,7 @@ import '../../widgets/invoice_status_badge.dart';
 class DashboardScreen extends StatelessWidget {
   final VoidCallback? onSeeAllInvoices;
 
-  const DashboardScreen({Key? key, this.onSeeAllInvoices}) : super(key: key);
+  const DashboardScreen({super.key, this.onSeeAllInvoices});
 
   @override
   Widget build(BuildContext context) {
@@ -66,8 +66,10 @@ class DashboardScreen extends StatelessWidget {
                           child: _BalanceHero(
                             currency: currency,
                             outstanding: invoiceProvider.totalOutstanding,
-                            pendingCount: invoiceProvider.pendingInvoices.length,
-                            overdueCount: invoiceProvider.overdueInvoices.length,
+                            pendingCount:
+                                invoiceProvider.pendingInvoices.length,
+                            overdueCount:
+                                invoiceProvider.overdueInvoices.length,
                           ),
                         ),
                         const SizedBox(height: 16),
@@ -118,7 +120,6 @@ class DashboardScreen extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 12),
-
                         if (invoiceProvider.isLoading)
                           const Padding(
                             padding: EdgeInsets.all(32),
@@ -153,7 +154,6 @@ class DashboardScreen extends StatelessWidget {
                                   ),
                                 ),
                               ),
-
                         const SizedBox(height: 100),
                       ]),
                     ),
@@ -163,6 +163,7 @@ class DashboardScreen extends StatelessWidget {
             ),
           ),
           floatingActionButton: FloatingActionButton.extended(
+            heroTag: 'fab-dashboard',
             onPressed: () => _openCreateInvoice(context),
             icon: const Icon(Icons.add_rounded),
             label: Text(
@@ -189,8 +190,7 @@ class DashboardScreen extends StatelessWidget {
     );
   }
 
-  void _openNotifications(
-      BuildContext context, InvoiceProvider provider) {
+  void _openNotifications(BuildContext context, InvoiceProvider provider) {
     final l10n = AppLocalizations.of(context)!;
     final overdue = provider.overdueInvoices.length;
     final pending = provider.pendingInvoices.length;
@@ -424,7 +424,7 @@ class _BalanceHero extends StatelessWidget {
                   ),
                   const SizedBox(height: 14),
                   Text(
-                    '${_formatAmount(outstanding)}',
+                    _formatAmount(outstanding),
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 34,
@@ -640,9 +640,8 @@ class _InvoiceCard extends StatelessWidget {
           child: Row(
             children: [
               AppAvatar(
-                initials: invoice.clientName.isNotEmpty
-                    ? invoice.clientName[0]
-                    : '?',
+                initials:
+                    invoice.clientName.isNotEmpty ? invoice.clientName[0] : '?',
                 size: 46,
                 radius: 14,
               ),
@@ -656,13 +655,11 @@ class _InvoiceCard extends StatelessWidget {
                       children: [
                         Text(
                           invoice.invoiceNumber,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodySmall
-                              ?.copyWith(
-                                color: scheme.onSurfaceVariant,
-                                fontWeight: FontWeight.w600,
-                              ),
+                          style:
+                              Theme.of(context).textTheme.bodySmall?.copyWith(
+                                    color: scheme.onSurfaceVariant,
+                                    fontWeight: FontWeight.w600,
+                                  ),
                         ),
                         Text(
                           '${invoice.currency} ${_formatAmount(invoice.total)}',
@@ -750,8 +747,18 @@ class _InvoiceCard extends StatelessWidget {
 
   String _formatDate(DateTime date) {
     const months = [
-      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
     ];
     return '${date.day} ${months[date.month - 1]}';
   }

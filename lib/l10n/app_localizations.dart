@@ -6,10 +6,44 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
 import 'app_localizations_ar.dart';
+import 'app_localizations_bg.dart';
+import 'app_localizations_bn.dart';
+import 'app_localizations_cs.dart';
+import 'app_localizations_da.dart';
+import 'app_localizations_de.dart';
+import 'app_localizations_el.dart';
 import 'app_localizations_en.dart';
 import 'app_localizations_es.dart';
+import 'app_localizations_et.dart';
+import 'app_localizations_fa.dart';
+import 'app_localizations_fi.dart';
 import 'app_localizations_fr.dart';
+import 'app_localizations_he.dart';
+import 'app_localizations_hi.dart';
+import 'app_localizations_hr.dart';
+import 'app_localizations_hu.dart';
+import 'app_localizations_id.dart';
+import 'app_localizations_it.dart';
+import 'app_localizations_ja.dart';
+import 'app_localizations_km.dart';
+import 'app_localizations_ko.dart';
+import 'app_localizations_lt.dart';
+import 'app_localizations_ms.dart';
+import 'app_localizations_nl.dart';
+import 'app_localizations_no.dart';
+import 'app_localizations_pl.dart';
+import 'app_localizations_pt.dart';
+import 'app_localizations_ro.dart';
+import 'app_localizations_ru.dart';
+import 'app_localizations_sk.dart';
+import 'app_localizations_sv.dart';
+import 'app_localizations_ta.dart';
+import 'app_localizations_te.dart';
+import 'app_localizations_th.dart';
+import 'app_localizations_tr.dart';
+import 'app_localizations_uk.dart';
 import 'app_localizations_ur.dart';
+import 'app_localizations_vi.dart';
 import 'app_localizations_zh.dart';
 
 // ignore_for_file: type=lint
@@ -99,10 +133,44 @@ abstract class AppLocalizations {
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
     Locale('ar'),
+    Locale('bg'),
+    Locale('bn'),
+    Locale('cs'),
+    Locale('da'),
+    Locale('de'),
+    Locale('el'),
     Locale('en'),
     Locale('es'),
+    Locale('et'),
+    Locale('fa'),
+    Locale('fi'),
     Locale('fr'),
+    Locale('he'),
+    Locale('hi'),
+    Locale('hr'),
+    Locale('hu'),
+    Locale('id'),
+    Locale('it'),
+    Locale('ja'),
+    Locale('km'),
+    Locale('ko'),
+    Locale('lt'),
+    Locale('ms'),
+    Locale('nl'),
+    Locale('no'),
+    Locale('pl'),
+    Locale('pt'),
+    Locale('ro'),
+    Locale('ru'),
+    Locale('sk'),
+    Locale('sv'),
+    Locale('ta'),
+    Locale('te'),
+    Locale('th'),
+    Locale('tr'),
+    Locale('uk'),
     Locale('ur'),
+    Locale('vi'),
     Locale('zh')
   ];
 
@@ -639,6 +707,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sign in'**
   String get registerSignIn;
+
+  /// No description provided for @authTermsOfService.
+  ///
+  /// In en, this message translates to:
+  /// **'Terms of Service'**
+  String get authTermsOfService;
+
+  /// No description provided for @authPrivacyPolicy.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy Policy'**
+  String get authPrivacyPolicy;
+
+  /// No description provided for @authAgreeRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please agree to the Terms of Service and Privacy Policy to continue'**
+  String get authAgreeRequired;
+
+  /// No description provided for @loginAgreePrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'By continuing, you agree to our '**
+  String get loginAgreePrefix;
+
+  /// No description provided for @registerAgreePrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'I agree to the '**
+  String get registerAgreePrefix;
+
+  /// No description provided for @authAgreeAnd.
+  ///
+  /// In en, this message translates to:
+  /// **' and '**
+  String get authAgreeAnd;
+
+  /// No description provided for @authTermsSheet.
+  ///
+  /// In en, this message translates to:
+  /// **'These Terms of Service govern your use of InvoiceFlow. By accessing or using the app you agree to be bound by these terms.\n\n1. You are responsible for the accuracy of the invoices, estimates, and other data you create.\n2. The app is provided \"as is\" without warranties of any kind, express or implied.\n3. We are not liable for any losses arising from your use of the service.\n4. You must not use the app for any unlawful or prohibited purpose.\n5. We may update these terms from time to time; continued use of the app constitutes acceptance of the updated terms.'**
+  String get authTermsSheet;
+
+  /// No description provided for @authPrivacySheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Your privacy matters to us.\n\n1. Data storage: Your invoices, clients, and settings are stored locally on your device.\n2. Cloud sync: If you sign in, your data is synchronized to your account so it is accessible across your devices.\n3. We never sell or share your personal information.\n4. Analytics: We may collect anonymized usage data to help improve the app.\n5. Contact: For any privacy questions, reach out to support@invoiceflow.app.'**
+  String get authPrivacySheet;
 
   /// No description provided for @authErrorWeakPassword.
   ///
@@ -1996,6 +2112,78 @@ abstract class AppLocalizations {
   /// **'Continue'**
   String get purchaseSuccessContinue;
 
+  /// No description provided for @paywallLoading.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading plans…'**
+  String get paywallLoading;
+
+  /// No description provided for @paywallLoadError.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load plans. Check your connection and try again.'**
+  String get paywallLoadError;
+
+  /// No description provided for @paywallNoOffering.
+  ///
+  /// In en, this message translates to:
+  /// **'No plans are available right now.'**
+  String get paywallNoOffering;
+
+  /// No description provided for @purchaseRestored.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchases restored successfully'**
+  String get purchaseRestored;
+
+  /// No description provided for @purchaseErrorGeneric.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchase failed. Please try again.'**
+  String get purchaseErrorGeneric;
+
+  /// No description provided for @settingsProTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'InvoiceFlow Pro'**
+  String get settingsProTitle;
+
+  /// No description provided for @settingsProActive.
+  ///
+  /// In en, this message translates to:
+  /// **'Pro is active — unlimited invoices, clients & no watermarks'**
+  String get settingsProActive;
+
+  /// No description provided for @settingsFreePlan.
+  ///
+  /// In en, this message translates to:
+  /// **'Free plan'**
+  String get settingsFreePlan;
+
+  /// No description provided for @settingsFreeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Upgrade for unlimited invoices, cloud sync and more'**
+  String get settingsFreeHint;
+
+  /// No description provided for @settingsUpgradeToPro.
+  ///
+  /// In en, this message translates to:
+  /// **'Upgrade to Pro'**
+  String get settingsUpgradeToPro;
+
+  /// No description provided for @settingsManageSubscription.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage Subscription'**
+  String get settingsManageSubscription;
+
+  /// No description provided for @customerCenterFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to open subscription management.'**
+  String get customerCenterFailed;
+
   /// No description provided for @onboardingSkip.
   ///
   /// In en, this message translates to:
@@ -2062,11 +2250,563 @@ abstract class AppLocalizations {
   /// **'Personalize the app with a color of your choice.'**
   String get settingsAccentColorHint;
 
+  /// No description provided for @settingsCountry.
+  ///
+  /// In en, this message translates to:
+  /// **'Country'**
+  String get settingsCountry;
+
+  /// No description provided for @settingsTaxId.
+  ///
+  /// In en, this message translates to:
+  /// **'Tax Registration Number'**
+  String get settingsTaxId;
+
+  /// No description provided for @settingsTaxIdNotSet.
+  ///
+  /// In en, this message translates to:
+  /// **'Not set'**
+  String get settingsTaxIdNotSet;
+
+  /// No description provided for @settingsTaxIdHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. 123456789012345'**
+  String get settingsTaxIdHint;
+
+  /// No description provided for @settingsTaxIdSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Tax ID saved'**
+  String get settingsTaxIdSaved;
+
+  /// No description provided for @catalogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Products & Services'**
+  String get catalogTitle;
+
+  /// No description provided for @catalogItemCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{{count} item} other{{count} items}}'**
+  String catalogItemCount(int count);
+
+  /// No description provided for @catalogEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No products yet'**
+  String get catalogEmpty;
+
+  /// No description provided for @catalogEmptySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Save reusable products and services to add them to invoices faster.'**
+  String get catalogEmptySubtitle;
+
+  /// No description provided for @catalogFromSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'From your catalog'**
+  String get catalogFromSaved;
+
+  /// No description provided for @catalogSaveToCatalog.
+  ///
+  /// In en, this message translates to:
+  /// **'Save to catalog for reuse'**
+  String get catalogSaveToCatalog;
+
+  /// No description provided for @catalogAddSnackbar.
+  ///
+  /// In en, this message translates to:
+  /// **'Added to catalog'**
+  String get catalogAddSnackbar;
+
+  /// No description provided for @catalogDeleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete item?'**
+  String get catalogDeleteTitle;
+
+  /// No description provided for @catalogDeleteMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete \"{description}\"? This can\'t be undone.'**
+  String catalogDeleteMessage(String description);
+
   /// No description provided for @commonDone.
   ///
   /// In en, this message translates to:
   /// **'Done'**
   String get commonDone;
+
+  /// No description provided for @estimateListTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimates'**
+  String get estimateListTitle;
+
+  /// No description provided for @estimateListSearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search estimates…'**
+  String get estimateListSearchHint;
+
+  /// No description provided for @estimateListEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No estimates yet'**
+  String get estimateListEmpty;
+
+  /// No description provided for @estimateListTabAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get estimateListTabAll;
+
+  /// No description provided for @estimateListTabDraft.
+  ///
+  /// In en, this message translates to:
+  /// **'Draft'**
+  String get estimateListTabDraft;
+
+  /// No description provided for @estimateListTabSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Sent'**
+  String get estimateListTabSent;
+
+  /// No description provided for @estimateListTabAccepted.
+  ///
+  /// In en, this message translates to:
+  /// **'Accepted'**
+  String get estimateListTabAccepted;
+
+  /// No description provided for @estimateListTabExpired.
+  ///
+  /// In en, this message translates to:
+  /// **'Expired'**
+  String get estimateListTabExpired;
+
+  /// No description provided for @estimateCreateTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'New Estimate'**
+  String get estimateCreateTitle;
+
+  /// No description provided for @estimateEditTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Estimate'**
+  String get estimateEditTitle;
+
+  /// No description provided for @estimateCreatedSnackbar.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimate saved'**
+  String get estimateCreatedSnackbar;
+
+  /// No description provided for @estimateUpdatedSnackbar.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimate updated'**
+  String get estimateUpdatedSnackbar;
+
+  /// No description provided for @estimateIssueDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Issue date'**
+  String get estimateIssueDate;
+
+  /// No description provided for @estimateExpiryDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Expiry date'**
+  String get estimateExpiryDate;
+
+  /// No description provided for @estimateExpiresPrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'Expires '**
+  String get estimateExpiresPrefix;
+
+  /// No description provided for @estimateConvertToInvoice.
+  ///
+  /// In en, this message translates to:
+  /// **'Convert to Invoice'**
+  String get estimateConvertToInvoice;
+
+  /// No description provided for @estimateConvertedSnackbar.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimate converted to invoice'**
+  String get estimateConvertedSnackbar;
+
+  /// No description provided for @estimateConvertFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not convert estimate'**
+  String get estimateConvertFailed;
+
+  /// No description provided for @estimateMarkSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark as sent'**
+  String get estimateMarkSent;
+
+  /// No description provided for @estimateMarkAccepted.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark as accepted'**
+  String get estimateMarkAccepted;
+
+  /// No description provided for @estimateMarkDeclined.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark as declined'**
+  String get estimateMarkDeclined;
+
+  /// No description provided for @estimateConvertedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Converted'**
+  String get estimateConvertedTitle;
+
+  /// No description provided for @estimateConvertedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Converted to invoice {invoiceId}'**
+  String estimateConvertedMessage(String invoiceId);
+
+  /// No description provided for @estimateDetailTotal.
+  ///
+  /// In en, this message translates to:
+  /// **'ESTIMATE TOTAL'**
+  String get estimateDetailTotal;
+
+  /// No description provided for @estimateStatusSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Sent'**
+  String get estimateStatusSent;
+
+  /// No description provided for @estimateStatusAccepted.
+  ///
+  /// In en, this message translates to:
+  /// **'Accepted'**
+  String get estimateStatusAccepted;
+
+  /// No description provided for @estimateStatusDeclined.
+  ///
+  /// In en, this message translates to:
+  /// **'Declined'**
+  String get estimateStatusDeclined;
+
+  /// No description provided for @estimateStatusExpired.
+  ///
+  /// In en, this message translates to:
+  /// **'Expired'**
+  String get estimateStatusExpired;
+
+  /// No description provided for @estimateOpenCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 open} other{{count} open}}'**
+  String estimateOpenCount(int count);
+
+  /// No description provided for @deleteEstimateTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete estimate?'**
+  String get deleteEstimateTitle;
+
+  /// No description provided for @deleteEstimateMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete \"{estimateNumber}\"? This can\'t be undone.'**
+  String deleteEstimateMessage(String estimateNumber);
+
+  /// No description provided for @estimatePdfFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not generate PDF'**
+  String get estimatePdfFailed;
+
+  /// No description provided for @pdfEstimate.
+  ///
+  /// In en, this message translates to:
+  /// **'ESTIMATE'**
+  String get pdfEstimate;
+
+  /// No description provided for @pdfEstimateNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimate #:'**
+  String get pdfEstimateNumber;
+
+  /// No description provided for @pdfValidUntil.
+  ///
+  /// In en, this message translates to:
+  /// **'Valid until:'**
+  String get pdfValidUntil;
+
+  /// No description provided for @invoiceDetailPaymentTerms.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment Terms'**
+  String get invoiceDetailPaymentTerms;
+
+  /// No description provided for @recurringListTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Recurring Invoices'**
+  String get recurringListTitle;
+
+  /// No description provided for @recurringListEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No recurring invoices yet'**
+  String get recurringListEmpty;
+
+  /// No description provided for @recurringListEmptySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Set up automatic invoices for regular clients and services.'**
+  String get recurringListEmptySubtitle;
+
+  /// No description provided for @recurringCreateTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'New Recurring'**
+  String get recurringCreateTitle;
+
+  /// No description provided for @recurringEditTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Recurring'**
+  String get recurringEditTitle;
+
+  /// No description provided for @recurringCreatedSnackbar.
+  ///
+  /// In en, this message translates to:
+  /// **'Recurring invoice saved'**
+  String get recurringCreatedSnackbar;
+
+  /// No description provided for @recurringUpdatedSnackbar.
+  ///
+  /// In en, this message translates to:
+  /// **'Recurring invoice updated'**
+  String get recurringUpdatedSnackbar;
+
+  /// No description provided for @recurringDeleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete recurring invoice?'**
+  String get recurringDeleteTitle;
+
+  /// No description provided for @recurringDeleteMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete \"{title}\"? Existing invoices won\'t be removed.'**
+  String recurringDeleteMessage(String title);
+
+  /// No description provided for @recurringTitleLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Title'**
+  String get recurringTitleLabel;
+
+  /// No description provided for @recurringTitleHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. Monthly retainer'**
+  String get recurringTitleHint;
+
+  /// No description provided for @recurringClientLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Client'**
+  String get recurringClientLabel;
+
+  /// No description provided for @recurringFrequencyLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Frequency'**
+  String get recurringFrequencyLabel;
+
+  /// No description provided for @recurringFrequencyWeekly.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekly'**
+  String get recurringFrequencyWeekly;
+
+  /// No description provided for @recurringFrequencyBiweekly.
+  ///
+  /// In en, this message translates to:
+  /// **'Bi-weekly'**
+  String get recurringFrequencyBiweekly;
+
+  /// No description provided for @recurringFrequencyMonthly.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly'**
+  String get recurringFrequencyMonthly;
+
+  /// No description provided for @recurringFrequencyQuarterly.
+  ///
+  /// In en, this message translates to:
+  /// **'Quarterly'**
+  String get recurringFrequencyQuarterly;
+
+  /// No description provided for @recurringFrequencyYearly.
+  ///
+  /// In en, this message translates to:
+  /// **'Yearly'**
+  String get recurringFrequencyYearly;
+
+  /// No description provided for @recurringNextRun.
+  ///
+  /// In en, this message translates to:
+  /// **'Next run'**
+  String get recurringNextRun;
+
+  /// No description provided for @recurringDueDays.
+  ///
+  /// In en, this message translates to:
+  /// **'Due in'**
+  String get recurringDueDays;
+
+  /// No description provided for @recurringDays.
+  ///
+  /// In en, this message translates to:
+  /// **'days'**
+  String get recurringDays;
+
+  /// No description provided for @recurringActiveCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 active} other{{count} active}}'**
+  String recurringActiveCount(int count);
+
+  /// No description provided for @reportsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reports'**
+  String get reportsTitle;
+
+  /// No description provided for @reportsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Business analytics'**
+  String get reportsSubtitle;
+
+  /// No description provided for @reportsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Create invoices to see reports'**
+  String get reportsEmpty;
+
+  /// No description provided for @reportsCollected.
+  ///
+  /// In en, this message translates to:
+  /// **'Collected'**
+  String get reportsCollected;
+
+  /// No description provided for @reportsOutstanding.
+  ///
+  /// In en, this message translates to:
+  /// **'Outstanding'**
+  String get reportsOutstanding;
+
+  /// No description provided for @reportsMonthlyRevenue.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly Revenue'**
+  String get reportsMonthlyRevenue;
+
+  /// No description provided for @reportsLast6Months.
+  ///
+  /// In en, this message translates to:
+  /// **'Last 6 months'**
+  String get reportsLast6Months;
+
+  /// No description provided for @reportsByStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'By Status'**
+  String get reportsByStatus;
+
+  /// No description provided for @reportsTopClients.
+  ///
+  /// In en, this message translates to:
+  /// **'Top Clients'**
+  String get reportsTopClients;
+
+  /// No description provided for @paymentLinkTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment Link'**
+  String get paymentLinkTitle;
+
+  /// No description provided for @paymentLinkNotSet.
+  ///
+  /// In en, this message translates to:
+  /// **'No payment link set in Settings'**
+  String get paymentLinkNotSet;
+
+  /// No description provided for @paymentLinkHint.
+  ///
+  /// In en, this message translates to:
+  /// **'https://buy.stripe.com/...'**
+  String get paymentLinkHint;
+
+  /// No description provided for @paymentLinkHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Your payment link is included on the invoice PDF and can be copied from the invoice menu.'**
+  String get paymentLinkHelp;
+
+  /// No description provided for @paymentLinkSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment link saved'**
+  String get paymentLinkSaved;
+
+  /// No description provided for @settingsPaymentLinkNotSet.
+  ///
+  /// In en, this message translates to:
+  /// **'Not set'**
+  String get settingsPaymentLinkNotSet;
+
+  /// No description provided for @invoiceDetailCopyPaymentLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy Payment Link'**
+  String get invoiceDetailCopyPaymentLink;
+
+  /// No description provided for @paymentLinkCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment link copied'**
+  String get paymentLinkCopied;
+
+  /// No description provided for @pdfPayOnline.
+  ///
+  /// In en, this message translates to:
+  /// **'Pay online'**
+  String get pdfPayOnline;
+
+  /// No description provided for @exportXml.
+  ///
+  /// In en, this message translates to:
+  /// **'Export XML'**
+  String get exportXml;
+
+  /// No description provided for @exportXmlFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not export XML'**
+  String get exportXmlFailed;
 }
 
 class _AppLocalizationsDelegate
@@ -2081,10 +2821,44 @@ class _AppLocalizationsDelegate
   @override
   bool isSupported(Locale locale) => <String>[
         'ar',
+        'bg',
+        'bn',
+        'cs',
+        'da',
+        'de',
+        'el',
         'en',
         'es',
+        'et',
+        'fa',
+        'fi',
         'fr',
+        'he',
+        'hi',
+        'hr',
+        'hu',
+        'id',
+        'it',
+        'ja',
+        'km',
+        'ko',
+        'lt',
+        'ms',
+        'nl',
+        'no',
+        'pl',
+        'pt',
+        'ro',
+        'ru',
+        'sk',
+        'sv',
+        'ta',
+        'te',
+        'th',
+        'tr',
+        'uk',
         'ur',
+        'vi',
         'zh'
       ].contains(locale.languageCode);
 
@@ -2097,14 +2871,82 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
   switch (locale.languageCode) {
     case 'ar':
       return AppLocalizationsAr();
+    case 'bg':
+      return AppLocalizationsBg();
+    case 'bn':
+      return AppLocalizationsBn();
+    case 'cs':
+      return AppLocalizationsCs();
+    case 'da':
+      return AppLocalizationsDa();
+    case 'de':
+      return AppLocalizationsDe();
+    case 'el':
+      return AppLocalizationsEl();
     case 'en':
       return AppLocalizationsEn();
     case 'es':
       return AppLocalizationsEs();
+    case 'et':
+      return AppLocalizationsEt();
+    case 'fa':
+      return AppLocalizationsFa();
+    case 'fi':
+      return AppLocalizationsFi();
     case 'fr':
       return AppLocalizationsFr();
+    case 'he':
+      return AppLocalizationsHe();
+    case 'hi':
+      return AppLocalizationsHi();
+    case 'hr':
+      return AppLocalizationsHr();
+    case 'hu':
+      return AppLocalizationsHu();
+    case 'id':
+      return AppLocalizationsId();
+    case 'it':
+      return AppLocalizationsIt();
+    case 'ja':
+      return AppLocalizationsJa();
+    case 'km':
+      return AppLocalizationsKm();
+    case 'ko':
+      return AppLocalizationsKo();
+    case 'lt':
+      return AppLocalizationsLt();
+    case 'ms':
+      return AppLocalizationsMs();
+    case 'nl':
+      return AppLocalizationsNl();
+    case 'no':
+      return AppLocalizationsNo();
+    case 'pl':
+      return AppLocalizationsPl();
+    case 'pt':
+      return AppLocalizationsPt();
+    case 'ro':
+      return AppLocalizationsRo();
+    case 'ru':
+      return AppLocalizationsRu();
+    case 'sk':
+      return AppLocalizationsSk();
+    case 'sv':
+      return AppLocalizationsSv();
+    case 'ta':
+      return AppLocalizationsTa();
+    case 'te':
+      return AppLocalizationsTe();
+    case 'th':
+      return AppLocalizationsTh();
+    case 'tr':
+      return AppLocalizationsTr();
+    case 'uk':
+      return AppLocalizationsUk();
     case 'ur':
       return AppLocalizationsUr();
+    case 'vi':
+      return AppLocalizationsVi();
     case 'zh':
       return AppLocalizationsZh();
   }

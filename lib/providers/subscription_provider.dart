@@ -4,13 +4,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 /// Manages the freemium tier limits.
 ///
-/// Free tier: 5 invoices + 3 clients (lifetime).
-/// Pro tier: unlimited — gated by the [isPro] flag, which today is toggled
-/// locally (e.g. after a successful `in_app_purchase` transaction). The
-/// paywall wiring can call [setPro(true)] once purchases are integrated.
+/// Free tier: 10 invoices + 3 clients (lifetime).
+/// Pro tier: unlimited — gated by the [isPro] flag, which is driven by the
+/// RevenueCat provider ([RevenueCatProvider]) once the active entitlement is
+/// confirmed server-side. [setPro] is the single entry point the paywall and
+/// restore flows use to flip the flag.
 class SubscriptionProvider with ChangeNotifier {
-  static const int freeInvoiceLimit = 3;
-  static const int freeClientLimit = 1;
+  static const int freeInvoiceLimit = 10;
+  static const int freeClientLimit = 3;
 
   bool _isPro = false;
   bool get isPro => _isPro;
@@ -61,16 +62,17 @@ class SubscriptionProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  bool get canCreateInvoice =>
-      _isPro || _invoiceCount < freeInvoiceLimit;
+  bool get canCreateInvoice => _isPro || _invoiceCount < freeInvoiceLimit;
 
   bool get canCreateClient => _isPro || _clientCount < freeClientLimit;
 
-  int get remainingInvoices =>
-      _isPro ? 999999 : (freeInvoiceLimit - _invoiceCount).clamp(0, freeInvoiceLimit);
+  int get remainingInvoices => _isPro
+      ? 999999
+      : (freeInvoiceLimit - _invoiceCount).clamp(0, freeInvoiceLimit);
 
-  int get remainingClients =>
-      _isPro ? 999999 : (freeClientLimit - _clientCount).clamp(0, freeClientLimit);
+  int get remainingClients => _isPro
+      ? 999999
+      : (freeClientLimit - _clientCount).clamp(0, freeClientLimit);
 
   /// Flip the Pro flag (call from real payment verification later).
   Future<void> setPro(bool value) async {

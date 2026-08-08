@@ -120,6 +120,7 @@ class _ClientListScreenState extends State<ClientListScreen> {
                       ],
                     ),
           floatingActionButton: FloatingActionButton(
+            heroTag: 'fab-clients',
             onPressed: _openCreateClient,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(18),

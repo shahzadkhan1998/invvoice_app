@@ -16,11 +16,12 @@ import 'screens/onboarding/onboarding_screen.dart';
 import 'screens/home/home_screen.dart';
 
 class InvoiceApp extends StatelessWidget {
-  const InvoiceApp({Key? key}) : super(key: key);
+  const InvoiceApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Consumer4<ThemeProvider, AuthProvider, ColorProvider, LocaleProvider>(
+    return Consumer4<ThemeProvider, AuthProvider, ColorProvider,
+        LocaleProvider>(
       builder: (context, theme, auth, color, locale, _) {
         return MaterialApp(
           title: 'InvoiceFlow',
@@ -29,9 +30,11 @@ class InvoiceApp extends StatelessWidget {
           darkTheme: AppTheme.darkTheme,
           themeMode: theme.themeMode,
           locale: locale.locale,
-          home: auth.isLoading
-              ? const SplashScreen()
-              : const _InitialScreen(),
+          builder: (context, child) => Directionality(
+            textDirection: TextDirection.ltr,
+            child: child!,
+          ),
+          home: auth.isLoading ? const SplashScreen() : const _InitialScreen(),
           navigatorObservers: [
             FirebaseAnalyticsObserver(analytics: FirebaseAnalytics.instance),
           ],

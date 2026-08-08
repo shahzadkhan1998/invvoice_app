@@ -10,7 +10,7 @@ import '../../core/theme/app_colors.dart';
 
 class CreateClientScreen extends StatefulWidget {
   final Client? editClient;
-  const CreateClientScreen({Key? key, this.editClient}) : super(key: key);
+  const CreateClientScreen({super.key, this.editClient});
 
   @override
   State<CreateClientScreen> createState() => _CreateClientScreenState();
@@ -30,7 +30,16 @@ class _CreateClientScreenState extends State<CreateClientScreen> {
   bool _isLoading = false;
 
   final List<String> _currencies = [
-    'AED', 'SAR', 'USD', 'EUR', 'GBP', 'QAR', 'KWD', 'BHD', 'EGP', 'INR'
+    'AED',
+    'SAR',
+    'USD',
+    'EUR',
+    'GBP',
+    'QAR',
+    'KWD',
+    'BHD',
+    'EGP',
+    'INR'
   ];
 
   @override
@@ -110,8 +119,7 @@ class _CreateClientScreenState extends State<CreateClientScreen> {
             : l10n.clientAddedSnackbar),
         backgroundColor: AppColors.successGreen,
         behavior: SnackBarBehavior.floating,
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       ),
     );
 
@@ -134,9 +142,9 @@ class _CreateClientScreenState extends State<CreateClientScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _SectionHeader(title: l10n.clientBasicInfo, icon: Icons.person_outline),
+              _SectionHeader(
+                  title: l10n.clientBasicInfo, icon: Icons.person_outline),
               const SizedBox(height: 12),
-
               _label(l10n.clientNameLabel),
               const SizedBox(height: 8),
               TextFormField(
@@ -145,16 +153,18 @@ class _CreateClientScreenState extends State<CreateClientScreen> {
                 textInputAction: TextInputAction.next,
                 decoration: InputDecoration(
                   hintText: l10n.clientNameHint,
-                  prefixIcon: Icon(Icons.business_outlined, color: Theme.of(context).hintColor),
+                  prefixIcon: Icon(Icons.business_outlined,
+                      color: Theme.of(context).hintColor),
                 ),
                 validator: (v) {
-                  if (v == null || v.trim().isEmpty) return l10n.clientNameRequired;
+                  if (v == null || v.trim().isEmpty) {
+                    return l10n.clientNameRequired;
+                  }
                   if (v.trim().length < 2) return l10n.clientNameTooShort;
                   return null;
                 },
               ),
               const SizedBox(height: 14),
-
               _label(l10n.clientEmailLabel),
               const SizedBox(height: 8),
               TextFormField(
@@ -163,7 +173,8 @@ class _CreateClientScreenState extends State<CreateClientScreen> {
                 textInputAction: TextInputAction.next,
                 decoration: InputDecoration(
                   hintText: l10n.clientEmailHint,
-                  prefixIcon: Icon(Icons.email_outlined, color: Theme.of(context).hintColor),
+                  prefixIcon: Icon(Icons.email_outlined,
+                      color: Theme.of(context).hintColor),
                 ),
                 validator: (v) {
                   if (v == null || v.isEmpty) return l10n.clientEmailRequired;
@@ -172,7 +183,6 @@ class _CreateClientScreenState extends State<CreateClientScreen> {
                 },
               ),
               const SizedBox(height: 14),
-
               _label(l10n.clientPhoneLabel),
               const SizedBox(height: 8),
               TextFormField(
@@ -181,14 +191,15 @@ class _CreateClientScreenState extends State<CreateClientScreen> {
                 textInputAction: TextInputAction.next,
                 decoration: InputDecoration(
                   hintText: l10n.clientPhoneHint,
-                  prefixIcon: Icon(Icons.phone_outlined, color: Theme.of(context).hintColor),
+                  prefixIcon: Icon(Icons.phone_outlined,
+                      color: Theme.of(context).hintColor),
                 ),
               ),
               const SizedBox(height: 24),
-
-              _SectionHeader(title: l10n.clientAddressSection, icon: Icons.location_on_outlined),
+              _SectionHeader(
+                  title: l10n.clientAddressSection,
+                  icon: Icons.location_on_outlined),
               const SizedBox(height: 12),
-
               _label(l10n.clientAddressLabel),
               const SizedBox(height: 8),
               TextFormField(
@@ -197,11 +208,11 @@ class _CreateClientScreenState extends State<CreateClientScreen> {
                 textInputAction: TextInputAction.next,
                 decoration: InputDecoration(
                   hintText: l10n.clientAddressHint,
-                  prefixIcon: Icon(Icons.home_outlined, color: Theme.of(context).hintColor),
+                  prefixIcon: Icon(Icons.home_outlined,
+                      color: Theme.of(context).hintColor),
                 ),
               ),
               const SizedBox(height: 14),
-
               _label(l10n.clientCityLabel),
               const SizedBox(height: 8),
               TextFormField(
@@ -210,20 +221,22 @@ class _CreateClientScreenState extends State<CreateClientScreen> {
                 textInputAction: TextInputAction.next,
                 decoration: InputDecoration(
                   hintText: l10n.clientCityHint,
-                  prefixIcon: Icon(Icons.location_city_outlined, color: Theme.of(context).hintColor),
+                  prefixIcon: Icon(Icons.location_city_outlined,
+                      color: Theme.of(context).hintColor),
                 ),
               ),
               const SizedBox(height: 24),
-
-              _SectionHeader(title: l10n.clientBillingDefaults, icon: Icons.receipt_outlined),
+              _SectionHeader(
+                  title: l10n.clientBillingDefaults,
+                  icon: Icons.receipt_outlined),
               const SizedBox(height: 12),
-
               _label(l10n.clientDefaultCurrency),
               const SizedBox(height: 8),
               DropdownButtonFormField<String>(
-                value: _selectedCurrency,
+                initialValue: _selectedCurrency,
                 decoration: InputDecoration(
-                  prefixIcon: Icon(Icons.attach_money, color: Theme.of(context).hintColor),
+                  prefixIcon: Icon(Icons.attach_money,
+                      color: Theme.of(context).hintColor),
                 ),
                 items: _currencies.map((currency) {
                   return DropdownMenuItem(
@@ -234,7 +247,6 @@ class _CreateClientScreenState extends State<CreateClientScreen> {
                 onChanged: (v) => setState(() => _selectedCurrency = v!),
               ),
               const SizedBox(height: 14),
-
               _label(l10n.clientDefaultTaxRate),
               const SizedBox(height: 12),
               Row(
@@ -244,8 +256,7 @@ class _CreateClientScreenState extends State<CreateClientScreen> {
                       child: GestureDetector(
                         onTap: () => setState(() => _taxRate = rate),
                         child: Container(
-                          margin: EdgeInsets.only(
-                              right: rate == 20.0 ? 0 : 8),
+                          margin: EdgeInsets.only(right: rate == 20.0 ? 0 : 8),
                           padding: const EdgeInsets.symmetric(vertical: 10),
                           decoration: BoxDecoration(
                             color: _taxRate == rate
@@ -279,7 +290,6 @@ class _CreateClientScreenState extends State<CreateClientScreen> {
                 ],
               ),
               const SizedBox(height: 14),
-
               _label(l10n.clientVatLabel),
               const SizedBox(height: 8),
               TextFormField(
@@ -287,12 +297,11 @@ class _CreateClientScreenState extends State<CreateClientScreen> {
                 textInputAction: TextInputAction.done,
                 decoration: InputDecoration(
                   hintText: l10n.clientVatHint,
-                  prefixIcon: Icon(Icons.numbers_outlined, color: Theme.of(context).hintColor),
+                  prefixIcon: Icon(Icons.numbers_outlined,
+                      color: Theme.of(context).hintColor),
                 ),
               ),
-
               const SizedBox(height: 36),
-
               SizedBox(
                 width: double.infinity,
                 height: 56,
@@ -306,8 +315,10 @@ class _CreateClientScreenState extends State<CreateClientScreen> {
                               color: Colors.white, strokeWidth: 2),
                         )
                       : Text(
-                          isEdit ? l10n.clientUpdateButton : l10n.clientAddButton,
-                          style: TextStyle(
+                          isEdit
+                              ? l10n.clientUpdateButton
+                              : l10n.clientAddButton,
+                          style: const TextStyle(
                               fontSize: 16, fontWeight: FontWeight.w600),
                         ),
                 ),
@@ -340,7 +351,8 @@ class _CreateClientScreenState extends State<CreateClientScreen> {
       builder: (ctx) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: Text(l10n.settingsBackupTitle),
-        content: Text(l10n.subscriptionClientLimit(SubscriptionProvider.freeClientLimit)),
+        content: Text(
+            l10n.subscriptionClientLimit(SubscriptionProvider.freeClientLimit)),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
@@ -378,12 +390,13 @@ class _SectionHeader extends StatelessWidget {
             color: AppColors.primaryPale,
             borderRadius: BorderRadius.circular(8),
           ),
-          child: Icon(icon, size: 18, color: Theme.of(context).colorScheme.primary),
+          child: Icon(icon,
+              size: 18, color: Theme.of(context).colorScheme.primary),
         ),
         const SizedBox(width: 10),
         Text(
           title,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
           ),

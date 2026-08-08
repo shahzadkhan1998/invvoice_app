@@ -293,6 +293,33 @@ class AppLocalizationsFr extends AppLocalizations {
   String get registerSignIn => 'Se connecter';
 
   @override
+  String get authTermsOfService => 'Conditions d\'utilisation';
+
+  @override
+  String get authPrivacyPolicy => 'Politique de confidentialité';
+
+  @override
+  String get authAgreeRequired =>
+      'Veuillez accepter les conditions d\'utilisation et la politique de confidentialité pour continuer';
+
+  @override
+  String get loginAgreePrefix => 'En continuant, vous acceptez nos ';
+
+  @override
+  String get registerAgreePrefix => 'J\'accepte les ';
+
+  @override
+  String get authAgreeAnd => ' et la ';
+
+  @override
+  String get authTermsSheet =>
+      'Ces conditions d\'utilisation régissent votre utilisation d\'InvoiceFlow. En accédant à l\'application ou en l\'utilisant, vous acceptez d\'être lié par ces conditions.\n\n1. Vous êtes responsable de l\'exactitude des factures, devis et autres données que vous créez.\n2. L\'application est fournie \"en l\'état\", sans garantie d\'aucune sorte, expresse ou implicite.\n3. Nous ne sommes pas responsables des pertes découlant de votre utilisation du service.\n4. Vous ne devez pas utiliser l\'application à des fins illégales ou interdites.\n5. Nous pouvons mettre à jour ces conditions de temps à autre ; l\'utilisation continue de l\'application constitue une acceptation des conditions mises à jour.';
+
+  @override
+  String get authPrivacySheet =>
+      'Votre vie privée compte pour nous.\n\n1. Stockage des données : vos factures, clients et paramètres sont stockés localement sur votre appareil.\n2. Synchronisation cloud : si vous vous connectez, vos données sont synchronisées avec votre compte afin d\'être accessibles sur tous vos appareils.\n3. Nous ne vendons ni ne partageons jamais vos informations personnelles.\n4. Analyses : nous pouvons collecter des données d\'utilisation anonymisées pour améliorer l\'application.\n5. Contact : pour toute question relative à la confidentialité, écrivez à support@invoiceflow.app.';
+
+  @override
   String get authErrorWeakPassword => 'Le mot de passe est trop faible';
 
   @override
@@ -1004,6 +1031,47 @@ class AppLocalizationsFr extends AppLocalizations {
   String get purchaseSuccessContinue => 'Continuer';
 
   @override
+  String get paywallLoading => 'Chargement des formules…';
+
+  @override
+  String get paywallLoadError =>
+      'Impossible de charger les formules. Vérifiez votre connexion et réessayez.';
+
+  @override
+  String get paywallNoOffering =>
+      'Aucune formule n\'est disponible pour le moment.';
+
+  @override
+  String get purchaseRestored => 'Achats restaurés avec succès';
+
+  @override
+  String get purchaseErrorGeneric => 'L\'achat a échoué. Veuillez réessayer.';
+
+  @override
+  String get settingsProTitle => 'InvoiceFlow Pro';
+
+  @override
+  String get settingsProActive =>
+      'Pro est actif — factures et clients illimités sans filigrane';
+
+  @override
+  String get settingsFreePlan => 'Formule gratuite';
+
+  @override
+  String get settingsFreeHint =>
+      'Passez à la version supérieure pour des factures illimitées, la synchronisation cloud et plus encore';
+
+  @override
+  String get settingsUpgradeToPro => 'Passer à Pro';
+
+  @override
+  String get settingsManageSubscription => 'Gérer l\'abonnement';
+
+  @override
+  String get customerCenterFailed =>
+      'Impossible d\'ouvrir la gestion de l\'abonnement.';
+
+  @override
   String get onboardingSkip => 'Passer';
 
   @override
@@ -1041,5 +1109,317 @@ class AppLocalizationsFr extends AppLocalizations {
       'Personnalisez l\'application avec la couleur de votre choix.';
 
   @override
+  String get settingsCountry => 'Pays';
+
+  @override
+  String get settingsTaxId => 'Numéro d\'immatriculation fiscale';
+
+  @override
+  String get settingsTaxIdNotSet => 'Non défini';
+
+  @override
+  String get settingsTaxIdHint => 'ex. 123456789012345';
+
+  @override
+  String get settingsTaxIdSaved => 'Numéro fiscal enregistré';
+
+  @override
+  String get catalogTitle => 'Produits & services';
+
+  @override
+  String catalogItemCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count produits',
+      one: '$count produit',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get catalogEmpty => 'Aucun produit pour l\'instant';
+
+  @override
+  String get catalogEmptySubtitle =>
+      'Enregistrez des produits et services réutilisables pour les ajouter plus vite à vos factures.';
+
+  @override
+  String get catalogFromSaved => 'Depuis votre catalogue';
+
+  @override
+  String get catalogSaveToCatalog =>
+      'Enregistrer dans le catalogue pour réutilisation';
+
+  @override
+  String get catalogAddSnackbar => 'Ajouté au catalogue';
+
+  @override
+  String get catalogDeleteTitle => 'Supprimer l\'élément ?';
+
+  @override
+  String catalogDeleteMessage(String description) {
+    return 'Supprimer « $description » ? Cette action est irréversible.';
+  }
+
+  @override
   String get commonDone => 'Terminé';
+
+  @override
+  String get estimateListTitle => 'Devis';
+
+  @override
+  String get estimateListSearchHint => 'Rechercher un devis…';
+
+  @override
+  String get estimateListEmpty => 'Aucun devis pour l\'instant';
+
+  @override
+  String get estimateListTabAll => 'Tous';
+
+  @override
+  String get estimateListTabDraft => 'Brouillon';
+
+  @override
+  String get estimateListTabSent => 'Envoyé';
+
+  @override
+  String get estimateListTabAccepted => 'Accepté';
+
+  @override
+  String get estimateListTabExpired => 'Expiré';
+
+  @override
+  String get estimateCreateTitle => 'Nouveau devis';
+
+  @override
+  String get estimateEditTitle => 'Modifier le devis';
+
+  @override
+  String get estimateCreatedSnackbar => 'Devis enregistré';
+
+  @override
+  String get estimateUpdatedSnackbar => 'Devis mis à jour';
+
+  @override
+  String get estimateIssueDate => 'Date d\'émission';
+
+  @override
+  String get estimateExpiryDate => 'Date d\'expiration';
+
+  @override
+  String get estimateExpiresPrefix => 'Expire le ';
+
+  @override
+  String get estimateConvertToInvoice => 'Convertir en facture';
+
+  @override
+  String get estimateConvertedSnackbar => 'Devis converti en facture';
+
+  @override
+  String get estimateConvertFailed => 'Impossible de convertir le devis';
+
+  @override
+  String get estimateMarkSent => 'Marquer comme envoyé';
+
+  @override
+  String get estimateMarkAccepted => 'Marquer comme accepté';
+
+  @override
+  String get estimateMarkDeclined => 'Marquer comme refusé';
+
+  @override
+  String get estimateConvertedTitle => 'Converti';
+
+  @override
+  String estimateConvertedMessage(String invoiceId) {
+    return 'Converti en facture $invoiceId';
+  }
+
+  @override
+  String get estimateDetailTotal => 'TOTAL DU DEVIS';
+
+  @override
+  String get estimateStatusSent => 'Envoyé';
+
+  @override
+  String get estimateStatusAccepted => 'Accepté';
+
+  @override
+  String get estimateStatusDeclined => 'Refusé';
+
+  @override
+  String get estimateStatusExpired => 'Expiré';
+
+  @override
+  String estimateOpenCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ouverts',
+      one: '1 ouvert',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get deleteEstimateTitle => 'Supprimer le devis ?';
+
+  @override
+  String deleteEstimateMessage(String estimateNumber) {
+    return 'Supprimer « $estimateNumber » ? Cette action est irréversible.';
+  }
+
+  @override
+  String get estimatePdfFailed => 'Impossible de générer le PDF';
+
+  @override
+  String get pdfEstimate => 'DEVIS';
+
+  @override
+  String get pdfEstimateNumber => 'Devis n° :';
+
+  @override
+  String get pdfValidUntil => 'Valable jusqu\'au :';
+
+  @override
+  String get invoiceDetailPaymentTerms => 'Conditions de paiement';
+
+  @override
+  String get recurringListTitle => 'Factures récurrentes';
+
+  @override
+  String get recurringListEmpty => 'Aucune facture récurrente';
+
+  @override
+  String get recurringListEmptySubtitle =>
+      'Configurez des factures automatiques pour vos clients et services réguliers.';
+
+  @override
+  String get recurringCreateTitle => 'Nouvelle récurrente';
+
+  @override
+  String get recurringEditTitle => 'Modifier la récurrente';
+
+  @override
+  String get recurringCreatedSnackbar => 'Facture récurrente enregistrée';
+
+  @override
+  String get recurringUpdatedSnackbar => 'Facture récurrente mise à jour';
+
+  @override
+  String get recurringDeleteTitle => 'Supprimer la facture récurrente ?';
+
+  @override
+  String recurringDeleteMessage(String title) {
+    return 'Supprimer « $title » ? Les factures existantes ne seront pas supprimées.';
+  }
+
+  @override
+  String get recurringTitleLabel => 'Titre';
+
+  @override
+  String get recurringTitleHint => 'ex. Honoraires mensuels';
+
+  @override
+  String get recurringClientLabel => 'Client';
+
+  @override
+  String get recurringFrequencyLabel => 'Fréquence';
+
+  @override
+  String get recurringFrequencyWeekly => 'Hebdomadaire';
+
+  @override
+  String get recurringFrequencyBiweekly => 'Bi-hebdomadaire';
+
+  @override
+  String get recurringFrequencyMonthly => 'Mensuelle';
+
+  @override
+  String get recurringFrequencyQuarterly => 'Trimestrielle';
+
+  @override
+  String get recurringFrequencyYearly => 'Annuelle';
+
+  @override
+  String get recurringNextRun => 'Prochaine échéance';
+
+  @override
+  String get recurringDueDays => 'Échéance sous';
+
+  @override
+  String get recurringDays => 'jours';
+
+  @override
+  String recurringActiveCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count actives',
+      one: '1 active',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get reportsTitle => 'Rapports';
+
+  @override
+  String get reportsSubtitle => 'Analyses d\'entreprise';
+
+  @override
+  String get reportsEmpty => 'Créez des factures pour voir les rapports';
+
+  @override
+  String get reportsCollected => 'Encaissé';
+
+  @override
+  String get reportsOutstanding => 'Impayé';
+
+  @override
+  String get reportsMonthlyRevenue => 'Revenu mensuel';
+
+  @override
+  String get reportsLast6Months => '6 derniers mois';
+
+  @override
+  String get reportsByStatus => 'Par statut';
+
+  @override
+  String get reportsTopClients => 'Meilleurs clients';
+
+  @override
+  String get paymentLinkTitle => 'Lien de paiement';
+
+  @override
+  String get paymentLinkNotSet => 'Aucun lien de paiement défini';
+
+  @override
+  String get paymentLinkHint => 'https://buy.stripe.com/...';
+
+  @override
+  String get paymentLinkHelp =>
+      'Votre lien de paiement est inclus sur le PDF de la facture et peut être copié depuis le menu de la facture.';
+
+  @override
+  String get paymentLinkSaved => 'Lien de paiement enregistré';
+
+  @override
+  String get settingsPaymentLinkNotSet => 'Non défini';
+
+  @override
+  String get invoiceDetailCopyPaymentLink => 'Copier le lien de paiement';
+
+  @override
+  String get paymentLinkCopied => 'Lien de paiement copié';
+
+  @override
+  String get pdfPayOnline => 'Payer en ligne';
+
+  @override
+  String get exportXml => 'Exporter XML';
+
+  @override
+  String get exportXmlFailed => 'Impossible d\'exporter le XML';
 }

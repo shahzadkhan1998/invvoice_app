@@ -291,6 +291,33 @@ class AppLocalizationsEs extends AppLocalizations {
   String get registerSignIn => 'Iniciar sesión';
 
   @override
+  String get authTermsOfService => 'Términos del Servicio';
+
+  @override
+  String get authPrivacyPolicy => 'Política de Privacidad';
+
+  @override
+  String get authAgreeRequired =>
+      'Acepta los Términos del Servicio y la Política de Privacidad para continuar';
+
+  @override
+  String get loginAgreePrefix => 'Al continuar, aceptas nuestros ';
+
+  @override
+  String get registerAgreePrefix => 'Acepto los ';
+
+  @override
+  String get authAgreeAnd => ' y la ';
+
+  @override
+  String get authTermsSheet =>
+      'Estos Términos del Servicio regulan el uso de InvoiceFlow. Al acceder o usar la aplicación aceptas estar sujeto a estos términos.\n\n1. Eres responsable de la exactitud de las facturas, presupuestos y demás datos que crees.\n2. La aplicación se proporciona \"tal cual\", sin garantías de ningún tipo, expresas o implícitas.\n3. No somos responsables de las pérdidas derivadas del uso del servicio.\n4. No debes usar la aplicación para ningún fin ilícito o prohibido.\n5. Podemos actualizar estos términos periódicamente; el uso continuado de la aplicación constituye la aceptación de los términos actualizados.';
+
+  @override
+  String get authPrivacySheet =>
+      'Tu privacidad es importante para nosotros.\n\n1. Almacenamiento de datos: tus facturas, clientes y ajustes se guardan localmente en tu dispositivo.\n2. Sincronización en la nube: si inicias sesión, tus datos se sincronizan con tu cuenta para que estén disponibles en todos tus dispositivos.\n3. Nunca vendemos ni compartimos tu información personal.\n4. Analítica: podemos recopilar datos de uso anonimizados para mejorar la aplicación.\n5. Contacto: para cualquier duda sobre privacidad, escribe a support@invoiceflow.app.';
+
+  @override
   String get authErrorWeakPassword => 'La contraseña es demasiado débil';
 
   @override
@@ -1005,6 +1032,46 @@ class AppLocalizationsEs extends AppLocalizations {
   String get purchaseSuccessContinue => 'Continuar';
 
   @override
+  String get paywallLoading => 'Cargando planes…';
+
+  @override
+  String get paywallLoadError =>
+      'No se pudieron cargar los planes. Revisa tu conexión e inténtalo de nuevo.';
+
+  @override
+  String get paywallNoOffering => 'No hay planes disponibles en este momento.';
+
+  @override
+  String get purchaseRestored => 'Compras restauradas correctamente';
+
+  @override
+  String get purchaseErrorGeneric => 'La compra falló. Inténtalo de nuevo.';
+
+  @override
+  String get settingsProTitle => 'InvoiceFlow Pro';
+
+  @override
+  String get settingsProActive =>
+      'Pro está activo: facturas y clientes ilimitados sin marcas de agua';
+
+  @override
+  String get settingsFreePlan => 'Plan gratuito';
+
+  @override
+  String get settingsFreeHint =>
+      'Actualiza para facturas ilimitadas, sincronización en la nube y más';
+
+  @override
+  String get settingsUpgradeToPro => 'Actualizar a Pro';
+
+  @override
+  String get settingsManageSubscription => 'Gestionar suscripción';
+
+  @override
+  String get customerCenterFailed =>
+      'No se pudo abrir la gestión de la suscripción.';
+
+  @override
   String get onboardingSkip => 'Omitir';
 
   @override
@@ -1042,5 +1109,316 @@ class AppLocalizationsEs extends AppLocalizations {
       'Personaliza la aplicación con el color que elijas.';
 
   @override
+  String get settingsCountry => 'País';
+
+  @override
+  String get settingsTaxId => 'Número de registro fiscal';
+
+  @override
+  String get settingsTaxIdNotSet => 'No establecido';
+
+  @override
+  String get settingsTaxIdHint => 'p. ej. 123456789012345';
+
+  @override
+  String get settingsTaxIdSaved => 'Número fiscal guardado';
+
+  @override
+  String get catalogTitle => 'Productos y servicios';
+
+  @override
+  String catalogItemCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count productos',
+      one: '$count producto',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get catalogEmpty => 'Aún no hay productos';
+
+  @override
+  String get catalogEmptySubtitle =>
+      'Guarda productos y servicios reutilizables para añadirlos a las facturas más rápido.';
+
+  @override
+  String get catalogFromSaved => 'Desde tu catálogo';
+
+  @override
+  String get catalogSaveToCatalog => 'Guardar en el catálogo para reutilizar';
+
+  @override
+  String get catalogAddSnackbar => 'Añadido al catálogo';
+
+  @override
+  String get catalogDeleteTitle => '¿Eliminar elemento?';
+
+  @override
+  String catalogDeleteMessage(String description) {
+    return '¿Eliminar \"$description\"? Esta acción no se puede deshacer.';
+  }
+
+  @override
   String get commonDone => 'Hecho';
+
+  @override
+  String get estimateListTitle => 'Presupuestos';
+
+  @override
+  String get estimateListSearchHint => 'Buscar presupuestos…';
+
+  @override
+  String get estimateListEmpty => 'Aún no hay presupuestos';
+
+  @override
+  String get estimateListTabAll => 'Todos';
+
+  @override
+  String get estimateListTabDraft => 'Borrador';
+
+  @override
+  String get estimateListTabSent => 'Enviado';
+
+  @override
+  String get estimateListTabAccepted => 'Aceptado';
+
+  @override
+  String get estimateListTabExpired => 'Expirado';
+
+  @override
+  String get estimateCreateTitle => 'Nuevo presupuesto';
+
+  @override
+  String get estimateEditTitle => 'Editar presupuesto';
+
+  @override
+  String get estimateCreatedSnackbar => 'Presupuesto guardado';
+
+  @override
+  String get estimateUpdatedSnackbar => 'Presupuesto actualizado';
+
+  @override
+  String get estimateIssueDate => 'Fecha de emisión';
+
+  @override
+  String get estimateExpiryDate => 'Fecha de vencimiento';
+
+  @override
+  String get estimateExpiresPrefix => 'Vence el ';
+
+  @override
+  String get estimateConvertToInvoice => 'Convertir en factura';
+
+  @override
+  String get estimateConvertedSnackbar => 'Presupuesto convertido en factura';
+
+  @override
+  String get estimateConvertFailed => 'No se pudo convertir el presupuesto';
+
+  @override
+  String get estimateMarkSent => 'Marcar como enviado';
+
+  @override
+  String get estimateMarkAccepted => 'Marcar como aceptado';
+
+  @override
+  String get estimateMarkDeclined => 'Marcar como rechazado';
+
+  @override
+  String get estimateConvertedTitle => 'Convertido';
+
+  @override
+  String estimateConvertedMessage(String invoiceId) {
+    return 'Convertido en factura $invoiceId';
+  }
+
+  @override
+  String get estimateDetailTotal => 'TOTAL DEL PRESUPUESTO';
+
+  @override
+  String get estimateStatusSent => 'Enviado';
+
+  @override
+  String get estimateStatusAccepted => 'Aceptado';
+
+  @override
+  String get estimateStatusDeclined => 'Rechazado';
+
+  @override
+  String get estimateStatusExpired => 'Expirado';
+
+  @override
+  String estimateOpenCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count abiertos',
+      one: '1 abierto',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get deleteEstimateTitle => '¿Eliminar presupuesto?';
+
+  @override
+  String deleteEstimateMessage(String estimateNumber) {
+    return '¿Eliminar \"$estimateNumber\"? Esta acción no se puede deshacer.';
+  }
+
+  @override
+  String get estimatePdfFailed => 'No se pudo generar el PDF';
+
+  @override
+  String get pdfEstimate => 'PRESUPUESTO';
+
+  @override
+  String get pdfEstimateNumber => 'Presupuesto n.º:';
+
+  @override
+  String get pdfValidUntil => 'Válido hasta:';
+
+  @override
+  String get invoiceDetailPaymentTerms => 'Términos de pago';
+
+  @override
+  String get recurringListTitle => 'Facturas recurrentes';
+
+  @override
+  String get recurringListEmpty => 'Aún no hay facturas recurrentes';
+
+  @override
+  String get recurringListEmptySubtitle =>
+      'Crea facturas automáticas para clientes y servicios habituales.';
+
+  @override
+  String get recurringCreateTitle => 'Nueva recurrente';
+
+  @override
+  String get recurringEditTitle => 'Editar recurrente';
+
+  @override
+  String get recurringCreatedSnackbar => 'Factura recurrente guardada';
+
+  @override
+  String get recurringUpdatedSnackbar => 'Factura recurrente actualizada';
+
+  @override
+  String get recurringDeleteTitle => '¿Eliminar factura recurrente?';
+
+  @override
+  String recurringDeleteMessage(String title) {
+    return '¿Eliminar \"$title\"? Las facturas existentes no se eliminarán.';
+  }
+
+  @override
+  String get recurringTitleLabel => 'Título';
+
+  @override
+  String get recurringTitleHint => 'p. ej. Honorarios mensuales';
+
+  @override
+  String get recurringClientLabel => 'Cliente';
+
+  @override
+  String get recurringFrequencyLabel => 'Frecuencia';
+
+  @override
+  String get recurringFrequencyWeekly => 'Semanal';
+
+  @override
+  String get recurringFrequencyBiweekly => 'Quincenal';
+
+  @override
+  String get recurringFrequencyMonthly => 'Mensual';
+
+  @override
+  String get recurringFrequencyQuarterly => 'Trimestral';
+
+  @override
+  String get recurringFrequencyYearly => 'Anual';
+
+  @override
+  String get recurringNextRun => 'Próxima ejecución';
+
+  @override
+  String get recurringDueDays => 'Vence en';
+
+  @override
+  String get recurringDays => 'días';
+
+  @override
+  String recurringActiveCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count activas',
+      one: '1 activa',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get reportsTitle => 'Informes';
+
+  @override
+  String get reportsSubtitle => 'Analítica de negocio';
+
+  @override
+  String get reportsEmpty => 'Crea facturas para ver informes';
+
+  @override
+  String get reportsCollected => 'Cobrado';
+
+  @override
+  String get reportsOutstanding => 'Pendiente';
+
+  @override
+  String get reportsMonthlyRevenue => 'Ingresos mensuales';
+
+  @override
+  String get reportsLast6Months => 'Últimos 6 meses';
+
+  @override
+  String get reportsByStatus => 'Por estado';
+
+  @override
+  String get reportsTopClients => 'Mejores clientes';
+
+  @override
+  String get paymentLinkTitle => 'Enlace de pago';
+
+  @override
+  String get paymentLinkNotSet => 'No hay enlace de pago en Ajustes';
+
+  @override
+  String get paymentLinkHint => 'https://buy.stripe.com/...';
+
+  @override
+  String get paymentLinkHelp =>
+      'Tu enlace de pago se incluye en el PDF de la factura y puedes copiarlo desde el menú de la factura.';
+
+  @override
+  String get paymentLinkSaved => 'Enlace de pago guardado';
+
+  @override
+  String get settingsPaymentLinkNotSet => 'No configurado';
+
+  @override
+  String get invoiceDetailCopyPaymentLink => 'Copiar enlace de pago';
+
+  @override
+  String get paymentLinkCopied => 'Enlace de pago copiado';
+
+  @override
+  String get pdfPayOnline => 'Pagar en línea';
+
+  @override
+  String get exportXml => 'Exportar XML';
+
+  @override
+  String get exportXmlFailed => 'No se pudo exportar el XML';
 }

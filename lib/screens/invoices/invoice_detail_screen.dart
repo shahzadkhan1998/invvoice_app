@@ -1,26 +1,31 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:invoice_app/l10n/app_localizations.dart';
 import '../../models/invoice.dart';
 import '../../providers/invoice_provider.dart';
 import '../../providers/client_provider.dart';
+import '../../providers/color_provider.dart';
+import '../../providers/region_provider.dart';
+import '../../providers/subscription_provider.dart';
 import '../../core/theme/app_colors.dart';
 import '../../services/pdf_service.dart';
+import '../../services/ubl_xml_service.dart';
 import '../../widgets/app_avatar.dart';
 import '../../widgets/invoice_status_badge.dart';
 import 'create_invoice_screen.dart';
 
 class InvoiceDetailScreen extends StatelessWidget {
   final Invoice invoice;
-  const InvoiceDetailScreen({Key? key, required this.invoice})
-      : super(key: key);
+  const InvoiceDetailScreen({super.key, required this.invoice});
 
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
-    final client = context.watch<ClientProvider>().getClientById(invoice.clientId);
+    final client =
+        context.watch<ClientProvider>().getClientById(invoice.clientId);
 
     return Scaffold(
       appBar: AppBar(
@@ -49,6 +54,14 @@ class InvoiceDetailScreen extends StatelessWidget {
                   ]),
                 ),
               PopupMenuItem(
+                value: 'paylink',
+                child: Row(children: [
+                  const Icon(Icons.link_rounded, color: AppColors.primaryBlue),
+                  const SizedBox(width: 8),
+                  Text(loc.invoiceDetailCopyPaymentLink),
+                ]),
+              ),
+              PopupMenuItem(
                 value: 'pdf',
                 child: Row(children: [
                   const Icon(Icons.picture_as_pdf_outlined,
@@ -60,9 +73,19 @@ class InvoiceDetailScreen extends StatelessWidget {
               PopupMenuItem(
                 value: 'share',
                 child: Row(children: [
-                  const Icon(Icons.share_outlined, color: AppColors.primaryBlue),
+                  const Icon(Icons.share_outlined,
+                      color: AppColors.primaryBlue),
                   const SizedBox(width: 8),
                   Text(loc.commonSharePdf),
+                ]),
+              ),
+              PopupMenuItem(
+                value: 'xml',
+                child: Row(children: [
+                  const Icon(Icons.data_object_rounded,
+                      color: AppColors.primaryBlue),
+                  const SizedBox(width: 8),
+                  Text(loc.exportXml),
                 ]),
               ),
               PopupMenuItem(
@@ -85,29 +108,27 @@ class InvoiceDetailScreen extends StatelessWidget {
           children: [
             _HeaderCard(invoice: invoice),
             const SizedBox(height: 20),
-
             if (client != null) ...[
               _sectionTitle(context, loc.invoiceDetailBillTo),
               const SizedBox(height: 10),
-              _ClientCard(clientName: client.name, clientEmail: client.email, clientPhone: client.phone),
+              _ClientCard(
+                  clientName: client.name,
+                  clientEmail: client.email,
+                  clientPhone: client.phone),
               const SizedBox(height: 20),
             ],
-
             _sectionTitle(context, loc.invoiceDetailItems),
             const SizedBox(height: 10),
             _ItemsTable(lineItems: invoice.lineItems),
             const SizedBox(height: 20),
-
             _TotalsCard(invoice: invoice),
             const SizedBox(height: 20),
-
             if (invoice.notes != null && invoice.notes!.isNotEmpty) ...[
               _sectionTitle(context, loc.invoiceDetailNotes),
               const SizedBox(height: 10),
               _InfoCard(child: Text(invoice.notes!)),
               const SizedBox(height: 20),
             ],
-
             if (invoice.signatureUrl != null &&
                 File(invoice.signatureUrl!).existsSync()) ...[
               _sectionTitle(context, loc.invoiceDetailSignature),
@@ -122,7 +143,6 @@ class InvoiceDetailScreen extends StatelessWidget {
               ),
               const SizedBox(height: 20),
             ],
-
             if (invoice.status != InvoiceStatus.paid) ...[
               SizedBox(
                 width: double.infinity,
@@ -151,7 +171,6 @@ class InvoiceDetailScreen extends StatelessWidget {
               ),
               const SizedBox(height: 12),
             ],
-
             Row(
               children: [
                 Expanded(
@@ -192,11 +211,11 @@ class InvoiceDetailScreen extends StatelessWidget {
     );
   }
 
-  Future<void> _generatePdf(BuildContext context,
-      {required bool share}) async {
+  Future<void> _generatePdf(BuildContext context, {required bool share}) async {
     final loc = AppLocalizations.of(context)!;
     final prefs = await SharedPreferences.getInstance();
-    final client = context.read<ClientProvider>().getClientById(invoice.clientId);
+    final client =
+        context.read<ClientProvider>().getClientById(invoice.clientId);
     if (client == null) return;
 
     ScaffoldMessenger.of(context).showSnackBar(
@@ -216,6 +235,12 @@ class InvoiceDetailScreen extends StatelessWidget {
 
     try {
       final l10n = AppLocalizations.of(context)!;
+      final region = context.read<RegionProvider>();
+      final accent = context.read<ColorProvider>().accent;
+      final accentHex =
+          '#${(accent.toARGB32() & 0xFFFFFF).toRadixString(16).padLeft(6, '0').toUpperCase()}';
+      final isPro = context.read<SubscriptionProvider>().isPro;
+      final template = PdfService.templateFromString(prefs.getString('pdf_template'));
       final file = await PdfService.generateInvoicePdf(
         l10n: l10n,
         invoice: invoice,
@@ -224,6 +249,14 @@ class InvoiceDetailScreen extends StatelessWidget {
         businessEmail: prefs.getString('business_email') ?? '',
         businessPhone: prefs.getString('business_phone'),
         businessAddress: prefs.getString('business_address'),
+        businessTaxId:
+            region.businessTaxId.isEmpty ? null : region.businessTaxId,
+        taxIdLabel: region.config?.taxIdLabel,
+        taxLabel: region.config?.taxLabel,
+        accentHex: accentHex,
+        paymentLink: prefs.getString('payment_link'),
+        template: template,
+        watermark: !isPro,
       );
 
       if (share) {
@@ -249,15 +282,79 @@ class InvoiceDetailScreen extends StatelessWidget {
         context.read<InvoiceProvider>().markAsPaid(invoice.id);
         Navigator.pop(context);
         break;
+      case 'paylink':
+        _copyPaymentLink(context);
+        break;
       case 'pdf':
         _generatePdf(context, share: false);
         break;
       case 'share':
         _generatePdf(context, share: true);
         break;
+      case 'xml':
+        _exportXml(context);
+        break;
       case 'delete':
         _confirmDelete(context);
         break;
+    }
+  }
+
+  Future<void> _exportXml(BuildContext context) async {
+    final loc = AppLocalizations.of(context)!;
+    final prefs = await SharedPreferences.getInstance();
+    final client =
+        context.read<ClientProvider>().getClientById(invoice.clientId);
+    if (client == null) return;
+    final region = context.read<RegionProvider>();
+    try {
+      final xml = UblXmlService.generateInvoiceXml(
+        invoice: invoice,
+        client: client,
+        businessName: prefs.getString('business_name') ?? 'My Business',
+        businessEmail: prefs.getString('business_email'),
+        businessPhone: prefs.getString('business_phone'),
+        businessAddress: prefs.getString('business_address'),
+        businessTaxId:
+            region.businessTaxId.isEmpty ? null : region.businessTaxId,
+        taxLabel: region.config?.taxLabel,
+      );
+      await UblXmlService.saveAndShareXml(xml, invoice.invoiceNumber);
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(loc.exportXmlFailed),
+            backgroundColor: AppColors.dangerRed,
+          ),
+        );
+      }
+    }
+  }
+
+  Future<void> _copyPaymentLink(BuildContext context) async {
+    final loc = AppLocalizations.of(context)!;
+    final prefs = await SharedPreferences.getInstance();
+    final link = prefs.getString('payment_link');
+    if (link == null || link.isEmpty) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(loc.paymentLinkNotSet),
+            backgroundColor: AppColors.dangerRed,
+          ),
+        );
+      }
+      return;
+    }
+    await Clipboard.setData(ClipboardData(text: link));
+    if (context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(loc.paymentLinkCopied),
+          backgroundColor: AppColors.successGreen,
+        ),
+      );
     }
   }
 
@@ -453,8 +550,18 @@ class _DateChip extends StatelessWidget {
             ? AppColors.dangerRed
             : Colors.white70;
     const months = [
-      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
     ];
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -474,9 +581,7 @@ class _DateChip extends StatelessWidget {
           Text(
             '${date.day} ${months[date.month - 1]} ${date.year}',
             style: const TextStyle(
-                fontSize: 12,
-                color: Colors.white,
-                fontWeight: FontWeight.w700),
+                fontSize: 12, color: Colors.white, fontWeight: FontWeight.w700),
           ),
         ],
       ),
@@ -507,7 +612,8 @@ class _ClientCard extends StatelessWidget {
       ),
       child: Row(
         children: [
-          AppAvatar(initials: clientName.isNotEmpty ? clientName[0] : '?', size: 48),
+          AppAvatar(
+              initials: clientName.isNotEmpty ? clientName[0] : '?', size: 48),
           const SizedBox(width: 14),
           Expanded(
             child: Column(
@@ -605,8 +711,7 @@ class _ItemsTable extends StatelessWidget {
               decoration: BoxDecoration(
                 border: isLast
                     ? null
-                    : Border(
-                        bottom: BorderSide(color: scheme.outlineVariant)),
+                    : Border(bottom: BorderSide(color: scheme.outlineVariant)),
               ),
               child: Row(
                 children: [
@@ -663,7 +768,9 @@ class _ItemsTable extends StatelessWidget {
   }
 
   String _qty(double quantity) {
-    return quantity % 1 == 0 ? quantity.toInt().toString() : quantity.toStringAsFixed(2);
+    return quantity % 1 == 0
+        ? quantity.toInt().toString()
+        : quantity.toStringAsFixed(2);
   }
 }
 
@@ -686,7 +793,8 @@ class _TotalsCard extends StatelessWidget {
         children: [
           _TotalRow(
               label: loc.invoiceSubtotal,
-              value: '${invoice.currency} ${invoice.subtotal.toStringAsFixed(2)}'),
+              value:
+                  '${invoice.currency} ${invoice.subtotal.toStringAsFixed(2)}'),
           const SizedBox(height: 8),
           if (invoice.taxAmount > 0)
             _TotalRow(
@@ -755,9 +863,9 @@ class _InfoCard extends StatelessWidget {
       ),
       child: DefaultTextStyle(
         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: scheme.onSurfaceVariant,
-              height: 1.5,
-            ) ??
+                  color: scheme.onSurfaceVariant,
+                  height: 1.5,
+                ) ??
             const TextStyle(),
         child: child,
       ),

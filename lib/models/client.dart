@@ -10,6 +10,7 @@ class Client {
   final double defaultTaxRate;
   final String? vatNumber;
   final DateTime createdAt;
+  final DateTime updatedAt;
   final int totalInvoices;
   final double totalBilled;
   final bool isSynced;
@@ -20,13 +21,16 @@ class Client {
     this.currency = 'AED', this.defaultTaxRate = 5.0, this.vatNumber,
     DateTime? createdAt, this.totalInvoices = 0,
     this.totalBilled = 0.0, this.isSynced = false,
-  }) : createdAt = createdAt ?? DateTime.now();
+    DateTime? updatedAt,
+  })  : createdAt = createdAt ?? DateTime.now(),
+        updatedAt = updatedAt ?? DateTime.now();
 
   Client copyWith({
     String? id, String? name, String? email, String? phone,
     String? address, String? city, String? country, String? currency,
     double? defaultTaxRate, String? vatNumber, DateTime? createdAt,
     int? totalInvoices, double? totalBilled, bool? isSynced,
+    DateTime? updatedAt,
   }) {
     return Client(
       id: id ?? this.id, name: name ?? this.name, email: email ?? this.email,
@@ -39,6 +43,7 @@ class Client {
       totalInvoices: totalInvoices ?? this.totalInvoices,
       totalBilled: totalBilled ?? this.totalBilled,
       isSynced: isSynced ?? this.isSynced,
+      updatedAt: updatedAt ?? this.updatedAt,
     );
   }
 
@@ -47,6 +52,7 @@ class Client {
     'address': address, 'city': city, 'country': country,
     'currency': currency, 'defaultTaxRate': defaultTaxRate,
     'vatNumber': vatNumber, 'createdAt': createdAt.toIso8601String(),
+    'updatedAt': updatedAt.toIso8601String(),
     'totalInvoices': totalInvoices, 'totalBilled': totalBilled,
     'isSynced': isSynced,
   };
@@ -58,6 +64,9 @@ class Client {
     defaultTaxRate: (j['defaultTaxRate'] as num?)?.toDouble() ?? 5.0,
     vatNumber: j['vatNumber'],
     createdAt: DateTime.parse(j['createdAt']),
+    updatedAt: j['updatedAt'] != null
+        ? DateTime.parse(j['updatedAt'] as String)
+        : DateTime.parse(j['createdAt'] as String),
     totalInvoices: j['totalInvoices'] ?? 0,
     totalBilled: (j['totalBilled'] as num?)?.toDouble() ?? 0.0,
     isSynced: j['isSynced'] ?? false,

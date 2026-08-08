@@ -356,5 +356,171 @@
   "onboardingProBody": "افتح الفواتير غير المحدودة والمزامنة السحابية وأزل العلامات المائية مع إنفويس فلو برو.",
   "settingsAccentColor": "لون التمييز",
   "settingsAccentColorHint": "خصّص التطبيق باللون الذي تختاره.",
-  "commonDone": "تم"
+  "settingsCountry": "الدولة",
+  "settingsTaxId": "الرقم الضريبي",
+  "settingsTaxIdNotSet": "غير محدد",
+  "settingsTaxIdHint": "مثال: 123456789012345",
+  "settingsTaxIdSaved": "تم حفظ الرقم الضريبي",
+  "catalogTitle": "المنتجات والخدمات",
+  "catalogItemCount": "{count, plural, =1{{count} منتج} other{{count} منتجات}}",
+  "@catalogItemCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "catalogEmpty": "لا توجد منتجات بعد",
+  "catalogEmptySubtitle": "احفظ المنتجات والخدمات القابلة لإعادة الاستخدام لإضافتها إلى الفواتير بشكل أسرع.",
+  "catalogFromSaved": "من الكتالوج الخاص بك",
+  "catalogSaveToCatalog": "حفظ في الكتالوج لإعادة الاستخدام",
+  "catalogAddSnackbar": "تمت الإضافة إلى الكتالوج",
+  "catalogDeleteTitle": "حذف العنصر؟",
+  "catalogDeleteMessage": "حذف \"{description}\"؟ لا يمكن التراجع عن هذا الإجراء.",
+  "@catalogDeleteMessage": {
+    "placeholders": {
+      "description": {
+        "type": "String"
+      }
+    }
+  },
+  "commonDone": "تم",
+  "estimateListTitle": "التقديرات",
+  "estimateListSearchHint": "ابحث في التقديرات…",
+  "estimateListEmpty": "لا توجد تقديرات بعد",
+  "estimateListTabAll": "الكل",
+  "estimateListTabDraft": "مسودة",
+  "estimateListTabSent": "مرسل",
+  "estimateListTabAccepted": "مقبول",
+  "estimateListTabExpired": "منتهي الصلاحية",
+  "estimateCreateTitle": "تقدير جديد",
+  "estimateEditTitle": "تعديل التقدير",
+  "estimateCreatedSnackbar": "تم حفظ التقدير",
+  "estimateUpdatedSnackbar": "تم تحديث التقدير",
+  "estimateIssueDate": "تاريخ الإصدار",
+  "estimateExpiryDate": "تاريخ الانتهاء",
+  "estimateExpiresPrefix": "ينتهي في ",
+  "estimateConvertToInvoice": "تحويل إلى فاتورة",
+  "estimateConvertedSnackbar": "تم تحويل التقدير إلى فاتورة",
+  "estimateConvertFailed": "تعذر تحويل التقدير",
+  "estimateMarkSent": "تحديد كمرسل",
+  "estimateMarkAccepted": "تحديد كمقبول",
+  "estimateMarkDeclined": "تحديد كمرفوض",
+  "estimateConvertedTitle": "تم التحويل",
+  "estimateConvertedMessage": "تم التحويل إلى الفاتورة {invoiceId}",
+  "@estimateConvertedMessage": {
+    "placeholders": {
+      "invoiceId": {
+        "type": "String"
+      }
+    }
+  },
+  "estimateDetailTotal": "إجمالي التقدير",
+  "estimateStatusSent": "مرسل",
+  "estimateStatusAccepted": "مقبول",
+  "estimateStatusDeclined": "مرفوض",
+  "estimateStatusExpired": "منتهي الصلاحية",
+  "estimateOpenCount": "{count, plural, =1{واحد مفتوح} other{{count} مفتوحة}}",
+  "@estimateOpenCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "deleteEstimateTitle": "حذف التقدير؟",
+  "deleteEstimateMessage": "حذف \"{estimateNumber}\"؟ لا يمكن التراجع عن هذا الإجراء.",
+  "@deleteEstimateMessage": {
+    "placeholders": {
+      "estimateNumber": {
+        "type": "String"
+      }
+    }
+  },
+  "estimatePdfFailed": "تعذر إنشاء ملف PDF",
+  "pdfEstimate": "تقدير",
+  "pdfEstimateNumber": "رقم التقدير:",
+  "pdfValidUntil": "صالح حتى:",
+  "invoiceDetailPaymentTerms": "شروط الدفع",
+
+  "recurringListTitle": "الفواتير المتكررة",
+  "recurringListEmpty": "لا توجد فواتير متكررة بعد",
+  "recurringListEmptySubtitle": "أعد الفواتير تلقائياً للعملاء والخدمات المنتظمة.",
+  "recurringCreateTitle": "متكرر جديد",
+  "recurringEditTitle": "تعديل المتكرر",
+  "recurringCreatedSnackbar": "تم حفظ الفاتورة المتكررة",
+  "recurringUpdatedSnackbar": "تم تحديث الفاتورة المتكررة",
+  "recurringDeleteTitle": "حذف الفاتورة المتكررة؟",
+  "recurringDeleteMessage": "حذف \"{title}\"؟ لن تتم إزالة الفواتير الموجودة.",
+  "@recurringDeleteMessage": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "recurringTitleLabel": "العنوان",
+  "recurringTitleHint": "مثال: رسوم شهرية",
+  "recurringClientLabel": "العميل",
+  "recurringFrequencyLabel": "التكرار",
+  "recurringFrequencyWeekly": "أسبوعي",
+  "recurringFrequencyBiweekly": "كل أسبوعين",
+  "recurringFrequencyMonthly": "شهري",
+  "recurringFrequencyQuarterly": "ربع سنوي",
+  "recurringFrequencyYearly": "سنوي",
+  "recurringNextRun": "التشغيل التالي",
+  "recurringDueDays": "الاستحقاق خلال",
+  "recurringDays": "أيام",
+  "recurringActiveCount": "{count, plural, =1{نشط واحد} other{{count} نشطة}}",
+  "@recurringActiveCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+
+  "reportsTitle": "التقارير",
+  "reportsSubtitle": "تحليلات الأعمال",
+  "reportsEmpty": "أنشئ فواتير لعرض التقارير",
+  "reportsCollected": "المحصّل",
+  "reportsOutstanding": "المستحق",
+  "reportsMonthlyRevenue": "الإيرادات الشهرية",
+  "reportsLast6Months": "آخر 6 أشهر",
+  "reportsByStatus": "حسب الحالة",
+  "reportsTopClients": "أفضل العملاء",
+
+  "paymentLinkTitle": "رابط الدفع",
+  "paymentLinkNotSet": "لا يوجد رابط دفع في الإعدادات",
+  "paymentLinkHint": "https://buy.stripe.com/...",
+  "paymentLinkHelp": "يُضمّن رابط الدفع في ملف PDF الخاص بالفاتورة ويمكن نسخه من قائمة الفاتورة.",
+  "paymentLinkSaved": "تم حفظ رابط الدفع",
+  "settingsPaymentLinkNotSet": "غير محدد",
+  "invoiceDetailCopyPaymentLink": "نسخ رابط الدفع",
+  "paymentLinkCopied": "تم نسخ رابط الدفع",
+
+  "pdfPayOnline": "ادفع عبر الإنترنت",
+
+  "exportXml": "تصدير XML",
+  "exportXmlFailed": "تعذّر تصدير XML",
+  "authTermsOfService": "شروط الخدمة",
+  "authPrivacyPolicy": "سياسة الخصوصية",
+  "authAgreeRequired": "يرجى الموافقة على شروط الخدمة وسياسة الخصوصية للمتابعة",
+  "loginAgreePrefix": "بالمتابعة، أنت توافق على ",
+  "registerAgreePrefix": "أوافق على ",
+  "authAgreeAnd": " و ",
+  "authTermsSheet": "تنظّم شروط الخدمة هذه استخدامك لتطبيق InvoiceFlow. من خلال الوصول إلى التطبيق أو استخدامه، فإنك توافق على الالتزام بهذه الشروط.\n\n1. أنت مسؤول عن دقة الفواتير والعروض وأي بيانات أخرى تنشئها.\n2. يُوفَّر التطبيق «كما هو» دون أي ضمانات من أي نوع، صريحة أو ضمنية.\n3. نحن غير مسؤولين عن أي خسائر تنشأ عن استخدامك للخدمة.\n4. يجب ألا تستخدم التطبيق لأي غرض غير قانوني أو محظور.\n5. قد نقوم بتحديث هذه الشروط من وقت لآخر؛ واستمرار استخدام التطبيق يُعد قبولاً للشروط المحدّثة.",
+  "authPrivacySheet": "خصوصيتك مهمة بالنسبة لنا.\n\n1. تخزين البيانات: يتم تخزين فواتيرك وعملائك وإعداداتك محلياً على جهازك.\n2. المزامنة السحابية: إذا سجّلت الدخول، تتم مزامنة بياناتك إلى حسابك حتى تكون متاحة عبر أجهزتك.\n3. لا نبيع أو نشارك معلوماتك الشخصية أبداً.\n4. التحليلات: قد نجمع بيانات استخدام مجهولة الهوية للمساعدة في تحسين التطبيق.\n5. للتواصل: لأي استفسارات تتعلق بالخصوصية، تواصل معنا عبر support@invoiceflow.app.",
+  "paywallLoading": "جارٍ تحميل الباقات…",
+  "paywallLoadError": "تعذّر تحميل الباقات. تحقق من اتصالك وحاول مرة أخرى.",
+  "paywallNoOffering": "لا توجد باقات متاحة حالياً.",
+  "purchaseRestored": "تمت استعادة المشتريات بنجاح",
+  "purchaseErrorGeneric": "فشل الشراء. يرجى المحاولة مرة أخرى.",
+  "settingsProTitle": "InvoiceFlow Pro",
+  "settingsProActive": "النسخة الاحترافية مفعّلة — فواتير وعملاء غير محدودين وبدون علامات مائية",
+  "settingsFreePlan": "الخطة المجانية",
+  "settingsFreeHint": "قم بالترقية للحصول على فواتير غير محدودة ومزامنة سحابية والمزيد",
+  "settingsUpgradeToPro": "الترقية إلى الإصدار الاحترافي",
+  "settingsManageSubscription": "إدارة الاشتراك",
+  "customerCenterFailed": "تعذّر فتح إدارة الاشتراك."
 }

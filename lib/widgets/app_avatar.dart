@@ -9,12 +9,12 @@ class AppAvatar extends StatelessWidget {
   final double radius;
 
   const AppAvatar({
-    Key? key,
+    super.key,
     required this.initials,
     this.size = 48,
     this.color,
     this.radius = 16,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -59,8 +59,7 @@ class AppAvatar extends StatelessWidget {
 class AppDot extends StatelessWidget {
   final Color color;
   final double size;
-  const AppDot({Key? key, required this.color, this.size = 8})
-      : super(key: key);
+  const AppDot({super.key, required this.color, this.size = 8});
 
   @override
   Widget build(BuildContext context) {
@@ -90,12 +89,12 @@ class AppIconAvatar extends StatelessWidget {
   final double radius;
 
   const AppIconAvatar({
-    Key? key,
+    super.key,
     required this.icon,
     this.color = AppColors.primaryBlue,
     this.size = 44,
     this.radius = 14,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

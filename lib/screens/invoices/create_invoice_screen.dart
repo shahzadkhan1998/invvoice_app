@@ -19,10 +19,14 @@ import 'package:path_provider/path_provider.dart';
 import '../../core/utils/currency_utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../clients/create_client_screen.dart';
+import '../../core/models/country_config.dart';
+import '../../providers/region_provider.dart';
+import '../../providers/catalog_provider.dart';
+import '../../models/catalog_item.dart';
 
 class CreateInvoiceScreen extends StatefulWidget {
   final Invoice? editInvoice;
-  const CreateInvoiceScreen({Key? key, this.editInvoice}) : super(key: key);
+  const CreateInvoiceScreen({super.key, this.editInvoice});
 
   @override
   State<CreateInvoiceScreen> createState() => _CreateInvoiceScreenState();
@@ -32,6 +36,7 @@ class _CreateInvoiceScreenState extends State<CreateInvoiceScreen> {
   int _currentStep = 0;
   final _uuid = const Uuid();
   String _defaultCurrency = 'AED';
+  String _countryCode = '';
 
   // Step 1
   Client? _selectedClient;
@@ -69,17 +74,35 @@ class _CreateInvoiceScreenState extends State<CreateInvoiceScreen> {
       _logoPath = inv.logoUrl;
       _signaturePath = inv.signatureUrl;
     }
-    _loadDefaultCurrency();
+    _loadDefaults();
   }
 
-  Future<void> _loadDefaultCurrency() async {
+  Future<void> _loadDefaults() async {
     final prefs = await SharedPreferences.getInstance();
-    if (mounted) {
-      setState(() {
-        _defaultCurrency = prefs.getString(CurrencyUtils.defaultCurrencyKey) ??
-            CurrencyUtils.currencyForLocale(PlatformDispatcher.instance.locale);
-      });
+    if (!mounted) return;
+    setState(() {
+      _defaultCurrency = prefs.getString(CurrencyUtils.defaultCurrencyKey) ??
+          CurrencyUtils.currencyForLocale(PlatformDispatcher.instance.locale);
+      _countryCode = prefs.getString(RegionProvider.countryKey) ??
+          CountryConfigRegistry.suggestCountryCode(
+              PlatformDispatcher.instance.locale);
+      if (widget.editInvoice == null) {
+        _taxRate = CountryConfigRegistry.byCode(_countryCode)?.defaultTaxRate ??
+            _taxRate;
+      }
+    });
+  }
+
+  /// Tax-rate chips shown in step 2: standard options plus the region's
+  /// default rate so e.g. India's 18% GST is directly selectable.
+  List<double> get _taxRateOptions {
+    final opts = <double>[0.0, 5.0, 10.0, 15.0];
+    final def = CountryConfigRegistry.byCode(_countryCode)?.defaultTaxRate;
+    if (def != null && !opts.contains(def)) {
+      opts.add(def);
+      opts.sort();
     }
+    return opts;
   }
 
   @override
@@ -119,8 +142,8 @@ class _CreateInvoiceScreenState extends State<CreateInvoiceScreen> {
     final clientProvider = context.read<ClientProvider>();
 
     final totals = _totals;
-    final invoiceNumber = widget.editInvoice?.invoiceNumber ??
-        provider.generateInvoiceNumber();
+    final invoiceNumber =
+        widget.editInvoice?.invoiceNumber ?? provider.generateInvoiceNumber();
 
     if (_signatureController.isNotEmpty) {
       final exportController = SignatureController(
@@ -166,7 +189,8 @@ class _CreateInvoiceScreenState extends State<CreateInvoiceScreen> {
       await provider.updateInvoice(invoice);
     } else {
       await provider.createInvoice(invoice);
-      await clientProvider.updateClientStats(_selectedClient!.id, invoice.total);
+      await clientProvider.updateClientStats(
+          _selectedClient!.id, invoice.total);
     }
 
     if (mounted) {
@@ -187,8 +211,9 @@ class _CreateInvoiceScreenState extends State<CreateInvoiceScreen> {
     final loc = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-            widget.editInvoice != null ? loc.invoiceEditTitle : loc.invoiceCreateTitle),
+        title: Text(widget.editInvoice != null
+            ? loc.invoiceEditTitle
+            : loc.invoiceCreateTitle),
         actions: [
           if (_currentStep == 2)
             TextButton(
@@ -200,7 +225,6 @@ class _CreateInvoiceScreenState extends State<CreateInvoiceScreen> {
       body: Column(
         children: [
           _StepIndicator(currentStep: _currentStep),
-
           Expanded(
             child: IndexedStack(
               index: _currentStep,
@@ -213,6 +237,7 @@ class _CreateInvoiceScreenState extends State<CreateInvoiceScreen> {
                 _Step2LineItems(
                   lineItems: _lineItems,
                   taxRate: _taxRate,
+                  taxRateOptions: _taxRateOptions,
                   currency: _selectedClient?.currency ?? _defaultCurrency,
                   totals: _totals,
                   onLineItemsChanged: (items) => setState(() => _lineItems
@@ -245,7 +270,6 @@ class _CreateInvoiceScreenState extends State<CreateInvoiceScreen> {
               ],
             ),
           ),
-
           _BottomNav(
             currentStep: _currentStep,
             canProceed: _canProceed(),
@@ -286,7 +310,11 @@ class _StepIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
     final scheme = Theme.of(context).colorScheme;
-    final labels = [loc.invoiceStepClient, loc.invoiceStepItems, loc.invoiceStepReview];
+    final labels = [
+      loc.invoiceStepClient,
+      loc.invoiceStepItems,
+      loc.invoiceStepReview
+    ];
 
     return Container(
       padding: const EdgeInsets.fromLTRB(20, 14, 20, 16),
@@ -339,9 +367,7 @@ class _StepDot extends StatelessWidget {
           decoration: BoxDecoration(
             color: active ? scheme.primary : scheme.surfaceContainerHighest,
             shape: BoxShape.circle,
-            border: active
-                ? null
-                : Border.all(color: scheme.outlineVariant),
+            border: active ? null : Border.all(color: scheme.outlineVariant),
           ),
           child: Center(
             child: done
@@ -478,10 +504,9 @@ class _Step1SelectClientState extends State<_Step1SelectClient> {
                                 padding: const EdgeInsets.only(bottom: 10),
                                 child: _ClientSelectCard(
                                   client: client,
-                                  selected: widget.selectedClient?.id ==
-                                      client.id,
-                                  onTap: () =>
-                                      widget.onClientSelected(client),
+                                  selected:
+                                      widget.selectedClient?.id == client.id,
+                                  onTap: () => widget.onClientSelected(client),
                                 ),
                               )),
                       ],
@@ -627,6 +652,7 @@ class _ClientSelectCard extends StatelessWidget {
 class _Step2LineItems extends StatelessWidget {
   final List<LineItem> lineItems;
   final double taxRate;
+  final List<double> taxRateOptions;
   final String currency;
   final Map<String, double> totals;
   final Function(List<LineItem>) onLineItemsChanged;
@@ -635,6 +661,7 @@ class _Step2LineItems extends StatelessWidget {
   const _Step2LineItems({
     required this.lineItems,
     required this.taxRate,
+    required this.taxRateOptions,
     required this.currency,
     required this.totals,
     required this.onLineItemsChanged,
@@ -648,84 +675,128 @@ class _Step2LineItems extends StatelessWidget {
     final qtyCtrl = TextEditingController(text: '1');
     final rateCtrl = TextEditingController();
     final formKey = GlobalKey<FormState>();
+    var saveToCatalog = false;
+    final savedItems = context.read<CatalogProvider>().items;
 
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      builder: (ctx) => Padding(
-        padding: EdgeInsets.only(
-          left: 20,
-          right: 20,
-          top: 8,
-          bottom: MediaQuery.of(ctx).viewInsets.bottom + 24,
-        ),
-        child: Form(
-          key: formKey,
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(loc.invoiceAddLineItem,
-                        style: Theme.of(context).textTheme.titleLarge),
-                    IconButton(
-                      onPressed: () => Navigator.pop(ctx),
-                      icon: const Icon(Icons.close_rounded),
+      builder: (ctx) => StatefulBuilder(
+        builder: (ctx, setSheetState) => Padding(
+          padding: EdgeInsets.only(
+            left: 20,
+            right: 20,
+            top: 8,
+            bottom: MediaQuery.of(ctx).viewInsets.bottom + 24,
+          ),
+          child: Form(
+            key: formKey,
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(loc.invoiceAddLineItem,
+                          style: Theme.of(context).textTheme.titleLarge),
+                      IconButton(
+                        onPressed: () => Navigator.pop(ctx),
+                        icon: const Icon(Icons.close_rounded),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+                  Text(loc.invoiceItemDescription,
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            color: scheme.onSurfaceVariant,
+                            fontWeight: FontWeight.w600,
+                          )),
+                  const SizedBox(height: 8),
+                  TextFormField(
+                    controller: descCtrl,
+                    decoration:
+                        InputDecoration(hintText: loc.invoiceItemDescriptionHint),
+                    validator: (v) =>
+                        v == null || v.isEmpty ? loc.commonRequired : null,
+                  ),
+                  const SizedBox(height: 12),
+                  Text(loc.invoiceItemQuickAdd,
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            color: scheme.onSurfaceVariant,
+                          )),
+                  const SizedBox(height: 6),
+                  Wrap(
+                    spacing: 8,
+                    runSpacing: 8,
+                    children: [
+                      loc.quickAddWebDesign,
+                      loc.quickAddDevelopment,
+                      loc.quickAddConsulting,
+                      loc.quickAddSeo,
+                      loc.quickAddContentWriting,
+                    ]
+                        .map((s) => GestureDetector(
+                              onTap: () => descCtrl.text = s,
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 5),
+                                decoration: BoxDecoration(
+                                  color: scheme.primary.withValues(alpha: 0.1),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Text(s,
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: scheme.primary,
+                                      fontWeight: FontWeight.w600,
+                                    )),
+                              ),
+                            ))
+                        .toList(),
+                  ),
+                  if (savedItems.isNotEmpty) ...[
+                    const SizedBox(height: 12),
+                    Text(loc.catalogFromSaved,
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                              color: scheme.onSurfaceVariant,
+                            )),
+                    const SizedBox(height: 6),
+                    Wrap(
+                      spacing: 8,
+                      runSpacing: 8,
+                      children: savedItems
+                          .take(6)
+                          .map((item) => GestureDetector(
+                                onTap: () {
+                                  descCtrl.text = item.description;
+                                  rateCtrl.text = item.rate.toStringAsFixed(2);
+                                  setSheetState(() {});
+                                },
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10, vertical: 5),
+                                  decoration: BoxDecoration(
+                                    color: scheme.tertiary.withValues(alpha: 0.12),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Text(
+                                    item.rate > 0
+                                        ? '${item.description} • ${item.rate.toStringAsFixed(2)}'
+                                        : item.description,
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: scheme.tertiary,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ),
+                              ))
+                          .toList(),
                     ),
                   ],
-                ),
-                const SizedBox(height: 16),
-                Text(loc.invoiceItemDescription,
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: scheme.onSurfaceVariant,
-                          fontWeight: FontWeight.w600,
-                        )),
-                const SizedBox(height: 8),
-                TextFormField(
-                  controller: descCtrl,
-                  decoration: InputDecoration(
-                      hintText: loc.invoiceItemDescriptionHint),
-                  validator: (v) => v == null || v.isEmpty
-                      ? loc.commonRequired
-                      : null,
-                ),
-                const SizedBox(height: 12),
-                Text(loc.invoiceItemQuickAdd,
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: scheme.onSurfaceVariant,
-                        )),
-                const SizedBox(height: 6),
-                Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
-                  children: [
-                    loc.quickAddWebDesign,
-                    loc.quickAddDevelopment,
-                    loc.quickAddConsulting,
-                    loc.quickAddSeo,
-                    loc.quickAddContentWriting,
-                  ].map((s) => GestureDetector(
-                        onTap: () => descCtrl.text = s,
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 5),
-                          decoration: BoxDecoration(
-                            color: scheme.primary.withValues(alpha: 0.1),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Text(s,
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: scheme.primary,
-                                fontWeight: FontWeight.w600,
-                              )),
-                        ),
-                      )).toList(),
-                ),
-                const SizedBox(height: 14),
+                  const SizedBox(height: 14),
                 Row(
                   children: [
                     Expanded(
@@ -745,8 +816,8 @@ class _Step2LineItems extends StatelessWidget {
                             controller: qtyCtrl,
                             keyboardType: const TextInputType.numberWithOptions(
                                 decimal: true),
-                            decoration:
-                                InputDecoration(hintText: loc.invoiceItemQtyHint),
+                            decoration: InputDecoration(
+                                hintText: loc.invoiceItemQtyHint),
                             validator: (v) {
                               if (v == null || v.isEmpty) {
                                 return loc.commonRequired;
@@ -778,8 +849,8 @@ class _Step2LineItems extends StatelessWidget {
                             controller: rateCtrl,
                             keyboardType: const TextInputType.numberWithOptions(
                                 decimal: true),
-                            decoration:
-                                InputDecoration(hintText: loc.invoiceItemRateHint),
+                            decoration: InputDecoration(
+                                hintText: loc.invoiceItemRateHint),
                             validator: (v) {
                               if (v == null || v.isEmpty) {
                                 return loc.commonRequired;
@@ -795,7 +866,23 @@ class _Step2LineItems extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 12),
+                Row(
+                  children: [
+                    Checkbox(
+                      value: saveToCatalog,
+                      onChanged: (v) =>
+                          setSheetState(() => saveToCatalog = v ?? false),
+                    ),
+                    Expanded(
+                      child: Text(
+                        loc.catalogSaveToCatalog,
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 8),
                 SizedBox(
                   width: double.infinity,
                   height: 52,
@@ -813,6 +900,14 @@ class _Step2LineItems extends StatelessWidget {
                       );
                       final updated = [...lineItems, newItem];
                       onLineItemsChanged(updated);
+                      if (saveToCatalog) {
+                        context.read<CatalogProvider>().addItem(CatalogItem(
+                              id: const Uuid().v4(),
+                              description: descCtrl.text.trim(),
+                              rate: rate,
+                              taxRate: 0,
+                            ));
+                      }
                       Navigator.pop(ctx);
                     },
                     child: Text(loc.invoiceAddItem),
@@ -822,6 +917,7 @@ class _Step2LineItems extends StatelessWidget {
             ),
           ),
         ),
+      ),
       ),
     );
   }
@@ -844,7 +940,6 @@ class _Step2LineItems extends StatelessWidget {
                     color: scheme.onSurfaceVariant,
                   )),
           const SizedBox(height: 16),
-
           if (lineItems.isEmpty)
             Container(
               width: double.infinity,
@@ -931,7 +1026,6 @@ class _Step2LineItems extends StatelessWidget {
                 ),
               );
             }),
-
           const SizedBox(height: 12),
           OutlinedButton.icon(
             onPressed: () => _addItem(context),
@@ -941,9 +1035,7 @@ class _Step2LineItems extends StatelessWidget {
               minimumSize: const Size(double.infinity, 50),
             ),
           ),
-
           const SizedBox(height: 24),
-
           Text(loc.invoiceTaxRate,
               style: Theme.of(context)
                   .textTheme
@@ -952,7 +1044,7 @@ class _Step2LineItems extends StatelessWidget {
           const SizedBox(height: 10),
           Row(
             children: [
-              for (final rate in [0.0, 5.0, 10.0, 15.0])
+              for (final rate in taxRateOptions)
                 Padding(
                   padding: const EdgeInsets.only(right: 8),
                   child: _TaxChip(
@@ -963,16 +1055,13 @@ class _Step2LineItems extends StatelessWidget {
                 ),
             ],
           ),
-
           const SizedBox(height: 24),
-
           Container(
             padding: const EdgeInsets.all(18),
             decoration: BoxDecoration(
               color: scheme.primary.withValues(alpha: 0.07),
               borderRadius: BorderRadius.circular(18),
-              border: Border.all(
-                  color: scheme.primary.withValues(alpha: 0.16)),
+              border: Border.all(color: scheme.primary.withValues(alpha: 0.16)),
             ),
             child: Column(
               children: [
@@ -983,8 +1072,7 @@ class _Step2LineItems extends StatelessWidget {
                 const SizedBox(height: 6),
                 _TotalRow(
                   label: loc.invoiceTax(taxRate.toStringAsFixed(0)),
-                  value:
-                      '$currency ${totals['taxAmount']!.toStringAsFixed(2)}',
+                  value: '$currency ${totals['taxAmount']!.toStringAsFixed(2)}',
                 ),
                 Divider(color: scheme.primary, height: 24),
                 _TotalRow(
@@ -1023,9 +1111,7 @@ class _TaxChip extends StatelessWidget {
         decoration: BoxDecoration(
           color: selected ? scheme.primary : scheme.surface,
           borderRadius: BorderRadius.circular(10),
-          border: selected
-              ? null
-              : Border.all(color: scheme.outlineVariant),
+          border: selected ? null : Border.all(color: scheme.outlineVariant),
         ),
         child: Text(
           '${rate.toStringAsFixed(0)}%',
@@ -1129,7 +1215,6 @@ class _Step3Review extends StatelessWidget {
                     color: scheme.onSurfaceVariant,
                   )),
           const SizedBox(height: 20),
-
           _label(context, loc.invoiceCompanyLogo),
           const SizedBox(height: 8),
           GestureDetector(
@@ -1155,14 +1240,12 @@ class _Step3Review extends StatelessWidget {
                         const SizedBox(height: 4),
                         Text(loc.invoiceAddLogo,
                             style: TextStyle(
-                                fontSize: 12,
-                                color: scheme.onSurfaceVariant)),
+                                fontSize: 12, color: scheme.onSurfaceVariant)),
                       ],
                     ),
             ),
           ),
           const SizedBox(height: 20),
-
           _label(context, loc.invoiceInvoiceDate),
           const SizedBox(height: 8),
           _DateField(
@@ -1179,7 +1262,6 @@ class _Step3Review extends StatelessWidget {
             },
           ),
           const SizedBox(height: 16),
-
           _label(context, loc.invoiceDueDate),
           const SizedBox(height: 8),
           _DateField(
@@ -1196,7 +1278,6 @@ class _Step3Review extends StatelessWidget {
             },
           ),
           const SizedBox(height: 12),
-
           Row(
             children: [
               for (final days in [7, 14, 30, 60])
@@ -1210,9 +1291,7 @@ class _Step3Review extends StatelessWidget {
                 ),
             ],
           ),
-
           const SizedBox(height: 24),
-
           _label(context, loc.invoiceNotesLabel),
           const SizedBox(height: 8),
           TextField(
@@ -1222,9 +1301,7 @@ class _Step3Review extends StatelessWidget {
               hintText: loc.invoiceNotesHint,
             ),
           ),
-
           const SizedBox(height: 16),
-
           _label(context, loc.invoicePaymentTermsLabel),
           const SizedBox(height: 8),
           TextField(
@@ -1233,9 +1310,7 @@ class _Step3Review extends StatelessWidget {
               hintText: loc.invoicePaymentTermsHint,
             ),
           ),
-
           const SizedBox(height: 24),
-
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -1272,11 +1347,9 @@ class _Step3Review extends StatelessWidget {
                     ),
               ),
             ),
-
           const SizedBox(height: 24),
           Divider(color: scheme.outlineVariant),
           const SizedBox(height: 16),
-
           Container(
             padding: const EdgeInsets.all(18),
             decoration: BoxDecoration(
@@ -1288,14 +1361,12 @@ class _Step3Review extends StatelessWidget {
               children: [
                 _SummaryRow(
                   label: loc.invoiceSubtotal,
-                  value:
-                      '$currency ${totals['subtotal']!.toStringAsFixed(2)}',
+                  value: '$currency ${totals['subtotal']!.toStringAsFixed(2)}',
                 ),
                 const SizedBox(height: 6),
                 _SummaryRow(
                   label: loc.invoiceTax(taxRate.toStringAsFixed(0)),
-                  value:
-                      '$currency ${totals['taxAmount']!.toStringAsFixed(2)}',
+                  value: '$currency ${totals['taxAmount']!.toStringAsFixed(2)}',
                 ),
                 Divider(color: scheme.primary, height: 20),
                 _SummaryRow(
@@ -1321,8 +1392,18 @@ class _Step3Review extends StatelessWidget {
 
   String _formatDate(DateTime date) {
     const months = [
-      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec'
     ];
     return '${date.day} ${months[date.month - 1]} ${date.year}';
   }
@@ -1357,8 +1438,7 @@ class _DateField extends StatelessWidget {
             const SizedBox(width: 12),
             Text(value, style: Theme.of(context).textTheme.bodyLarge),
             const Spacer(),
-            Icon(Icons.arrow_drop_down_rounded,
-                color: scheme.onSurfaceVariant),
+            Icon(Icons.arrow_drop_down_rounded, color: scheme.onSurfaceVariant),
           ],
         ),
       ),
@@ -1401,9 +1481,7 @@ class _SummaryRow extends StatelessWidget {
   final String label, value;
   final bool isTotal;
   const _SummaryRow(
-      {required this.label,
-      required this.value,
-      this.isTotal = false});
+      {required this.label, required this.value, this.isTotal = false});
 
   @override
   Widget build(BuildContext context) {

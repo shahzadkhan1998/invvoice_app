@@ -26,14 +26,15 @@ class NotificationService {
     const AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings('@mipmap/ic_launcher');
 
-    final DarwinInitializationSettings initializationSettingsDarwin =
+    const DarwinInitializationSettings initializationSettingsDarwin =
         DarwinInitializationSettings(
       requestSoundPermission: true,
       requestBadgePermission: true,
       requestAlertPermission: true,
     );
 
-    final InitializationSettings initializationSettings = InitializationSettings(
+    final InitializationSettings initializationSettings =
+        InitializationSettings(
       android: initializationSettingsAndroid,
       iOS: initializationSettingsDarwin,
     );
@@ -51,14 +52,16 @@ class NotificationService {
     await _flutterLocalNotificationsPlugin.cancelAll();
 
     final now = DateTime.now();
-    var scheduledDate = DateTime(now.year, now.month, now.day, time.hour, time.minute);
-    
+    var scheduledDate =
+        DateTime(now.year, now.month, now.day, time.hour, time.minute);
+
     // If the time has already passed today, schedule for tomorrow
     if (scheduledDate.isBefore(now)) {
       scheduledDate = scheduledDate.add(const Duration(days: 1));
     }
 
-    final tz.TZDateTime tzScheduledDate = tz.TZDateTime.from(scheduledDate, tz.local);
+    final tz.TZDateTime tzScheduledDate =
+        tz.TZDateTime.from(scheduledDate, tz.local);
 
     const AndroidNotificationDetails androidPlatformChannelSpecifics =
         AndroidNotificationDetails(
@@ -75,7 +78,7 @@ class NotificationService {
     );
 
     await _flutterLocalNotificationsPlugin.zonedSchedule(
-      id: 0, 
+      id: 0,
       title: 'Invoice Reminder',
       body: 'Time to check your recent invoices and track pending payments.',
       scheduledDate: tzScheduledDate,

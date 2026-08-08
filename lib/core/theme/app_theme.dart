@@ -18,8 +18,7 @@ class AppTheme {
   static ThemeData _build(Brightness brightness) {
     final isDark = brightness == Brightness.dark;
     final base = isDark ? AppColors.darkBackground : AppColors.lightBackground;
-    final surface =
-        isDark ? AppColors.darkSurface : AppColors.lightSurface;
+    final surface = isDark ? AppColors.darkSurface : AppColors.lightSurface;
     final surfaceMuted =
         isDark ? AppColors.darkSurfaceMuted : AppColors.lightSurfaceMuted;
     final border = isDark ? AppColors.darkBorder : AppColors.lightBorder;
@@ -31,7 +30,7 @@ class AppTheme {
         isDark ? AppColors.darkTextMuted : AppColors.lightTextMuted;
 
     final primary = isDark ? AppColors.primaryLight : AppColors.primary;
-    final onPrimary = Colors.white;
+    const onPrimary = Colors.white;
     final primaryContainer = AppColors.primaryPale;
     final onPrimaryContainer =
         isDark ? AppColors.darkTextPrimary : AppColors.primaryDark;
@@ -91,7 +90,6 @@ class AppTheme {
       highlightColor: primary.withValues(alpha: 0.04),
       dividerColor: border,
       hintColor: textMuted,
-
       appBarTheme: AppBarTheme(
         backgroundColor: base,
         surfaceTintColor: Colors.transparent,
@@ -101,7 +99,6 @@ class AppTheme {
         iconTheme: IconThemeData(color: textPrimary),
         titleTextStyle: _style(isDark, 18, FontWeight.w700),
       ),
-
       cardTheme: CardThemeData(
         color: surface,
         surfaceTintColor: Colors.transparent,
@@ -112,7 +109,6 @@ class AppTheme {
           side: BorderSide(color: border.withValues(alpha: 0.7)),
         ),
       ),
-
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: primary,
@@ -127,7 +123,6 @@ class AppTheme {
           ),
         ),
       ),
-
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
           foregroundColor: primary,
@@ -140,7 +135,6 @@ class AppTheme {
           ),
         ),
       ),
-
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
           foregroundColor: primary,
@@ -150,21 +144,21 @@ class AppTheme {
           ),
         ),
       ),
-
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: surfaceMuted,
         hintStyle: TextStyle(color: textMuted, fontSize: 14),
         prefixIconColor: textMuted,
         suffixIconColor: textMuted,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(radiusInput),
-          borderSide: BorderSide(color: Colors.transparent),
+          borderSide: const BorderSide(color: Colors.transparent),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(radiusInput),
-          borderSide: BorderSide(color: Colors.transparent),
+          borderSide: const BorderSide(color: Colors.transparent),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(radiusInput),
@@ -172,14 +166,13 @@ class AppTheme {
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(radiusInput),
-          borderSide: BorderSide(color: AppColors.dangerRed),
+          borderSide: const BorderSide(color: AppColors.dangerRed),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(radiusInput),
-          borderSide: BorderSide(color: AppColors.dangerRed, width: 1.6),
+          borderSide: const BorderSide(color: AppColors.dangerRed, width: 1.6),
         ),
       ),
-
       bottomSheetTheme: BottomSheetThemeData(
         backgroundColor: surface,
         surfaceTintColor: Colors.transparent,
@@ -190,7 +183,6 @@ class AppTheme {
         dragHandleColor: isDark ? AppColors.darkBorder : AppColors.lightBorder,
         modalBackgroundColor: surface,
       ),
-
       dialogTheme: DialogThemeData(
         backgroundColor: surface,
         surfaceTintColor: Colors.transparent,
@@ -200,16 +192,15 @@ class AppTheme {
         titleTextStyle: _style(isDark, 18, FontWeight.w700),
         contentTextStyle: _style(isDark, 14, FontWeight.w400),
       ),
-
       dividerTheme: DividerThemeData(
         color: border,
         thickness: 1,
         space: 1,
       ),
-
       snackBarTheme: SnackBarThemeData(
         behavior: SnackBarBehavior.floating,
-        backgroundColor: isDark ? AppColors.darkSurfaceMuted : AppColors.lightTextPrimary,
+        backgroundColor:
+            isDark ? AppColors.darkSurfaceMuted : AppColors.lightTextPrimary,
         contentTextStyle: TextStyle(
           color: isDark ? AppColors.darkTextPrimary : Colors.white,
           fontSize: 14,
@@ -219,14 +210,12 @@ class AppTheme {
         insetPadding: const EdgeInsets.all(16),
         elevation: 6,
       ),
-
       floatingActionButtonTheme: FloatingActionButtonThemeData(
         backgroundColor: primary,
         foregroundColor: onPrimary,
         elevation: 8,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
       ),
-
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
         backgroundColor: surface,
         selectedItemColor: primary,
@@ -234,14 +223,12 @@ class AppTheme {
         type: BottomNavigationBarType.fixed,
         elevation: 0,
       ),
-
       navigationBarTheme: NavigationBarThemeData(
         backgroundColor: surface,
         indicatorColor: primary.withValues(alpha: 0.14),
         surfaceTintColor: Colors.transparent,
         elevation: 0,
       ),
-
       switchTheme: SwitchThemeData(
         thumbColor: WidgetStateProperty.resolveWith((states) {
           if (states.contains(WidgetState.selected)) return Colors.white;
@@ -253,7 +240,6 @@ class AppTheme {
         }),
         trackOutlineColor: const WidgetStatePropertyAll(Colors.transparent),
       ),
-
       popupMenuTheme: PopupMenuThemeData(
         color: surface,
         surfaceTintColor: Colors.transparent,
@@ -262,19 +248,16 @@ class AppTheme {
         shadowColor: AppColors.shadowColor.withValues(alpha: 0.2),
         textStyle: _style(isDark, 14, FontWeight.w500),
       ),
-
       tabBarTheme: TabBarThemeData(
         dividerColor: Colors.transparent,
         labelColor: primary,
         unselectedLabelColor: textMuted,
         indicatorSize: TabBarIndicatorSize.tab,
       ),
-
       listTileTheme: ListTileThemeData(
         iconColor: textSecondary,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
       ),
-
       timePickerTheme: TimePickerThemeData(
         backgroundColor: surface,
         dialBackgroundColor: surfaceMuted,
@@ -286,7 +269,6 @@ class AppTheme {
           fillColor: surfaceMuted,
         ),
       ),
-
       datePickerTheme: DatePickerThemeData(
         backgroundColor: surface,
         headerBackgroundColor: primary,

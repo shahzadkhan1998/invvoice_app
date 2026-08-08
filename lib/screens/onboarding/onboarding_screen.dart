@@ -5,7 +5,7 @@ import 'package:invoice_app/l10n/app_localizations.dart';
 import '../home/home_screen.dart';
 
 class OnboardingScreen extends StatefulWidget {
-  const OnboardingScreen({Key? key}) : super(key: key);
+  const OnboardingScreen({super.key});
 
   @override
   State<OnboardingScreen> createState() => _OnboardingScreenState();
@@ -91,7 +91,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           style: TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.bold,
-                              color: Theme.of(context).textTheme.bodyLarge?.color),
+                              color:
+                                  Theme.of(context).textTheme.bodyLarge?.color),
                           textAlign: TextAlign.center,
                         ),
                         const SizedBox(height: 16),

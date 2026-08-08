@@ -8,10 +8,10 @@ class InvoiceStatusBadge extends StatelessWidget {
   final bool compact;
 
   const InvoiceStatusBadge({
-    Key? key,
+    super.key,
     required this.status,
     this.compact = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -66,10 +66,7 @@ class InvoiceStatusBadge extends StatelessWidget {
       case InvoiceStatus.draft:
         return AppColors.infoGray;
       case InvoiceStatus.cancelled:
-        return Theme.of(context)
-            .colorScheme
-            .onSurface
-            .withValues(alpha: 0.5);
+        return Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.5);
     }
   }
 

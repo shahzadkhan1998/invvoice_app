@@ -8,12 +8,12 @@ class AppSectionHeader extends StatelessWidget {
   final Widget? trailing;
 
   const AppSectionHeader({
-    Key? key,
+    super.key,
     required this.title,
     this.actionLabel,
     this.onAction,
     this.trailing,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -8,13 +8,13 @@ class StaggeredEntrance extends StatefulWidget {
   final Offset offset;
 
   const StaggeredEntrance({
-    Key? key,
+    super.key,
     required this.index,
     required this.child,
     this.delay,
     this.duration = const Duration(milliseconds: 400),
     this.offset = const Offset(0, 16),
-  }) : super(key: key);
+  });
 
   @override
   State<StaggeredEntrance> createState() => _StaggeredEntranceState();
@@ -42,8 +42,7 @@ class _StaggeredEntranceState extends State<StaggeredEntrance>
       curve: Curves.easeOutCubic,
     ));
 
-    final delay = widget.delay ??
-        Duration(milliseconds: 60 * widget.index);
+    final delay = widget.delay ?? Duration(milliseconds: 60 * widget.index);
     Future.delayed(delay, () {
       if (mounted) _controller.forward();
     });

@@ -5,7 +5,7 @@ import 'package:invoice_app/l10n/app_localizations.dart';
 
 class AuthProvider with ChangeNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
+  final GoogleSignIn _googleSignIn = GoogleSignIn.instance;
   User? _user;
   bool _isLoading = true;
   String? _error;
@@ -46,10 +46,14 @@ class AuthProvider with ChangeNotifier {
   Future<bool> signInWithGoogle({required BuildContext context}) async {
     try {
       _isLoading = true; _error = null; notifyListeners();
-      final gUser = await _googleSignIn.signIn();
-      if (gUser == null) { _isLoading = false; notifyListeners(); return false; }
-      final gAuth = await gUser.authentication;
-      final cred = GoogleAuthProvider.credential(accessToken: gAuth.accessToken, idToken: gAuth.idToken);
+      final GoogleSignInAccount gUser;
+      try {
+        gUser = await _googleSignIn.authenticate();
+      } on GoogleSignInException {
+        _isLoading = false; notifyListeners(); return false;
+      }
+      final gAuth = gUser.authentication;
+      final cred = GoogleAuthProvider.credential(idToken: gAuth.idToken);
       final userCred = await _auth.signInWithCredential(cred);
       _user = userCred.user; _isLoading = false; notifyListeners(); return true;
     } catch (e) {

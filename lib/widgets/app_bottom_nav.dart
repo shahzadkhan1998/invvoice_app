@@ -21,11 +21,11 @@ class AppBottomNav extends StatelessWidget {
   final List<AppNavItem> items;
 
   const AppBottomNav({
-    Key? key,
+    super.key,
     required this.currentIndex,
     required this.onTap,
     required this.items,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -135,9 +135,8 @@ class AppBottomNav extends StatelessWidget {
                           duration: const Duration(milliseconds: 220),
                           style: TextStyle(
                             fontSize: 10.5,
-                            fontWeight: selected
-                                ? FontWeight.w700
-                                : FontWeight.w500,
+                            fontWeight:
+                                selected ? FontWeight.w700 : FontWeight.w500,
                             color: selected ? primary : muted,
                           ),
                           child: Text(item.label),

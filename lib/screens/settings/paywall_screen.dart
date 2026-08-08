@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
+import 'package:purchases_ui_flutter/purchases_ui_flutter.dart' as rcui;
 import 'package:invoice_app/l10n/app_localizations.dart';
-import '../../providers/purchase_provider.dart';
+import '../../providers/revenuecat_provider.dart';
 import '../../providers/subscription_provider.dart';
 import '../../core/theme/app_colors.dart';
 import 'purchase_success_screen.dart';
 
+/// Paywall screen backed by the RevenueCatUI native paywall.
+///
+/// The paywall layout, copy and products are configured remotely in the
+/// RevenueCat dashboard — no app release required to update prices or copy.
 class PaywallScreen extends StatefulWidget {
-  const PaywallScreen({Key? key}) : super(key: key);
+  const PaywallScreen({super.key});
 
   @override
   State<PaywallScreen> createState() => _PaywallScreenState();
@@ -20,17 +24,16 @@ class _PaywallScreenState extends State<PaywallScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final purchase = context.watch<PurchaseProvider>();
+    final rc = context.watch<RevenueCatProvider>();
     final sub = context.watch<SubscriptionProvider>();
 
     // Navigate to the success screen once Pro is unlocked.
     if (sub.isPro && !_navigated && mounted) {
       _navigated = true;
       Future.microtask(() {
-        if (mounted) {
+        if (context.mounted) {
           Navigator.of(context).pushReplacement(
-            MaterialPageRoute(
-                builder: (_) => const PurchaseSuccessScreen()),
+            MaterialPageRoute(builder: (_) => const PurchaseSuccessScreen()),
           );
         }
       });
@@ -44,249 +47,103 @@ class _PaywallScreenState extends State<PaywallScreen> {
           onPressed: () => Navigator.pop(context),
         ),
       ),
-      body: Stack(
-        children: [
-          SingleChildScrollView(
-            padding: const EdgeInsets.all(24),
-            child: Column(
-              children: [
-                Lottie.asset(
-                  'assets/animations/success.json',
-                  height: 140,
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  l10n.paywallTitle,
-                  style: const TextStyle(
-                      fontSize: 24, fontWeight: FontWeight.bold),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  l10n.paywallSubtitle,
-                  style: TextStyle(
-                      fontSize: 14,
-                      color: Theme.of(context)
-                          .textTheme
-                          .bodyMedium
-                          ?.color
-                          ?.withValues(alpha: 0.6)),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 24),
-                _FeatureTile(
-                  icon: Icons.receipt_long_outlined,
-                  text: l10n.paywallFeatureUnlimited,
-                ),
-                _FeatureTile(
-                  icon: Icons.cloud_sync_outlined,
-                  text: l10n.paywallFeatureSync,
-                ),
-                _FeatureTile(
-                  icon: Icons.check_circle_outline,
-                  text: l10n.paywallFeatureNoWatermark,
-                ),
-                const SizedBox(height: 24),
-                if (purchase.error != null)
-                  Container(
-                    padding: const EdgeInsets.all(12),
-                    margin: const EdgeInsets.only(bottom: 16),
-                    decoration: BoxDecoration(
-                      color: AppColors.dangerRed.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Text(
-                      purchase.error!,
-                      style: const TextStyle(
-                          color: AppColors.dangerRed, fontSize: 12),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                _PlanCard(
-                  title: purchase.monthly?.title ?? l10n.paywallMonthly,
-                  price: purchase.monthly?.price ?? '\$4.99',
-                  subtitle: l10n.paywallMonthlySub,
-                  isPopular: true,
-                  onTap: purchase.isPurchasing
-                      ? null
-                      : () {
-                          if (purchase.monthly != null) {
-                            purchase.linkSubscription(sub);
-                            purchase.buy(purchase.monthly!);
-                          }
-                        },
-                ),
-                const SizedBox(height: 12),
-                _PlanCard(
-                  title: purchase.yearly?.title ?? l10n.paywallYearly,
-                  price: purchase.yearly?.price ?? '\$39.99',
-                  subtitle: l10n.paywallYearlySub,
-                  isPopular: false,
-                  onTap: purchase.isPurchasing
-                      ? null
-                      : () {
-                          if (purchase.yearly != null) {
-                            purchase.linkSubscription(sub);
-                            purchase.buy(purchase.yearly!);
-                          }
-                        },
-                ),
-                const SizedBox(height: 16),
-                TextButton(
-                  onPressed: purchase.isStoreLoading
-                      ? null
-                      : () {
-                          purchase.linkSubscription(sub);
-                          purchase.restore();
-                        },
-                  child: Text(l10n.paywallRestore),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  l10n.paywallTerms,
-                  style: TextStyle(
-                      fontSize: 11, color: Theme.of(context).hintColor),
-                  textAlign: TextAlign.center,
-                ),
-              ],
-            ),
-          ),
-          if (purchase.isPurchasing || purchase.isStoreLoading)
-            Container(
-              color: Colors.black.withValues(alpha: 0.3),
-              child: const Center(
-                child: CircularProgressIndicator(),
-              ),
-            ),
-        ],
-      ),
+      body: _buildBody(l10n, rc),
     );
+  }
+
+  Widget _buildBody(AppLocalizations l10n, RevenueCatProvider rc) {
+    if (rc.isLoadingOfferings || !rc.isConfigured) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    final offering = rc.currentOffering;
+    if (offering == null || offering.availablePackages.isEmpty) {
+      return _ErrorState(
+        message: l10n.paywallLoadError,
+        onRetry: () => rc.loadOfferings(),
+      );
+    }
+
+    return rcui.PaywallView(
+      offering: offering,
+      displayCloseButton: false,
+      onPurchaseStarted: (_) => rc.clearError(),
+      onPurchaseCompleted: (customerInfo, _) {
+        // The customer-info listener already flipped Pro on; navigate to the
+        // success screen once the native paywall finishes its animation.
+        Future.delayed(const Duration(milliseconds: 1200), () {
+          if (mounted && !_navigated) {
+            _navigated = true;
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (_) => const PurchaseSuccessScreen()),
+            );
+          }
+        });
+      },
+      onPurchaseCancelled: () {},
+      onPurchaseError: (error) => _showSnack(
+        l10n.purchaseErrorGeneric,
+        color: AppColors.dangerRed,
+      ),
+      onRestoreCompleted: (info) {
+        _showSnack(
+          l10n.purchaseRestored,
+          color: Theme.of(context).colorScheme.primary,
+        );
+      },
+      onRestoreError: (error) => _showSnack(
+        l10n.purchaseErrorGeneric,
+        color: AppColors.dangerRed,
+      ),
+      onDismiss: () {
+        if (mounted && Navigator.of(context).canPop()) {
+          Navigator.of(context).pop();
+        }
+      },
+    );
+  }
+
+  void _showSnack(String message, {Color? color}) {
+    if (!mounted) return;
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(
+        SnackBar(
+          content: Text(message),
+          backgroundColor: color,
+        ),
+      );
   }
 }
 
-class _FeatureTile extends StatelessWidget {
-  final IconData icon;
-  final String text;
-  const _FeatureTile({required this.icon, required this.text});
+class _ErrorState extends StatelessWidget {
+  final String message;
+  final VoidCallback onRetry;
 
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      child: Row(
-        children: [
-          Container(
-            width: 36,
-            height: 36,
-            decoration: BoxDecoration(
-              color:
-                  Theme.of(context).colorScheme.primary.withValues(alpha: 0.12),
-              borderRadius: BorderRadius.circular(11),
-            ),
-            child: Icon(icon, color: Theme.of(context).colorScheme.primary, size: 20),
-          ),
-          const SizedBox(width: 14),
-          Expanded(
-            child: Text(text,
-                style:
-                    const TextStyle(fontSize: 15, fontWeight: FontWeight.w500)),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _PlanCard extends StatelessWidget {
-  final String title;
-  final String price;
-  final String subtitle;
-  final bool isPopular;
-  final VoidCallback? onTap;
-
-  const _PlanCard({
-    required this.title,
-    required this.price,
-    required this.subtitle,
-    required this.isPopular,
-    required this.onTap,
-  });
+  const _ErrorState({required this.message, required this.onRetry});
 
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: double.infinity,
-        padding: const EdgeInsets.all(18),
-        decoration: BoxDecoration(
-          gradient: isPopular
-              ? LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    scheme.primary,
-                    Color.lerp(scheme.primary, Colors.black,
-                        isDark ? 0.3 : 0.16)!,
-                  ],
-                )
-              : null,
-          color: isPopular ? null : Theme.of(context).cardTheme.color,
-          borderRadius: BorderRadius.circular(18),
-          border: isPopular
-              ? null
-              : Border.all(color: Theme.of(context).dividerColor),
-          boxShadow: isPopular
-              ? [
-                  BoxShadow(
-                    color: scheme.primary.withValues(alpha: 0.35),
-                    blurRadius: 18,
-                    offset: const Offset(0, 8),
-                  ),
-                ]
-              : [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.05),
-                    blurRadius: 8,
-                  ),
-                ],
-        ),
-        child: Row(
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(32),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: isPopular ? Colors.white : null,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    subtitle,
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: isPopular
-                          ? Colors.white70
-                          : Theme.of(context).hintColor,
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            Icon(Icons.cloud_off_outlined,
+                size: 56, color: scheme.onSurfaceVariant),
+            const SizedBox(height: 16),
             Text(
-              price,
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: isPopular ? Colors.white : Theme.of(context).colorScheme.primary,
-              ),
+              message,
+              textAlign: TextAlign.center,
+              style: TextStyle(color: scheme.onSurfaceVariant),
+            ),
+            const SizedBox(height: 20),
+            FilledButton.icon(
+              onPressed: onRetry,
+              icon: const Icon(Icons.refresh),
+              label: Text('Retry'),
             ),
           ],
         ),

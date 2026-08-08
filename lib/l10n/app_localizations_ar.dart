@@ -288,6 +288,33 @@ class AppLocalizationsAr extends AppLocalizations {
   String get registerSignIn => 'تسجيل الدخول';
 
   @override
+  String get authTermsOfService => 'شروط الخدمة';
+
+  @override
+  String get authPrivacyPolicy => 'سياسة الخصوصية';
+
+  @override
+  String get authAgreeRequired =>
+      'يرجى الموافقة على شروط الخدمة وسياسة الخصوصية للمتابعة';
+
+  @override
+  String get loginAgreePrefix => 'بالمتابعة، أنت توافق على ';
+
+  @override
+  String get registerAgreePrefix => 'أوافق على ';
+
+  @override
+  String get authAgreeAnd => ' و ';
+
+  @override
+  String get authTermsSheet =>
+      'تنظّم شروط الخدمة هذه استخدامك لتطبيق InvoiceFlow. من خلال الوصول إلى التطبيق أو استخدامه، فإنك توافق على الالتزام بهذه الشروط.\n\n1. أنت مسؤول عن دقة الفواتير والعروض وأي بيانات أخرى تنشئها.\n2. يُوفَّر التطبيق «كما هو» دون أي ضمانات من أي نوع، صريحة أو ضمنية.\n3. نحن غير مسؤولين عن أي خسائر تنشأ عن استخدامك للخدمة.\n4. يجب ألا تستخدم التطبيق لأي غرض غير قانوني أو محظور.\n5. قد نقوم بتحديث هذه الشروط من وقت لآخر؛ واستمرار استخدام التطبيق يُعد قبولاً للشروط المحدّثة.';
+
+  @override
+  String get authPrivacySheet =>
+      'خصوصيتك مهمة بالنسبة لنا.\n\n1. تخزين البيانات: يتم تخزين فواتيرك وعملائك وإعداداتك محلياً على جهازك.\n2. المزامنة السحابية: إذا سجّلت الدخول، تتم مزامنة بياناتك إلى حسابك حتى تكون متاحة عبر أجهزتك.\n3. لا نبيع أو نشارك معلوماتك الشخصية أبداً.\n4. التحليلات: قد نجمع بيانات استخدام مجهولة الهوية للمساعدة في تحسين التطبيق.\n5. للتواصل: لأي استفسارات تتعلق بالخصوصية، تواصل معنا عبر support@invoiceflow.app.';
+
+  @override
   String get authErrorWeakPassword => 'كلمة المرور ضعيفة جدًا';
 
   @override
@@ -991,6 +1018,45 @@ class AppLocalizationsAr extends AppLocalizations {
   String get purchaseSuccessContinue => 'متابعة';
 
   @override
+  String get paywallLoading => 'جارٍ تحميل الباقات…';
+
+  @override
+  String get paywallLoadError =>
+      'تعذّر تحميل الباقات. تحقق من اتصالك وحاول مرة أخرى.';
+
+  @override
+  String get paywallNoOffering => 'لا توجد باقات متاحة حالياً.';
+
+  @override
+  String get purchaseRestored => 'تمت استعادة المشتريات بنجاح';
+
+  @override
+  String get purchaseErrorGeneric => 'فشل الشراء. يرجى المحاولة مرة أخرى.';
+
+  @override
+  String get settingsProTitle => 'InvoiceFlow Pro';
+
+  @override
+  String get settingsProActive =>
+      'النسخة الاحترافية مفعّلة — فواتير وعملاء غير محدودين وبدون علامات مائية';
+
+  @override
+  String get settingsFreePlan => 'الخطة المجانية';
+
+  @override
+  String get settingsFreeHint =>
+      'قم بالترقية للحصول على فواتير غير محدودة ومزامنة سحابية والمزيد';
+
+  @override
+  String get settingsUpgradeToPro => 'الترقية إلى الإصدار الاحترافي';
+
+  @override
+  String get settingsManageSubscription => 'إدارة الاشتراك';
+
+  @override
+  String get customerCenterFailed => 'تعذّر فتح إدارة الاشتراك.';
+
+  @override
   String get onboardingSkip => 'تخطي';
 
   @override
@@ -1027,5 +1093,316 @@ class AppLocalizationsAr extends AppLocalizations {
   String get settingsAccentColorHint => 'خصّص التطبيق باللون الذي تختاره.';
 
   @override
+  String get settingsCountry => 'الدولة';
+
+  @override
+  String get settingsTaxId => 'الرقم الضريبي';
+
+  @override
+  String get settingsTaxIdNotSet => 'غير محدد';
+
+  @override
+  String get settingsTaxIdHint => 'مثال: 123456789012345';
+
+  @override
+  String get settingsTaxIdSaved => 'تم حفظ الرقم الضريبي';
+
+  @override
+  String get catalogTitle => 'المنتجات والخدمات';
+
+  @override
+  String catalogItemCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count منتجات',
+      one: '$count منتج',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get catalogEmpty => 'لا توجد منتجات بعد';
+
+  @override
+  String get catalogEmptySubtitle =>
+      'احفظ المنتجات والخدمات القابلة لإعادة الاستخدام لإضافتها إلى الفواتير بشكل أسرع.';
+
+  @override
+  String get catalogFromSaved => 'من الكتالوج الخاص بك';
+
+  @override
+  String get catalogSaveToCatalog => 'حفظ في الكتالوج لإعادة الاستخدام';
+
+  @override
+  String get catalogAddSnackbar => 'تمت الإضافة إلى الكتالوج';
+
+  @override
+  String get catalogDeleteTitle => 'حذف العنصر؟';
+
+  @override
+  String catalogDeleteMessage(String description) {
+    return 'حذف \"$description\"؟ لا يمكن التراجع عن هذا الإجراء.';
+  }
+
+  @override
   String get commonDone => 'تم';
+
+  @override
+  String get estimateListTitle => 'التقديرات';
+
+  @override
+  String get estimateListSearchHint => 'ابحث في التقديرات…';
+
+  @override
+  String get estimateListEmpty => 'لا توجد تقديرات بعد';
+
+  @override
+  String get estimateListTabAll => 'الكل';
+
+  @override
+  String get estimateListTabDraft => 'مسودة';
+
+  @override
+  String get estimateListTabSent => 'مرسل';
+
+  @override
+  String get estimateListTabAccepted => 'مقبول';
+
+  @override
+  String get estimateListTabExpired => 'منتهي الصلاحية';
+
+  @override
+  String get estimateCreateTitle => 'تقدير جديد';
+
+  @override
+  String get estimateEditTitle => 'تعديل التقدير';
+
+  @override
+  String get estimateCreatedSnackbar => 'تم حفظ التقدير';
+
+  @override
+  String get estimateUpdatedSnackbar => 'تم تحديث التقدير';
+
+  @override
+  String get estimateIssueDate => 'تاريخ الإصدار';
+
+  @override
+  String get estimateExpiryDate => 'تاريخ الانتهاء';
+
+  @override
+  String get estimateExpiresPrefix => 'ينتهي في ';
+
+  @override
+  String get estimateConvertToInvoice => 'تحويل إلى فاتورة';
+
+  @override
+  String get estimateConvertedSnackbar => 'تم تحويل التقدير إلى فاتورة';
+
+  @override
+  String get estimateConvertFailed => 'تعذر تحويل التقدير';
+
+  @override
+  String get estimateMarkSent => 'تحديد كمرسل';
+
+  @override
+  String get estimateMarkAccepted => 'تحديد كمقبول';
+
+  @override
+  String get estimateMarkDeclined => 'تحديد كمرفوض';
+
+  @override
+  String get estimateConvertedTitle => 'تم التحويل';
+
+  @override
+  String estimateConvertedMessage(String invoiceId) {
+    return 'تم التحويل إلى الفاتورة $invoiceId';
+  }
+
+  @override
+  String get estimateDetailTotal => 'إجمالي التقدير';
+
+  @override
+  String get estimateStatusSent => 'مرسل';
+
+  @override
+  String get estimateStatusAccepted => 'مقبول';
+
+  @override
+  String get estimateStatusDeclined => 'مرفوض';
+
+  @override
+  String get estimateStatusExpired => 'منتهي الصلاحية';
+
+  @override
+  String estimateOpenCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count مفتوحة',
+      one: 'واحد مفتوح',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get deleteEstimateTitle => 'حذف التقدير؟';
+
+  @override
+  String deleteEstimateMessage(String estimateNumber) {
+    return 'حذف \"$estimateNumber\"؟ لا يمكن التراجع عن هذا الإجراء.';
+  }
+
+  @override
+  String get estimatePdfFailed => 'تعذر إنشاء ملف PDF';
+
+  @override
+  String get pdfEstimate => 'تقدير';
+
+  @override
+  String get pdfEstimateNumber => 'رقم التقدير:';
+
+  @override
+  String get pdfValidUntil => 'صالح حتى:';
+
+  @override
+  String get invoiceDetailPaymentTerms => 'شروط الدفع';
+
+  @override
+  String get recurringListTitle => 'الفواتير المتكررة';
+
+  @override
+  String get recurringListEmpty => 'لا توجد فواتير متكررة بعد';
+
+  @override
+  String get recurringListEmptySubtitle =>
+      'أعد الفواتير تلقائياً للعملاء والخدمات المنتظمة.';
+
+  @override
+  String get recurringCreateTitle => 'متكرر جديد';
+
+  @override
+  String get recurringEditTitle => 'تعديل المتكرر';
+
+  @override
+  String get recurringCreatedSnackbar => 'تم حفظ الفاتورة المتكررة';
+
+  @override
+  String get recurringUpdatedSnackbar => 'تم تحديث الفاتورة المتكررة';
+
+  @override
+  String get recurringDeleteTitle => 'حذف الفاتورة المتكررة؟';
+
+  @override
+  String recurringDeleteMessage(String title) {
+    return 'حذف \"$title\"؟ لن تتم إزالة الفواتير الموجودة.';
+  }
+
+  @override
+  String get recurringTitleLabel => 'العنوان';
+
+  @override
+  String get recurringTitleHint => 'مثال: رسوم شهرية';
+
+  @override
+  String get recurringClientLabel => 'العميل';
+
+  @override
+  String get recurringFrequencyLabel => 'التكرار';
+
+  @override
+  String get recurringFrequencyWeekly => 'أسبوعي';
+
+  @override
+  String get recurringFrequencyBiweekly => 'كل أسبوعين';
+
+  @override
+  String get recurringFrequencyMonthly => 'شهري';
+
+  @override
+  String get recurringFrequencyQuarterly => 'ربع سنوي';
+
+  @override
+  String get recurringFrequencyYearly => 'سنوي';
+
+  @override
+  String get recurringNextRun => 'التشغيل التالي';
+
+  @override
+  String get recurringDueDays => 'الاستحقاق خلال';
+
+  @override
+  String get recurringDays => 'أيام';
+
+  @override
+  String recurringActiveCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count نشطة',
+      one: 'نشط واحد',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get reportsTitle => 'التقارير';
+
+  @override
+  String get reportsSubtitle => 'تحليلات الأعمال';
+
+  @override
+  String get reportsEmpty => 'أنشئ فواتير لعرض التقارير';
+
+  @override
+  String get reportsCollected => 'المحصّل';
+
+  @override
+  String get reportsOutstanding => 'المستحق';
+
+  @override
+  String get reportsMonthlyRevenue => 'الإيرادات الشهرية';
+
+  @override
+  String get reportsLast6Months => 'آخر 6 أشهر';
+
+  @override
+  String get reportsByStatus => 'حسب الحالة';
+
+  @override
+  String get reportsTopClients => 'أفضل العملاء';
+
+  @override
+  String get paymentLinkTitle => 'رابط الدفع';
+
+  @override
+  String get paymentLinkNotSet => 'لا يوجد رابط دفع في الإعدادات';
+
+  @override
+  String get paymentLinkHint => 'https://buy.stripe.com/...';
+
+  @override
+  String get paymentLinkHelp =>
+      'يُضمّن رابط الدفع في ملف PDF الخاص بالفاتورة ويمكن نسخه من قائمة الفاتورة.';
+
+  @override
+  String get paymentLinkSaved => 'تم حفظ رابط الدفع';
+
+  @override
+  String get settingsPaymentLinkNotSet => 'غير محدد';
+
+  @override
+  String get invoiceDetailCopyPaymentLink => 'نسخ رابط الدفع';
+
+  @override
+  String get paymentLinkCopied => 'تم نسخ رابط الدفع';
+
+  @override
+  String get pdfPayOnline => 'ادفع عبر الإنترنت';
+
+  @override
+  String get exportXml => 'تصدير XML';
+
+  @override
+  String get exportXmlFailed => 'تعذّر تصدير XML';
 }

@@ -46,6 +46,6 @@ class ColorProvider with ChangeNotifier {
     AppColors.applyDynamic(color);
     notifyListeners();
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setInt(_key, color.value);
+    await prefs.setInt(_key, color.toARGB32());
   }
 }

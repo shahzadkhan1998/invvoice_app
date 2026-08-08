@@ -28,7 +28,7 @@ require File.expand_path(File.join('packages', 'flutter_tools', 'bin', 'podhelpe
 flutter_ios_podfile_setup
 
 target 'Runner' do
-  use_frameworks!
+  use_frameworks! :linkage => :static
 
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
   target 'RunnerTests' do
@@ -37,7 +37,46 @@ target 'Runner' do
 end
 
 post_install do |installer|
+  installer.aggregate_targets.each do |target|
+    target.xcconfigs.each do |config_name, config|
+      config.attributes['CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES'] = 'YES'
+    end
+  end
+
+  installer.pods_project.build_configurations.each do |config|
+    config.build_settings['CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES'] = 'YES'
+  end
+
   installer.pods_project.targets.each do |target|
+    if target.name == 'BoringSSL-GRPC'
+      target.source_build_phase.files.each do |file|
+        if file.settings && file.settings['COMPILER_FLAGS']
+          flags = file.settings['COMPILER_FLAGS'].split
+          flags.reject! { |flag| flag == '-GCC_WARN_INHIBIT_ALL_WARNINGS' }
+          file.settings['COMPILER_FLAGS'] = flags.join(' ')
+        end
+      end
+    end
+    target.build_configurations.each do |config|
+      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '15.0'
+      config.build_settings['CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES'] = 'YES'
+    end
     flutter_additional_ios_build_settings(target)
+  end
+
+  # Patch gRPC-Core / gRPC-C++ for Xcode 16.3+ clang (requires explicit <> on template call).
+  %w[gRPC-Core gRPC-C++].each do |grpc_pod|
+    basic_seq = File.join(installer.sandbox.root.to_s, grpc_pod, 'src', 'core', 'lib', 'promise', 'detail', 'basic_seq.h')
+    if File.exist?(basic_seq)
+      content = File.read(basic_seq)
+      patched = content.gsub(
+        'Traits::template CallSeqFactory(f_, *cur_, std::move(arg))',
+        'Traits::template CallSeqFactory<>(f_, *cur_, std::move(arg))'
+      )
+      if patched != content
+        File.chmod(0o644, basic_seq)
+        File.write(basic_seq, patched)
+      end
+    end
   end
 end

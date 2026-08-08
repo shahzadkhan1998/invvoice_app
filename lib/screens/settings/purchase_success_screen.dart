@@ -5,7 +5,7 @@ import 'package:invoice_app/l10n/app_localizations.dart';
 import '../../providers/subscription_provider.dart';
 
 class PurchaseSuccessScreen extends StatelessWidget {
-  const PurchaseSuccessScreen({Key? key}) : super(key: key);
+  const PurchaseSuccessScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,9 +17,7 @@ class PurchaseSuccessScreen extends StatelessWidget {
       Future.microtask(() async {
         await Future.delayed(const Duration(seconds: 2));
         if (context.mounted) {
-          Navigator.of(context)
-            ..popUntil((route) => route.isFirst)
-            ..pop();
+          Navigator.of(context).popUntil((route) => route.isFirst);
         }
       });
     }
@@ -40,8 +38,8 @@ class PurchaseSuccessScreen extends StatelessWidget {
               const SizedBox(height: 24),
               Text(
                 l10n.purchaseSuccessTitle,
-                style: const TextStyle(
-                    fontSize: 26, fontWeight: FontWeight.bold),
+                style:
+                    const TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 12),
@@ -65,8 +63,7 @@ class PurchaseSuccessScreen extends StatelessWidget {
                       ? null
                       : () {
                           Navigator.of(context)
-                            ..popUntil((route) => route.isFirst)
-                            ..pop();
+                              .popUntil((route) => route.isFirst);
                         },
                   child: Text(l10n.purchaseSuccessContinue),
                 ),

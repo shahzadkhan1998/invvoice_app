@@ -9,13 +9,13 @@ class AppEmptyState extends StatelessWidget {
   final VoidCallback onAction;
 
   const AppEmptyState({
-    Key? key,
+    super.key,
     required this.icon,
     required this.title,
     required this.subtitle,
     required this.actionLabel,
     required this.onAction,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

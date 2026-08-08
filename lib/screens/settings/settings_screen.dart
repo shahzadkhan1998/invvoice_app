@@ -6,12 +6,25 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:invoice_app/l10n/app_localizations.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/theme_provider.dart';
+import '../../providers/revenuecat_provider.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/utils/currency_utils.dart';
 import '../../core/utils/invoice_number_utils.dart';
 import '../../services/notification_service.dart';
+import '../../services/pdf_service.dart';
 import '../../providers/color_provider.dart';
 import '../../providers/locale_provider.dart';
+import '../../providers/region_provider.dart';
+import '../../providers/catalog_provider.dart';
+import '../../providers/estimate_provider.dart';
+import '../../providers/recurring_provider.dart';
+import '../../core/models/country_config.dart';
+import 'catalog_screen.dart';
+import '../estimates/estimate_list_screen.dart';
+import '../recurring/recurring_list_screen.dart';
+import '../reports/reports_screen.dart';
+import '../../services/customer_center_service.dart';
+import 'paywall_screen.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -26,8 +39,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
   String _businessEmail = '';
   String _businessPhone = '';
   String _businessAddress = '';
+  String _paymentLink = '';
   String _defaultCurrency = 'USD';
   String _invoicePrefix = InvoiceNumberUtils.defaultPrefix;
+  PdfTemplate _pdfTemplate = PdfTemplate.modern;
   TimeOfDay? _notificationTime;
 
   @override
@@ -44,9 +59,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
       _businessEmail = prefs.getString('business_email') ?? '';
       _businessPhone = prefs.getString('business_phone') ?? '';
       _businessAddress = prefs.getString('business_address') ?? '';
+      _paymentLink = prefs.getString('payment_link') ?? '';
       _defaultCurrency = prefs.getString(CurrencyUtils.defaultCurrencyKey) ??
           CurrencyUtils.currencyForLocale(PlatformDispatcher.instance.locale);
       _invoicePrefix = InvoiceNumberUtils.prefix;
+      _pdfTemplate =
+          PdfService.templateFromString(prefs.getString('pdf_template'));
       final timeStr = prefs.getString('notification_time');
       if (timeStr != null) {
         final parts = timeStr.split(':');
@@ -62,16 +80,30 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget build(BuildContext context) {
     final auth = context.watch<AuthProvider>();
     final themeProvider = context.watch<ThemeProvider>();
+    final region = context.watch<RegionProvider>();
+    final catalog = context.watch<CatalogProvider>();
+    final estimates = context.watch<EstimateProvider>();
+    final recurring = context.watch<RecurringProvider>();
     final isDark = themeProvider.themeMode == ThemeMode.dark;
     final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.settingsTitle)),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+      body: DecoratedBox(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: isDark
+                ? [AppColors.darkBackground, Theme.of(context).scaffoldBackgroundColor]
+                : [AppColors.lightSurfaceMuted, Theme.of(context).scaffoldBackgroundColor],
+          ),
+        ),
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
             if (auth.isAuthenticated)
               _ProfileCard(
                 name: auth.currentUser?.displayName ?? '',
@@ -83,9 +115,42 @@ class _SettingsScreenState extends State<SettingsScreen> {
               _SignInCard(
                 onSignIn: () => Navigator.pushNamed(context, '/login'),
               ),
-
+            const SizedBox(height: 20),
+            _SubscriptionCard(
+              isPro: context.watch<RevenueCatProvider>().isPro,
+              onUpgrade: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const PaywallScreen()),
+              ),
+              onManage: () async {
+                final ok = await CustomerCenterService.present(context);
+                if (!ok && context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(l10n.customerCenterFailed),
+                    ),
+                  );
+                }
+              },
+              onRestore: () async {
+                final rc = context.read<RevenueCatProvider>();
+                final restored = await rc.restorePurchases();
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context)
+                    ..hideCurrentSnackBar()
+                    ..showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          restored
+                              ? l10n.purchaseRestored
+                              : l10n.purchaseErrorGeneric,
+                        ),
+                      ),
+                    );
+                }
+              },
+            ),
             const SizedBox(height: 24),
-
             _SectionHeader(title: l10n.settingsBusinessSection),
             const SizedBox(height: 8),
             _SettingsGroup(items: [
@@ -96,6 +161,67 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ? l10n.settingsBusinessDetailsSubtitle
                     : _businessName,
                 onTap: () => _showBusinessEditor(context),
+              ),
+              _SettingsTile(
+                icon: Icons.public_rounded,
+                title: l10n.settingsCountry,
+                subtitle: region.config?.name ?? region.countryCode,
+                onTap: () => _showCountryPicker(context),
+              ),
+              _SettingsTile(
+                icon: Icons.assignment_outlined,
+                title: l10n.settingsTaxId,
+                subtitle: region.businessTaxId.isEmpty
+                    ? l10n.settingsTaxIdNotSet
+                    : region.businessTaxId,
+                onTap: () => _showTaxIdEditor(context),
+              ),
+              _SettingsTile(
+                icon: Icons.link_rounded,
+                title: l10n.paymentLinkTitle,
+                subtitle: _paymentLink.isEmpty
+                    ? l10n.settingsPaymentLinkNotSet
+                    : _paymentLink,
+                onTap: () => _showPaymentLinkEditor(context),
+              ),
+              _SettingsTile(
+                icon: Icons.inventory_2_outlined,
+                title: l10n.catalogTitle,
+                subtitle: l10n.catalogItemCount(catalog.items.length),
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const CatalogScreen()),
+                ),
+              ),
+              _SettingsTile(
+                icon: Icons.request_quote_outlined,
+                title: l10n.estimateListTitle,
+                subtitle:
+                    l10n.estimateOpenCount(estimates.openEstimates.length),
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const EstimateListScreen()),
+                ),
+              ),
+              _SettingsTile(
+                icon: Icons.event_repeat_outlined,
+                title: l10n.recurringListTitle,
+                subtitle:
+                    l10n.recurringActiveCount(recurring.activeProfiles.length),
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (_) => const RecurringListScreen()),
+                ),
+              ),
+              _SettingsTile(
+                icon: Icons.insert_chart_outlined,
+                title: l10n.reportsTitle,
+                subtitle: l10n.reportsSubtitle,
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const ReportsScreen()),
+                ),
               ),
               _SettingsTile(
                 icon: Icons.receipt_long_outlined,
@@ -109,10 +235,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 subtitle: _defaultCurrency,
                 onTap: () => _showCurrencyPicker(context),
               ),
+              _SettingsTile(
+                icon: Icons.design_services_outlined,
+                title: 'PDF Template',
+                subtitle: _pdfTemplateName(_pdfTemplate),
+                onTap: () => _showPdfTemplatePicker(context),
+              ),
             ]),
-
             const SizedBox(height: 20),
-
             _SectionHeader(title: l10n.settingsAppSection),
             const SizedBox(height: 8),
             _SettingsGroup(items: [
@@ -145,9 +275,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 onTap: () => _showLanguagePicker(context),
               ),
             ]),
-
             const SizedBox(height: 20),
-
             _SectionHeader(title: l10n.settingsAboutSection),
             const SizedBox(height: 8),
             _SettingsGroup(items: [
@@ -187,9 +315,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 subtitle: l10n.settingsVersionNumber,
               ),
             ]),
-
             const SizedBox(height: 20),
-
             if (auth.isAuthenticated)
               SizedBox(
                 width: double.infinity,
@@ -211,9 +337,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                 ),
               ),
-
             const SizedBox(height: 40),
           ],
+          ),
         ),
       ),
     );
@@ -221,8 +347,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   void _showProfileEditor(BuildContext context) {
     final auth = context.read<AuthProvider>();
-    final nameCtrl = TextEditingController(
-        text: auth.currentUser?.displayName ?? '');
+    final nameCtrl =
+        TextEditingController(text: auth.currentUser?.displayName ?? '');
 
     showModalBottomSheet(
       context: context,
@@ -393,6 +519,151 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
+  void _showCountryPicker(BuildContext context) {
+    final region = context.read<RegionProvider>();
+    final current = region.countryCode;
+    final l10n = AppLocalizations.of(context)!;
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(l10n.settingsCountry),
+        content: SizedBox(
+          width: double.maxFinite,
+          child: ListView.separated(
+            shrinkWrap: true,
+            itemCount: CountryConfigRegistry.all.length,
+            separatorBuilder: (c, i) => const Divider(),
+            itemBuilder: (c, i) {
+              final cfg = CountryConfigRegistry.all[i];
+              final selected = cfg.code == current;
+              final taxInfo = cfg.taxLabel != null
+                  ? ' • ${cfg.taxLabel} ${cfg.defaultTaxRate.toStringAsFixed(0)}%'
+                  : '';
+              return ListTile(
+                title: Text(cfg.name,
+                    style: const TextStyle(fontWeight: FontWeight.w600)),
+                subtitle: Text('${cfg.currency}$taxInfo'),
+                trailing: selected
+                    ? Icon(Icons.check_rounded,
+                        color: Theme.of(ctx).colorScheme.primary)
+                    : null,
+                onTap: () async {
+                  await region.setCountry(cfg.code);
+                  if (!ctx.mounted) return;
+                  Navigator.pop(ctx);
+                },
+              );
+            },
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _showTaxIdEditor(BuildContext context) {
+    final region = context.read<RegionProvider>();
+    final ctrl = TextEditingController(text: region.businessTaxId);
+    final l10n = AppLocalizations.of(context)!;
+    final taxIdLabel = region.config?.taxIdLabel;
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(l10n.settingsTaxId),
+        content: TextField(
+          controller: ctrl,
+          autofocus: true,
+          decoration: InputDecoration(
+            hintText: taxIdLabel != null
+                ? '$taxIdLabel • ${l10n.settingsTaxIdHint}'
+                : l10n.settingsTaxIdHint,
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text(l10n.commonCancel),
+          ),
+          FilledButton(
+            style: FilledButton.styleFrom(minimumSize: const Size(80, 40)),
+            onPressed: () async {
+              await region.setBusinessTaxId(ctrl.text);
+              if (!ctx.mounted) return;
+              Navigator.pop(ctx);
+              if (context.mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(l10n.settingsTaxIdSaved),
+                    backgroundColor: AppColors.successGreen,
+                  ),
+                );
+              }
+            },
+            child: Text(l10n.commonSave),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showPaymentLinkEditor(BuildContext context) {
+    final ctrl = TextEditingController(text: _paymentLink);
+    final l10n = AppLocalizations.of(context)!;
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(l10n.paymentLinkTitle),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              controller: ctrl,
+              autofocus: true,
+              keyboardType: TextInputType.url,
+              decoration: InputDecoration(
+                hintText: l10n.paymentLinkHint,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                l10n.paymentLinkHelp,
+                style: Theme.of(ctx).textTheme.bodySmall?.copyWith(
+                      color: Theme.of(ctx).colorScheme.onSurfaceVariant,
+                    ),
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text(l10n.commonCancel),
+          ),
+          FilledButton(
+            style: FilledButton.styleFrom(minimumSize: const Size(80, 40)),
+            onPressed: () async {
+              final prefs = await SharedPreferences.getInstance();
+              await prefs.setString('payment_link', ctrl.text.trim());
+              if (!mounted) return;
+              setState(() => _paymentLink = ctrl.text.trim());
+              if (ctx.mounted) Navigator.pop(ctx);
+              if (mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(l10n.paymentLinkSaved),
+                    backgroundColor: AppColors.successGreen,
+                  ),
+                );
+              }
+            },
+            child: Text(l10n.commonSave),
+          ),
+        ],
+      ),
+    );
+  }
+
   void _showCurrencyPicker(BuildContext context) {
     final currencies = ['USD', 'EUR', 'GBP', 'AED', 'INR', 'AUD', 'CAD'];
     showDialog(
@@ -428,6 +699,135 @@ class _SettingsScreenState extends State<SettingsScreen> {
         );
       },
     );
+  }
+
+  String _pdfTemplateName(PdfTemplate template) {
+    switch (template) {
+      case PdfTemplate.minimal:
+        return 'Minimal';
+      case PdfTemplate.classic:
+        return 'Classic';
+      case PdfTemplate.modern:
+        return 'Modern';
+    }
+  }
+
+  void _showPdfTemplatePicker(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    showModalBottomSheet(
+      context: context,
+      builder: (ctx) => Padding(
+        padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('PDF Template', style: Theme.of(ctx).textTheme.titleLarge),
+                IconButton(
+                  onPressed: () => Navigator.pop(ctx),
+                  icon: const Icon(Icons.close_rounded),
+                ),
+              ],
+            ),
+            const SizedBox(height: 4),
+            Text(
+              'Choose a free layout for your invoice and estimate PDFs.',
+              style: Theme.of(ctx).textTheme.bodySmall?.copyWith(
+                    color: scheme.onSurfaceVariant,
+                  ),
+            ),
+            const SizedBox(height: 12),
+            ...PdfTemplate.values.map((t) {
+              final selected = _pdfTemplate == t;
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 10),
+                child: GestureDetector(
+                  onTap: () async {
+                    final prefs = await SharedPreferences.getInstance();
+                    await prefs.setString('pdf_template', t.name);
+                    if (!mounted) return;
+                    setState(() => _pdfTemplate = t);
+                    if (ctx.mounted) Navigator.pop(ctx);
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.all(14),
+                    decoration: BoxDecoration(
+                      color: scheme.surface,
+                      borderRadius: BorderRadius.circular(14),
+                      border: Border.all(
+                        color:
+                            selected ? scheme.primary : scheme.outlineVariant,
+                        width: selected ? 2 : 1,
+                      ),
+                    ),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 40,
+                          height: 40,
+                          decoration: BoxDecoration(
+                            color: scheme.primary.withValues(alpha: 0.1),
+                            borderRadius: BorderRadius.circular(11),
+                          ),
+                          child: Icon(
+                            t == PdfTemplate.minimal
+                                ? Icons.article_outlined
+                                : t == PdfTemplate.classic
+                                    ? Icons.menu_book_outlined
+                                    : Icons.auto_awesome_outlined,
+                            size: 20,
+                            color: scheme.primary,
+                          ),
+                        ),
+                        const SizedBox(width: 14),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                _pdfTemplateName(t),
+                                style: const TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                              Text(
+                                _pdfTemplateDescription(t),
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: scheme.onSurfaceVariant,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        if (selected)
+                          Icon(Icons.check_circle_rounded,
+                              color: scheme.primary, size: 22),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            }).toList(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  String _pdfTemplateDescription(PdfTemplate template) {
+    switch (template) {
+      case PdfTemplate.minimal:
+        return 'Clean and simple, monochrome with thin rules';
+      case PdfTemplate.classic:
+        return 'Traditional centered title with double rules';
+      case PdfTemplate.modern:
+        return 'Bold accent colors and rounded cards';
+    }
   }
 
   Future<void> _showNotificationTimePicker(BuildContext context) async {
@@ -605,8 +1005,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             child: Text(l10n.commonCancel),
           ),
           FilledButton(
-            style: FilledButton.styleFrom(
-                minimumSize: const Size(80, 40)),
+            style: FilledButton.styleFrom(minimumSize: const Size(80, 40)),
             onPressed: () {
               colorProvider.setAccent(picked);
               setSheetState(() {});
@@ -623,14 +1022,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final l10n = AppLocalizations.of(context)!;
     final localeProvider = Provider.of<LocaleProvider>(context, listen: false);
     final current = localeProvider.locale.languageCode;
-    final items = {
-      'en': l10n.languageEnglish,
-      'ar': l10n.languageArabic,
-      'fr': l10n.languageFrench,
-      'es': l10n.languageSpanish,
-      'ur': l10n.languageUrdu,
-      'zh': l10n.languageChinese,
-    };
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
@@ -638,17 +1029,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
         content: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
-            children: items.entries.map((e) {
-              final selected = e.key == current;
+            children: LocaleProvider.languages.map((lang) {
+              final selected = lang.code == current;
               return ListTile(
-                title: Text(e.value,
+                title: Text(lang.nativeName,
                     style: const TextStyle(fontWeight: FontWeight.w600)),
                 trailing: selected
                     ? Icon(Icons.check_circle_rounded,
                         color: Theme.of(ctx).colorScheme.primary)
                     : null,
                 onTap: () {
-                  localeProvider.setLocale(e.key);
+                  localeProvider.setLocale(lang.code);
                   Navigator.pop(ctx);
                 },
               );
@@ -675,8 +1066,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         content: TextField(
           controller: ctrl,
           autofocus: true,
-          decoration:
-              InputDecoration(hintText: l10n.settingsInvoicePrefixHint),
+          decoration: InputDecoration(hintText: l10n.settingsInvoicePrefixHint),
         ),
         actions: [
           TextButton(
@@ -908,52 +1298,343 @@ class _SignInCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final scheme = Theme.of(context).colorScheme;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Container(
-      padding: const EdgeInsets.all(20),
+      width: double.infinity,
+      padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
-        color: scheme.surface,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: scheme.outlineVariant),
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            scheme.primary,
+            Color.lerp(
+                scheme.primary, Colors.black, isDark ? 0.32 : 0.18)!,
+          ],
+        ),
+        borderRadius: BorderRadius.circular(24),
+        boxShadow: [
+          BoxShadow(
+            color: scheme.primary.withValues(alpha: 0.28),
+            blurRadius: 28,
+            offset: const Offset(0, 12),
+          ),
+        ],
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Container(
-            width: 52,
-            height: 52,
-            decoration: BoxDecoration(
-              color: scheme.primary.withValues(alpha: 0.12),
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Icon(Icons.account_circle_outlined,
-                size: 28, color: scheme.primary),
+          Row(
+            children: [
+              Container(
+                width: 60,
+                height: 60,
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.2),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: const Icon(Icons.cloud_done_outlined,
+                    size: 32, color: Colors.white),
+              ),
+              const Spacer(),
+              Container(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 12, vertical: 5),
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.18),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: const Text(
+                  'FREE',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 11,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 1,
+                  ),
+                ),
+              ),
+            ],
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 18),
           Text(
-            l10n.settingsYourName,
-            style: Theme.of(context)
-                .textTheme
-                .titleLarge
-                ?.copyWith(color: scheme.primary),
+            l10n.settingsSignInRegister,
+            style: const TextStyle(
+              fontSize: 21,
+              fontWeight: FontWeight.w800,
+              color: Colors.white,
+            ),
           ),
           const SizedBox(height: 8),
           Text(
             l10n.settingsBackupDescription,
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: scheme.onSurfaceVariant,
-                ),
+            style: const TextStyle(
+              fontSize: 14,
+              height: 1.5,
+              color: Colors.white70,
+            ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 18),
+          Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.12),
+              borderRadius: BorderRadius.circular(14),
+            ),
+            child: Row(
+              children: [
+                const Icon(Icons.cloud_sync_outlined,
+                    size: 18, color: Colors.white),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Text(
+                    l10n.paywallFeatureSync,
+                    style: const TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 20),
           SizedBox(
-            width: double.infinity,
-            height: 48,
-            child: FilledButton(
+            height: 52,
+            child: FilledButton.icon(
               onPressed: onSignIn,
-              child: Text(l10n.settingsSignInRegister),
+              icon: const Icon(Icons.login_rounded, size: 20),
+              label: Text(
+                l10n.loginSignIn,
+                style: const TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              style: FilledButton.styleFrom(
+                backgroundColor: Colors.white,
+                foregroundColor: scheme.primary,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+              ),
             ),
           ),
         ],
       ),
+    );
+  }
+}
+
+class _SubscriptionCard extends StatelessWidget {
+  final bool isPro;
+  final VoidCallback onUpgrade;
+  final VoidCallback onManage;
+  final VoidCallback onRestore;
+
+  const _SubscriptionCard({
+    required this.isPro,
+    required this.onUpgrade,
+    required this.onManage,
+    required this.onRestore,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final scheme = Theme.of(context).colorScheme;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final accent = Color.lerp(scheme.primary, Colors.black, isDark ? 0.35 : 0.18)!;
+
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(24),
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [scheme.primary, accent],
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: scheme.primary.withValues(alpha: 0.28),
+            blurRadius: 28,
+            offset: const Offset(0, 12),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                width: 52,
+                height: 52,
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.2),
+                  borderRadius: BorderRadius.circular(17),
+                ),
+                child: Icon(
+                  isPro
+                      ? Icons.workspace_premium
+                      : Icons.workspace_premium_outlined,
+                  color: Colors.white,
+                  size: 28,
+                ),
+              ),
+              const SizedBox(width: 14),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      l10n.settingsProTitle,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w800,
+                        color: Colors.white,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      isPro ? l10n.settingsProActive : l10n.settingsProUpsell,
+                      style: const TextStyle(
+                        fontSize: 12.5,
+                        height: 1.4,
+                        color: Colors.white70,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              if (isPro)
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.22),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: const Text(
+                    'PRO',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 11,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 1,
+                    ),
+                  ),
+                ),
+            ],
+          ),
+          const SizedBox(height: 20),
+          Container(
+            padding: const EdgeInsets.all(14),
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.12),
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Column(
+              children: [
+                _ProFeature(
+                  icon: Icons.all_inclusive_rounded,
+                  label: l10n.paywallFeatureUnlimited,
+                ),
+                const SizedBox(height: 10),
+                _ProFeature(
+                  icon: Icons.cloud_sync_outlined,
+                  label: l10n.paywallFeatureSync,
+                ),
+                const SizedBox(height: 10),
+                _ProFeature(
+                  icon: Icons.water_drop_outlined,
+                  label: l10n.paywallFeatureNoWatermark,
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 20),
+          SizedBox(
+            width: double.infinity,
+            height: 52,
+            child: FilledButton.icon(
+              onPressed: isPro ? onManage : onUpgrade,
+              icon: Icon(
+                isPro ? Icons.tune_rounded : Icons.workspace_premium,
+                size: 20,
+              ),
+              label: Text(
+                isPro
+                    ? l10n.settingsManageSubscription
+                    : l10n.settingsUpgradeToPro,
+                style: const TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              style: FilledButton.styleFrom(
+                backgroundColor: Colors.white,
+                foregroundColor: scheme.primary,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+              ),
+            ),
+          ),
+          if (!isPro) ...[
+            const SizedBox(height: 8),
+            Center(
+              child: TextButton.icon(
+                onPressed: onRestore,
+                icon: Icon(
+                  Icons.restore_rounded,
+                  size: 18,
+                  color: Colors.white.withValues(alpha: 0.85),
+                ),
+                label: Text(
+                  l10n.paywallRestore,
+                  style: const TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+class _ProFeature extends StatelessWidget {
+  final IconData icon;
+  final String label;
+
+  const _ProFeature({required this.icon, required this.label});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Icon(icon, size: 18, color: Colors.white),
+        const SizedBox(width: 10),
+        Expanded(
+          child: Text(
+            label,
+            style: const TextStyle(
+              fontSize: 13.5,
+              fontWeight: FontWeight.w600,
+              color: Colors.white,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
@@ -964,14 +1645,28 @@ class _SectionHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      title,
-      style: TextStyle(
-        fontSize: 11,
-        fontWeight: FontWeight.w700,
-        color: Theme.of(context).colorScheme.onSurfaceVariant,
-        letterSpacing: 1.2,
-      ),
+    final scheme = Theme.of(context).colorScheme;
+    return Row(
+      children: [
+        Container(
+          width: 4,
+          height: 16,
+          decoration: BoxDecoration(
+            color: scheme.primary,
+            borderRadius: BorderRadius.circular(4),
+          ),
+        ),
+        const SizedBox(width: 8),
+        Text(
+          title,
+          style: TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.w800,
+            color: scheme.onSurfaceVariant,
+            letterSpacing: 1.2,
+          ),
+        ),
+      ],
     );
   }
 }
@@ -983,12 +1678,15 @@ class _SettingsGroup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
-    return Container(
-      decoration: BoxDecoration(
-        color: scheme.surface,
+    return Material(
+      color: scheme.surface,
+      elevation: 1.5,
+      shadowColor: Colors.black.withValues(alpha: 0.08),
+      shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: scheme.outlineVariant),
+        side: BorderSide(color: scheme.outlineVariant),
       ),
+      clipBehavior: Clip.antiAlias,
       child: Column(
         children: items.asMap().entries.map((entry) {
           final isLast = entry.key == items.length - 1;
@@ -996,8 +1694,7 @@ class _SettingsGroup extends StatelessWidget {
             children: [
               entry.value,
               if (!isLast)
-                Divider(
-                    height: 1, color: scheme.outlineVariant, indent: 56),
+                Divider(height: 1, color: scheme.outlineVariant, indent: 56),
             ],
           );
         }).toList(),
@@ -1087,8 +1784,7 @@ class _SettingsTile extends StatelessWidget {
               subtitle!,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                  fontSize: 12, color: scheme.onSurfaceVariant),
+              style: TextStyle(fontSize: 12, color: scheme.onSurfaceVariant),
             )
           : null,
       trailing: trailing ??

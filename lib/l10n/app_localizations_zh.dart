@@ -282,6 +282,32 @@ class AppLocalizationsZh extends AppLocalizations {
   String get registerSignIn => '登录';
 
   @override
+  String get authTermsOfService => '服务条款';
+
+  @override
+  String get authPrivacyPolicy => '隐私政策';
+
+  @override
+  String get authAgreeRequired => '请同意服务条款和隐私政策以继续';
+
+  @override
+  String get loginAgreePrefix => '继续即表示您同意我们的';
+
+  @override
+  String get registerAgreePrefix => '我同意';
+
+  @override
+  String get authAgreeAnd => '和';
+
+  @override
+  String get authTermsSheet =>
+      '这些服务条款管辖您对 InvoiceFlow 的使用。通过访问或使用本应用，您同意受这些条款的约束。\n\n1. 您对自己创建的发票、估价单和其他数据的准确性负责。\n2. 本应用按“现状”提供，不作任何明示或暗示的保证。\n3. 对于因您使用本服务而产生的任何损失，我们概不负责。\n4. 您不得将本应用用于任何非法或禁止的目的。\n5. 我们可能会不时更新这些条款；继续使用本应用即表示接受更新后的条款。';
+
+  @override
+  String get authPrivacySheet =>
+      '您的隐私对我们很重要。\n\n1. 数据存储：您的发票、客户和设置将存储在您设备的本地。\n2. 云同步：如果您登录，您的数据将同步到您的账户，以便在您的所有设备上访问。\n3. 我们绝不会出售或分享您的个人信息。\n4. 分析：我们可能会收集匿名的使用数据以帮助改进应用。\n5. 联系：如有任何隐私问题，请联系 support@invoiceflow.app。';
+
+  @override
   String get authErrorWeakPassword => '密码太弱';
 
   @override
@@ -973,6 +999,42 @@ class AppLocalizationsZh extends AppLocalizations {
   String get purchaseSuccessContinue => '继续';
 
   @override
+  String get paywallLoading => '正在加载方案…';
+
+  @override
+  String get paywallLoadError => '无法加载方案。请检查您的网络连接并重试。';
+
+  @override
+  String get paywallNoOffering => '当前暂无可用方案。';
+
+  @override
+  String get purchaseRestored => '购买已成功恢复';
+
+  @override
+  String get purchaseErrorGeneric => '购买失败，请重试。';
+
+  @override
+  String get settingsProTitle => 'InvoiceFlow Pro';
+
+  @override
+  String get settingsProActive => 'Pro 已激活 — 无限制发票和客户，无水印';
+
+  @override
+  String get settingsFreePlan => '免费版';
+
+  @override
+  String get settingsFreeHint => '升级以解锁无限发票、云同步及更多功能';
+
+  @override
+  String get settingsUpgradeToPro => '升级到 Pro';
+
+  @override
+  String get settingsManageSubscription => '管理订阅';
+
+  @override
+  String get customerCenterFailed => '无法打开订阅管理。';
+
+  @override
   String get onboardingSkip => '跳过';
 
   @override
@@ -1006,5 +1068,313 @@ class AppLocalizationsZh extends AppLocalizations {
   String get settingsAccentColorHint => '选择你喜欢的颜色来个性化应用。';
 
   @override
+  String get settingsCountry => '国家';
+
+  @override
+  String get settingsTaxId => '税务登记号';
+
+  @override
+  String get settingsTaxIdNotSet => '未设置';
+
+  @override
+  String get settingsTaxIdHint => '例如：123456789012345';
+
+  @override
+  String get settingsTaxIdSaved => '税务号已保存';
+
+  @override
+  String get catalogTitle => '商品与服务';
+
+  @override
+  String catalogItemCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 个商品',
+      one: '$count 个商品',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get catalogEmpty => '暂无商品';
+
+  @override
+  String get catalogEmptySubtitle => '保存可重复使用的商品与服务，以便更快地添加到发票中。';
+
+  @override
+  String get catalogFromSaved => '从商品目录选择';
+
+  @override
+  String get catalogSaveToCatalog => '保存到商品目录以便复用';
+
+  @override
+  String get catalogAddSnackbar => '已添加到商品目录';
+
+  @override
+  String get catalogDeleteTitle => '删除商品？';
+
+  @override
+  String catalogDeleteMessage(String description) {
+    return '删除\"$description\"？此操作无法撤销。';
+  }
+
+  @override
   String get commonDone => '完成';
+
+  @override
+  String get estimateListTitle => '报价';
+
+  @override
+  String get estimateListSearchHint => '搜索报价…';
+
+  @override
+  String get estimateListEmpty => '暂无报价';
+
+  @override
+  String get estimateListTabAll => '全部';
+
+  @override
+  String get estimateListTabDraft => '草稿';
+
+  @override
+  String get estimateListTabSent => '已发送';
+
+  @override
+  String get estimateListTabAccepted => '已接受';
+
+  @override
+  String get estimateListTabExpired => '已过期';
+
+  @override
+  String get estimateCreateTitle => '新建报价';
+
+  @override
+  String get estimateEditTitle => '编辑报价';
+
+  @override
+  String get estimateCreatedSnackbar => '报价已保存';
+
+  @override
+  String get estimateUpdatedSnackbar => '报价已更新';
+
+  @override
+  String get estimateIssueDate => '签发日期';
+
+  @override
+  String get estimateExpiryDate => '有效期至';
+
+  @override
+  String get estimateExpiresPrefix => '有效期至 ';
+
+  @override
+  String get estimateConvertToInvoice => '转为发票';
+
+  @override
+  String get estimateConvertedSnackbar => '报价已转为发票';
+
+  @override
+  String get estimateConvertFailed => '无法转换报价';
+
+  @override
+  String get estimateMarkSent => '标记为已发送';
+
+  @override
+  String get estimateMarkAccepted => '标记为已接受';
+
+  @override
+  String get estimateMarkDeclined => '标记为已拒绝';
+
+  @override
+  String get estimateConvertedTitle => '已转换';
+
+  @override
+  String estimateConvertedMessage(String invoiceId) {
+    return '已转为发票 $invoiceId';
+  }
+
+  @override
+  String get estimateDetailTotal => '报价总额';
+
+  @override
+  String get estimateStatusSent => '已发送';
+
+  @override
+  String get estimateStatusAccepted => '已接受';
+
+  @override
+  String get estimateStatusDeclined => '已拒绝';
+
+  @override
+  String get estimateStatusExpired => '已过期';
+
+  @override
+  String estimateOpenCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 个待处理',
+      one: '1 个待处理',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get deleteEstimateTitle => '删除报价？';
+
+  @override
+  String deleteEstimateMessage(String estimateNumber) {
+    return '删除\"$estimateNumber\"？此操作无法撤销。';
+  }
+
+  @override
+  String get estimatePdfFailed => '无法生成 PDF';
+
+  @override
+  String get pdfEstimate => '报价';
+
+  @override
+  String get pdfEstimateNumber => '报价编号:';
+
+  @override
+  String get pdfValidUntil => '有效期至:';
+
+  @override
+  String get invoiceDetailPaymentTerms => '付款条款';
+
+  @override
+  String get recurringListTitle => '定期发票';
+
+  @override
+  String get recurringListEmpty => '暂无定期发票';
+
+  @override
+  String get recurringListEmptySubtitle => '为常客和服务设置自动发票。';
+
+  @override
+  String get recurringCreateTitle => '新建定期';
+
+  @override
+  String get recurringEditTitle => '编辑定期';
+
+  @override
+  String get recurringCreatedSnackbar => '定期发票已保存';
+
+  @override
+  String get recurringUpdatedSnackbar => '定期发票已更新';
+
+  @override
+  String get recurringDeleteTitle => '删除定期发票？';
+
+  @override
+  String recurringDeleteMessage(String title) {
+    return '删除\"$title\"？现有发票不会被删除。';
+  }
+
+  @override
+  String get recurringTitleLabel => '标题';
+
+  @override
+  String get recurringTitleHint => '例如：每月服务费';
+
+  @override
+  String get recurringClientLabel => '客户';
+
+  @override
+  String get recurringFrequencyLabel => '频率';
+
+  @override
+  String get recurringFrequencyWeekly => '每周';
+
+  @override
+  String get recurringFrequencyBiweekly => '每两周';
+
+  @override
+  String get recurringFrequencyMonthly => '每月';
+
+  @override
+  String get recurringFrequencyQuarterly => '每季度';
+
+  @override
+  String get recurringFrequencyYearly => '每年';
+
+  @override
+  String get recurringNextRun => '下次运行';
+
+  @override
+  String get recurringDueDays => '到期天数';
+
+  @override
+  String get recurringDays => '天';
+
+  @override
+  String recurringActiveCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 个进行中',
+      one: '1 个进行中',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get reportsTitle => '报表';
+
+  @override
+  String get reportsSubtitle => '业务分析';
+
+  @override
+  String get reportsEmpty => '创建发票以查看报表';
+
+  @override
+  String get reportsCollected => '已收款';
+
+  @override
+  String get reportsOutstanding => '未结';
+
+  @override
+  String get reportsMonthlyRevenue => '月度收入';
+
+  @override
+  String get reportsLast6Months => '最近 6 个月';
+
+  @override
+  String get reportsByStatus => '按状态';
+
+  @override
+  String get reportsTopClients => '主要客户';
+
+  @override
+  String get paymentLinkTitle => '付款链接';
+
+  @override
+  String get paymentLinkNotSet => '设置中未配置付款链接';
+
+  @override
+  String get paymentLinkHint => 'https://buy.stripe.com/...';
+
+  @override
+  String get paymentLinkHelp => '您的付款链接会包含在发票 PDF 中，并可从发票菜单复制。';
+
+  @override
+  String get paymentLinkSaved => '付款链接已保存';
+
+  @override
+  String get settingsPaymentLinkNotSet => '未设置';
+
+  @override
+  String get invoiceDetailCopyPaymentLink => '复制付款链接';
+
+  @override
+  String get paymentLinkCopied => '付款链接已复制';
+
+  @override
+  String get pdfPayOnline => '在线支付';
+
+  @override
+  String get exportXml => '导出 XML';
+
+  @override
+  String get exportXmlFailed => '无法导出 XML';
 }

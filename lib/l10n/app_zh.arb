@@ -356,5 +356,171 @@
   "onboardingProBody": "使用 InvoiceFlow Pro 解锁无限发票、云同步并去除水印。",
   "settingsAccentColor": "主题色",
   "settingsAccentColorHint": "选择你喜欢的颜色来个性化应用。",
-  "commonDone": "完成"
+  "settingsCountry": "国家",
+  "settingsTaxId": "税务登记号",
+  "settingsTaxIdNotSet": "未设置",
+  "settingsTaxIdHint": "例如：123456789012345",
+  "settingsTaxIdSaved": "税务号已保存",
+  "catalogTitle": "商品与服务",
+  "catalogItemCount": "{count, plural, =1{{count} 个商品} other{{count} 个商品}}",
+  "@catalogItemCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "catalogEmpty": "暂无商品",
+  "catalogEmptySubtitle": "保存可重复使用的商品与服务，以便更快地添加到发票中。",
+  "catalogFromSaved": "从商品目录选择",
+  "catalogSaveToCatalog": "保存到商品目录以便复用",
+  "catalogAddSnackbar": "已添加到商品目录",
+  "catalogDeleteTitle": "删除商品？",
+  "catalogDeleteMessage": "删除\"{description}\"？此操作无法撤销。",
+  "@catalogDeleteMessage": {
+    "placeholders": {
+      "description": {
+        "type": "String"
+      }
+    }
+  },
+  "commonDone": "完成",
+  "estimateListTitle": "报价",
+  "estimateListSearchHint": "搜索报价…",
+  "estimateListEmpty": "暂无报价",
+  "estimateListTabAll": "全部",
+  "estimateListTabDraft": "草稿",
+  "estimateListTabSent": "已发送",
+  "estimateListTabAccepted": "已接受",
+  "estimateListTabExpired": "已过期",
+  "estimateCreateTitle": "新建报价",
+  "estimateEditTitle": "编辑报价",
+  "estimateCreatedSnackbar": "报价已保存",
+  "estimateUpdatedSnackbar": "报价已更新",
+  "estimateIssueDate": "签发日期",
+  "estimateExpiryDate": "有效期至",
+  "estimateExpiresPrefix": "有效期至 ",
+  "estimateConvertToInvoice": "转为发票",
+  "estimateConvertedSnackbar": "报价已转为发票",
+  "estimateConvertFailed": "无法转换报价",
+  "estimateMarkSent": "标记为已发送",
+  "estimateMarkAccepted": "标记为已接受",
+  "estimateMarkDeclined": "标记为已拒绝",
+  "estimateConvertedTitle": "已转换",
+  "estimateConvertedMessage": "已转为发票 {invoiceId}",
+  "@estimateConvertedMessage": {
+    "placeholders": {
+      "invoiceId": {
+        "type": "String"
+      }
+    }
+  },
+  "estimateDetailTotal": "报价总额",
+  "estimateStatusSent": "已发送",
+  "estimateStatusAccepted": "已接受",
+  "estimateStatusDeclined": "已拒绝",
+  "estimateStatusExpired": "已过期",
+  "estimateOpenCount": "{count, plural, =1{1 个待处理} other{{count} 个待处理}}",
+  "@estimateOpenCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "deleteEstimateTitle": "删除报价？",
+  "deleteEstimateMessage": "删除\"{estimateNumber}\"？此操作无法撤销。",
+  "@deleteEstimateMessage": {
+    "placeholders": {
+      "estimateNumber": {
+        "type": "String"
+      }
+    }
+  },
+  "estimatePdfFailed": "无法生成 PDF",
+  "pdfEstimate": "报价",
+  "pdfEstimateNumber": "报价编号:",
+  "pdfValidUntil": "有效期至:",
+  "invoiceDetailPaymentTerms": "付款条款",
+
+  "recurringListTitle": "定期发票",
+  "recurringListEmpty": "暂无定期发票",
+  "recurringListEmptySubtitle": "为常客和服务设置自动发票。",
+  "recurringCreateTitle": "新建定期",
+  "recurringEditTitle": "编辑定期",
+  "recurringCreatedSnackbar": "定期发票已保存",
+  "recurringUpdatedSnackbar": "定期发票已更新",
+  "recurringDeleteTitle": "删除定期发票？",
+  "recurringDeleteMessage": "删除\"{title}\"？现有发票不会被删除。",
+  "@recurringDeleteMessage": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "recurringTitleLabel": "标题",
+  "recurringTitleHint": "例如：每月服务费",
+  "recurringClientLabel": "客户",
+  "recurringFrequencyLabel": "频率",
+  "recurringFrequencyWeekly": "每周",
+  "recurringFrequencyBiweekly": "每两周",
+  "recurringFrequencyMonthly": "每月",
+  "recurringFrequencyQuarterly": "每季度",
+  "recurringFrequencyYearly": "每年",
+  "recurringNextRun": "下次运行",
+  "recurringDueDays": "到期天数",
+  "recurringDays": "天",
+  "recurringActiveCount": "{count, plural, =1{1 个进行中} other{{count} 个进行中}}",
+  "@recurringActiveCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+
+  "reportsTitle": "报表",
+  "reportsSubtitle": "业务分析",
+  "reportsEmpty": "创建发票以查看报表",
+  "reportsCollected": "已收款",
+  "reportsOutstanding": "未结",
+  "reportsMonthlyRevenue": "月度收入",
+  "reportsLast6Months": "最近 6 个月",
+  "reportsByStatus": "按状态",
+  "reportsTopClients": "主要客户",
+
+  "paymentLinkTitle": "付款链接",
+  "paymentLinkNotSet": "设置中未配置付款链接",
+  "paymentLinkHint": "https://buy.stripe.com/...",
+  "paymentLinkHelp": "您的付款链接会包含在发票 PDF 中，并可从发票菜单复制。",
+  "paymentLinkSaved": "付款链接已保存",
+  "settingsPaymentLinkNotSet": "未设置",
+  "invoiceDetailCopyPaymentLink": "复制付款链接",
+  "paymentLinkCopied": "付款链接已复制",
+
+  "pdfPayOnline": "在线支付",
+
+  "exportXml": "导出 XML",
+  "exportXmlFailed": "无法导出 XML",
+  "authTermsOfService": "服务条款",
+  "authPrivacyPolicy": "隐私政策",
+  "authAgreeRequired": "请同意服务条款和隐私政策以继续",
+  "loginAgreePrefix": "继续即表示您同意我们的",
+  "registerAgreePrefix": "我同意",
+  "authAgreeAnd": "和",
+  "authTermsSheet": "这些服务条款管辖您对 InvoiceFlow 的使用。通过访问或使用本应用，您同意受这些条款的约束。\n\n1. 您对自己创建的发票、估价单和其他数据的准确性负责。\n2. 本应用按“现状”提供，不作任何明示或暗示的保证。\n3. 对于因您使用本服务而产生的任何损失，我们概不负责。\n4. 您不得将本应用用于任何非法或禁止的目的。\n5. 我们可能会不时更新这些条款；继续使用本应用即表示接受更新后的条款。",
+  "authPrivacySheet": "您的隐私对我们很重要。\n\n1. 数据存储：您的发票、客户和设置将存储在您设备的本地。\n2. 云同步：如果您登录，您的数据将同步到您的账户，以便在您的所有设备上访问。\n3. 我们绝不会出售或分享您的个人信息。\n4. 分析：我们可能会收集匿名的使用数据以帮助改进应用。\n5. 联系：如有任何隐私问题，请联系 support@invoiceflow.app。",
+  "paywallLoading": "正在加载方案…",
+  "paywallLoadError": "无法加载方案。请检查您的网络连接并重试。",
+  "paywallNoOffering": "当前暂无可用方案。",
+  "purchaseRestored": "购买已成功恢复",
+  "purchaseErrorGeneric": "购买失败，请重试。",
+  "settingsProTitle": "InvoiceFlow Pro",
+  "settingsProActive": "Pro 已激活 — 无限制发票和客户，无水印",
+  "settingsFreePlan": "免费版",
+  "settingsFreeHint": "升级以解锁无限发票、云同步及更多功能",
+  "settingsUpgradeToPro": "升级到 Pro",
+  "settingsManageSubscription": "管理订阅",
+  "customerCenterFailed": "无法打开订阅管理。"
 }

@@ -43,9 +43,24 @@ class InvoiceProvider with ChangeNotifier {
       _invoices = _box.values.map((v) => Invoice.fromJson(Map<String, dynamic>.from(v))).toList();
       _invoices.sort((a, b) => b.invoiceDate.compareTo(a.invoiceDate));
       _updateOverdue();
+      _syncCounter();
       _syncCounts();
     } catch (e) { _error = e.toString(); }
     _isLoading = false; notifyListeners();
+  }
+
+  /// Ensures the persisted invoice-number counter stays ahead of every
+  /// existing invoice so new numbers never collide (fixes duplicate numbers
+  /// that occurred because numbering previously used the in-memory list length).
+  void _syncCounter() {
+    var maxSeq = 0;
+    for (final inv in _invoices) {
+      final match = RegExp(r'(\d{4})$').firstMatch(inv.invoiceNumber);
+      if (match == null) continue;
+      final seq = int.tryParse(match.group(1)!);
+      if (seq != null && seq > maxSeq) maxSeq = seq;
+    }
+    InvoiceNumberUtils.ensureAtLeast(maxSeq);
   }
 
   Future<Invoice?> createInvoice(Invoice invoice) async {
@@ -60,7 +75,8 @@ class InvoiceProvider with ChangeNotifier {
 
   Future<void> updateInvoice(Invoice invoice) async {
     try {
-      final toStore = invoice.copyWith(isSynced: false);
+      final toStore = invoice.copyWith(
+          isSynced: false, updatedAt: DateTime.now());
       await _box.put(toStore.id, toStore.toJson());
       final idx = _invoices.indexWhere((i) => i.id == toStore.id);
       if (idx != -1) { _invoices[idx] = toStore; notifyListeners(); }
@@ -86,7 +102,7 @@ class InvoiceProvider with ChangeNotifier {
 
   String generateInvoiceNumber() {
     final year = DateTime.now().year;
-    final count = _invoices.length + 1;
+    final count = InvoiceNumberUtils.next();
     return '${InvoiceNumberUtils.prefix}$year-${count.toString().padLeft(4, '0')}';
   }
 

@@ -56,7 +56,8 @@ class ClientProvider with ChangeNotifier {
 
   Future<void> updateClient(Client client) async {
     try {
-      final toStore = client.copyWith(isSynced: false);
+      final toStore = client.copyWith(
+          isSynced: false, updatedAt: DateTime.now());
       await _clientBox.put(toStore.id, toStore.toJson());
       final index = _clients.indexWhere((c) => c.id == toStore.id);
       if (index != -1) {

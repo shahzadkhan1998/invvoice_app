@@ -16,6 +16,7 @@ class Invoice {
   final String? paymentTerms;
   final String currency;
   final bool isSynced;
+  final DateTime updatedAt;
   final String? logoUrl;
   final String? signatureUrl;
 
@@ -37,9 +38,10 @@ class Invoice {
     this.paymentTerms,
     this.currency = 'AED',
     this.isSynced = false,
+    DateTime? updatedAt,
     this.logoUrl,
     this.signatureUrl,
-  });
+  }) : updatedAt = updatedAt ?? DateTime.now();
 
   Invoice copyWith({
     String? id, String? invoiceNumber, String? clientId, String? clientName,
@@ -47,7 +49,7 @@ class Invoice {
     double? subtotal, double? taxRate, double? taxAmount, double? total,
     InvoiceStatus? status, DateTime? paidDate, String? notes,
     String? paymentTerms, String? currency, bool? isSynced,
-    String? logoUrl, String? signatureUrl,
+    DateTime? updatedAt, String? logoUrl, String? signatureUrl,
   }) {
     return Invoice(
       id: id ?? this.id, invoiceNumber: invoiceNumber ?? this.invoiceNumber,
@@ -59,6 +61,7 @@ class Invoice {
       paidDate: paidDate ?? this.paidDate, notes: notes ?? this.notes,
       paymentTerms: paymentTerms ?? this.paymentTerms,
       currency: currency ?? this.currency, isSynced: isSynced ?? this.isSynced,
+      updatedAt: updatedAt ?? this.updatedAt,
       logoUrl: logoUrl ?? this.logoUrl, signatureUrl: signatureUrl ?? this.signatureUrl,
     );
   }
@@ -72,6 +75,7 @@ class Invoice {
     'total': total, 'status': status.toString().split('.').last,
     'paidDate': paidDate?.toIso8601String(), 'notes': notes,
     'paymentTerms': paymentTerms, 'currency': currency, 'isSynced': isSynced,
+    'updatedAt': updatedAt.toIso8601String(),
     'logoUrl': logoUrl, 'signatureUrl': signatureUrl,
   };
 
@@ -89,6 +93,9 @@ class Invoice {
     paidDate: j['paidDate'] != null ? DateTime.parse(j['paidDate']) : null,
     notes: j['notes'], paymentTerms: j['paymentTerms'],
     currency: j['currency'] ?? 'AED', isSynced: j['isSynced'] ?? false,
+    updatedAt: j['updatedAt'] != null
+        ? DateTime.parse(j['updatedAt'] as String)
+        : DateTime.parse(j['invoiceDate'] as String),
     logoUrl: j['logoUrl'], signatureUrl: j['signatureUrl'],
   );
 
