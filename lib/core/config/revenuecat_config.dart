@@ -16,9 +16,9 @@ class RevenueCatConfig {
   /// The entitlement that unlocks "invoice generator Pro".
   ///
   /// Must match the entitlement identifier created in the RevenueCat
-  /// dashboard (Project settings → Entitlements). If you named it
-  /// something other than `pro`, update this constant.
-  static const String proEntitlementId = 'pro';
+  /// dashboard (Project settings → Entitlements). This app's entitlement is
+  /// named "invoice generator Pro" (with spaces).
+  static const String proEntitlementId = 'invoice generator Pro';
 
   /// Package identifiers used by the paywall. Packages are configured in the
   /// RevenueCat dashboard (Offerings) and map to the store products.

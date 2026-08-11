@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import '../models/invoice.dart';
 import '../services/sync_service.dart';
+import '../services/review_service.dart';
 import '../core/utils/invoice_number_utils.dart';
 import 'subscription_provider.dart';
 
@@ -67,8 +68,12 @@ class InvoiceProvider with ChangeNotifier {
     try {
       final toStore = invoice.copyWith(isSynced: false);
       await _box.put(toStore.id, toStore.toJson());
+      final isFirst = _invoices.isEmpty;
       _invoices.insert(0, toStore); notifyListeners();
       _sync.uploadInvoice(toStore).catchError((_) {});
+      if (isFirst) {
+        ReviewService.requestFirstInvoiceReview();
+      }
       return toStore;
     } catch (e) { _error = e.toString(); notifyListeners(); return null; }
   }

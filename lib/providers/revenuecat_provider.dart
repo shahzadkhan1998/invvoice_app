@@ -66,8 +66,15 @@ class RevenueCatProvider with ChangeNotifier {
   }
 
   /// Attaches the app-wide [SubscriptionProvider] so entitlement state flows
-  /// into the existing Pro gating. Safe to call multiple times (idempotent).
+  /// into the existing Pro gating.
+  ///
+  /// Safe to call multiple times: if the same instance is re-attached (which
+  /// happens on every [SubscriptionProvider] notification via the
+  /// `ChangeNotifierProxyProvider`), it is a no-op. Without this guard, each
+  /// [SubscriptionProvider.setPro] would re-trigger `_syncSubscription`, which
+  /// calls `setPro` again → infinite notify loop.
   void attach(SubscriptionProvider sub) {
+    if (identical(_subscription, sub)) return;
     _subscription = sub;
     _syncSubscription();
   }
@@ -79,7 +86,7 @@ class RevenueCatProvider with ChangeNotifier {
       await Purchases.configure(
         PurchasesConfiguration(RevenueCatConfig.apiKey),
       );
-      // Re-sync the RevenueCat user to the Firebase Auth user (if any) so
+      debugPrint('[RevenueCat] SDK configured (key ${RevenueCatConfig.apiKey})');      // Re-sync the RevenueCat user to the Firebase Auth user (if any) so
       // purchases survive sign-in across devices. Anonymous users keep the
       // SDK-generated anonymous id, which is restored locally on relaunch.
       FirebaseAuth.instance.authStateChanges().listen((user) async {
@@ -100,9 +107,11 @@ class RevenueCatProvider with ChangeNotifier {
     } on PlatformException catch (e) {
       _error = 'RevenueCat configuration failed: ${e.message}';
       _isConfigured = false;
+      debugPrint('[RevenueCat] CONFIG ERROR (PlatformException): ${e.message}');
     } catch (e) {
       _error = 'RevenueCat configuration failed: $e';
       _isConfigured = false;
+      debugPrint('[RevenueCat] CONFIG ERROR: $e');
     } finally {
       _isConfiguring = false;
       notifyListeners();
@@ -111,6 +120,7 @@ class RevenueCatProvider with ChangeNotifier {
 
   void _onCustomerInfoUpdate(CustomerInfo customerInfo) {
     _customerInfo = customerInfo;
+    _logEntitlements('customer info update');
     _syncSubscription();
     notifyListeners();
   }
@@ -118,14 +128,19 @@ class RevenueCatProvider with ChangeNotifier {
   void _syncSubscription() {
     // Only override the app's Pro flag once we have server truth. This avoids
     // briefly revoking a stored entitlement before RevenueCat responds.
-    if (_customerInfo == null) return;
-    _subscription?.setPro(isPro);
+    final sub = _subscription;
+    if (sub == null || _customerInfo == null) return;
+    final serverPro = isPro;
+    if (sub.isPro == serverPro) return;
+    debugPrint('[RevenueCat] sync -> setPro($serverPro)');
+    sub.setPro(serverPro);
   }
 
   /// Fetches the latest customer info from RevenueCat.
   Future<void> refreshCustomerInfo() async {
     try {
       _customerInfo = await Purchases.getCustomerInfo();
+      _logEntitlements('refreshCustomerInfo');
       _syncSubscription();
       notifyListeners();
     } on PlatformException catch (e) {
@@ -141,8 +156,15 @@ class RevenueCatProvider with ChangeNotifier {
     notifyListeners();
     try {
       _offerings = await Purchases.getOfferings();
-      if (_offerings?.current == null) {
+      final current = _offerings?.current;
+      if (current == null) {
         _setError('No offerings configured in the RevenueCat dashboard.');
+        debugPrint('[RevenueCat] loadOfferings -> NO CURRENT OFFERING');
+      } else {
+        debugPrint(
+          '[RevenueCat] loadOfferings -> ${current.availablePackages.length} package(s): '
+          '${current.availablePackages.map((p) => "${p.identifier}(${p.packageType})").join(", ")}',
+        );
       }
     } on PlatformException catch (e) {
       _setError(e);
@@ -171,25 +193,41 @@ class RevenueCatProvider with ChangeNotifier {
   /// Purchases a package. Returns `true` on success, `false` otherwise.
   /// A user-cancelled purchase is NOT treated as an error.
   Future<bool> purchasePackage(Package package) async {
-    if (_isPurchasing) return false;
+    if (_isPurchasing) {
+      debugPrint('[RevenueCat] purchase ignored: already in progress');
+      return false;
+    }
     _isPurchasing = true;
     _error = null;
     notifyListeners();
+    debugPrint(
+        '[RevenueCat] PURCHASE START: ${package.identifier} (${package.storeProduct.priceString})');
     try {
       final result = await Purchases.purchase(PurchaseParams.package(package));
       _customerInfo = result.customerInfo;
+      _logEntitlements('purchase result');
       _syncSubscription();
+      // A completed store transaction means the user now owns Pro. Flip the
+      // app flag immediately — the RevenueCat entitlement webhook may still
+      // be in flight (especially in sandbox/test stores).
+      await _subscription?.setPro(true);
+      debugPrint(
+          '[RevenueCat] PURCHASE SUCCESS ✓  isPro(server)=$isPro  entitlement=${_activeEntitlementIds()}');
       return true;
     } on PlatformException catch (e) {
       if (PurchasesErrorHelper.getErrorCode(e) ==
           PurchasesErrorCode.purchaseCancelledError) {
         _error = null;
+        debugPrint('[RevenueCat] purchase CANCELLED by user');
       } else {
         _setError(e);
+        debugPrint('[RevenueCat] PURCHASE ERROR (PlatformException): '
+            '${PurchasesErrorHelper.getErrorCode(e).name} - ${e.message}');
       }
       return false;
     } catch (e) {
       _setError(e);
+      debugPrint('[RevenueCat] PURCHASE ERROR: $e');
       return false;
     } finally {
       _isPurchasing = false;
@@ -203,16 +241,22 @@ class RevenueCatProvider with ChangeNotifier {
     _isRestoring = true;
     _error = null;
     notifyListeners();
+    debugPrint('[RevenueCat] RESTORE START');
     try {
       final info = await Purchases.restorePurchases();
       _customerInfo = info;
+      _logEntitlements('restore result');
       _syncSubscription();
+      debugPrint('[RevenueCat] RESTORE DONE -> isPro=$isPro');
       return isPro;
     } on PlatformException catch (e) {
       _setError(e);
+      debugPrint('[RevenueCat] RESTORE ERROR (PlatformException): '
+          '${PurchasesErrorHelper.getErrorCode(e).name} - ${e.message}');
       return false;
     } catch (e) {
       _setError(e);
+      debugPrint('[RevenueCat] RESTORE ERROR: $e');
       return false;
     } finally {
       _isRestoring = false;
@@ -224,11 +268,25 @@ class RevenueCatProvider with ChangeNotifier {
     _error = e is PlatformException
         ? PurchasesErrorHelper.getErrorCode(e).name
         : e.toString();
+    debugPrint('[RevenueCat] ERROR -> $_error');
     notifyListeners();
   }
 
   void clearError() {
     _error = null;
     notifyListeners();
+  }
+
+  // ─── Debug helpers ────────────────────────────────────────────────────
+
+  void _logEntitlements(String source) {
+    final active = _customerInfo?.entitlements.active.keys.toList() ?? [];
+    final all = _customerInfo?.entitlements.all.keys.toList() ?? [];
+    debugPrint(
+        '[RevenueCat] $source -> active entitlements: $active | all: $all');
+  }
+
+  String _activeEntitlementIds() {
+    return (_customerInfo?.entitlements.active.keys.toList() ?? []).join(', ');
   }
 }

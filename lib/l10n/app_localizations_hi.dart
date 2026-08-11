@@ -1033,6 +1033,24 @@ class AppLocalizationsHi extends AppLocalizations {
   String get paywallNoOffering => 'अभी कोई प्लान उपलब्ध नहीं है।';
 
   @override
+  String get paywallChoosePlan => 'Choose your plan';
+
+  @override
+  String get paywallLifetime => 'Lifetime';
+
+  @override
+  String get paywallLifetimeSub => 'One-time payment';
+
+  @override
+  String get paywallPerMonth => '/mo';
+
+  @override
+  String get paywallBestValue => 'Best Value';
+
+  @override
+  String get paywallSubscribe => 'Subscribe Now';
+
+  @override
   String get purchaseRestored => 'खरीदारियाँ सफलतापूर्वक बहाल कर दी गईं';
 
   @override

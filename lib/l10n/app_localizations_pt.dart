@@ -1037,6 +1037,24 @@ class AppLocalizationsPt extends AppLocalizations {
   String get paywallNoOffering => 'Nenhum plano disponível no momento.';
 
   @override
+  String get paywallChoosePlan => 'Choose your plan';
+
+  @override
+  String get paywallLifetime => 'Lifetime';
+
+  @override
+  String get paywallLifetimeSub => 'One-time payment';
+
+  @override
+  String get paywallPerMonth => '/mo';
+
+  @override
+  String get paywallBestValue => 'Best Value';
+
+  @override
+  String get paywallSubscribe => 'Subscribe Now';
+
+  @override
   String get purchaseRestored => 'Compras restauradas com sucesso';
 
   @override

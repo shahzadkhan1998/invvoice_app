@@ -1033,6 +1033,24 @@ class AppLocalizationsTe extends AppLocalizations {
   String get paywallNoOffering => 'ప్రస్తుతం అందుబాటులో ఉన్న ప్లాన్లు లేవు.';
 
   @override
+  String get paywallChoosePlan => 'Choose your plan';
+
+  @override
+  String get paywallLifetime => 'Lifetime';
+
+  @override
+  String get paywallLifetimeSub => 'One-time payment';
+
+  @override
+  String get paywallPerMonth => '/mo';
+
+  @override
+  String get paywallBestValue => 'Best Value';
+
+  @override
+  String get paywallSubscribe => 'Subscribe Now';
+
+  @override
   String get purchaseRestored => 'కొనుగోళ్లు విజయవంతంగా పునరుద్ధరించబడ్డాయి';
 
   @override

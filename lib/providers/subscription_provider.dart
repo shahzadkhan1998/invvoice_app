@@ -76,6 +76,8 @@ class SubscriptionProvider with ChangeNotifier {
 
   /// Flip the Pro flag (call from real payment verification later).
   Future<void> setPro(bool value) async {
+    debugPrint('[Subscription] setPro($value)  (was $_isPro)');
+    if (_isPro == value) return;
     _isPro = value;
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool('is_pro', value);

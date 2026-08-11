@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:invoice_app/l10n/app_localizations.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/theme_provider.dart';
+import '../../providers/subscription_provider.dart';
 import '../../providers/revenuecat_provider.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/utils/currency_utils.dart';
@@ -115,41 +116,43 @@ class _SettingsScreenState extends State<SettingsScreen> {
               _SignInCard(
                 onSignIn: () => Navigator.pushNamed(context, '/login'),
               ),
-            const SizedBox(height: 20),
-            _SubscriptionCard(
-              isPro: context.watch<RevenueCatProvider>().isPro,
-              onUpgrade: () => Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const PaywallScreen()),
-              ),
-              onManage: () async {
-                final ok = await CustomerCenterService.present(context);
-                if (!ok && context.mounted) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(l10n.customerCenterFailed),
-                    ),
-                  );
-                }
-              },
-              onRestore: () async {
-                final rc = context.read<RevenueCatProvider>();
-                final restored = await rc.restorePurchases();
-                if (context.mounted) {
-                  ScaffoldMessenger.of(context)
-                    ..hideCurrentSnackBar()
-                    ..showSnackBar(
+            if (!context.watch<SubscriptionProvider>().isPro) ...[
+              const SizedBox(height: 20),
+              _SubscriptionCard(
+                isPro: false,
+                onUpgrade: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const PaywallScreen()),
+                ),
+                onManage: () async {
+                  final ok = await CustomerCenterService.present(context);
+                  if (!ok && context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text(
-                          restored
-                              ? l10n.purchaseRestored
-                              : l10n.purchaseErrorGeneric,
-                        ),
+                        content: Text(l10n.customerCenterFailed),
                       ),
                     );
-                }
-              },
-            ),
+                  }
+                },
+                onRestore: () async {
+                  final rc = context.read<RevenueCatProvider>();
+                  final restored = await rc.restorePurchases();
+                  if (context.mounted) {
+                    ScaffoldMessenger.of(context)
+                      ..hideCurrentSnackBar()
+                      ..showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            restored
+                                ? l10n.purchaseRestored
+                                : l10n.purchaseErrorGeneric,
+                          ),
+                        ),
+                      );
+                  }
+                },
+              ),
+            ],
             const SizedBox(height: 24),
             _SectionHeader(title: l10n.settingsBusinessSection),
             const SizedBox(height: 8),

@@ -1035,6 +1035,24 @@ class AppLocalizationsBn extends AppLocalizations {
   String get paywallNoOffering => 'এই মুহূর্তে কোনো প্ল্যান পাওয়া যাচ্ছে না।';
 
   @override
+  String get paywallChoosePlan => 'Choose your plan';
+
+  @override
+  String get paywallLifetime => 'Lifetime';
+
+  @override
+  String get paywallLifetimeSub => 'One-time payment';
+
+  @override
+  String get paywallPerMonth => '/mo';
+
+  @override
+  String get paywallBestValue => 'Best Value';
+
+  @override
+  String get paywallSubscribe => 'Subscribe Now';
+
+  @override
   String get purchaseRestored => 'ক্রয় সফলভাবে পুনরুদ্ধার করা হয়েছে';
 
   @override

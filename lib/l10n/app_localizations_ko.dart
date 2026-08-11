@@ -1012,6 +1012,24 @@ class AppLocalizationsKo extends AppLocalizations {
   String get paywallNoOffering => '현재 이용 가능한 요금제가 없습니다.';
 
   @override
+  String get paywallChoosePlan => 'Choose your plan';
+
+  @override
+  String get paywallLifetime => 'Lifetime';
+
+  @override
+  String get paywallLifetimeSub => 'One-time payment';
+
+  @override
+  String get paywallPerMonth => '/mo';
+
+  @override
+  String get paywallBestValue => 'Best Value';
+
+  @override
+  String get paywallSubscribe => 'Subscribe Now';
+
+  @override
   String get purchaseRestored => '구매가 성공적으로 복원되었습니다';
 
   @override

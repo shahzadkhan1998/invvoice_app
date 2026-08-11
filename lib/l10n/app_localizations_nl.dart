@@ -1036,6 +1036,24 @@ class AppLocalizationsNl extends AppLocalizations {
       'Er zijn op dit moment geen abonnementen beschikbaar.';
 
   @override
+  String get paywallChoosePlan => 'Choose your plan';
+
+  @override
+  String get paywallLifetime => 'Lifetime';
+
+  @override
+  String get paywallLifetimeSub => 'One-time payment';
+
+  @override
+  String get paywallPerMonth => '/mo';
+
+  @override
+  String get paywallBestValue => 'Best Value';
+
+  @override
+  String get paywallSubscribe => 'Subscribe Now';
+
+  @override
   String get purchaseRestored => 'Aankopen succesvol hersteld';
 
   @override

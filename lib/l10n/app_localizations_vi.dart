@@ -1032,6 +1032,24 @@ class AppLocalizationsVi extends AppLocalizations {
   String get paywallNoOffering => 'Hiện không có gói nào khả dụng.';
 
   @override
+  String get paywallChoosePlan => 'Choose your plan';
+
+  @override
+  String get paywallLifetime => 'Lifetime';
+
+  @override
+  String get paywallLifetimeSub => 'One-time payment';
+
+  @override
+  String get paywallPerMonth => '/mo';
+
+  @override
+  String get paywallBestValue => 'Best Value';
+
+  @override
+  String get paywallSubscribe => 'Subscribe Now';
+
+  @override
   String get purchaseRestored => 'Đã khôi phục giao dịch mua thành công';
 
   @override

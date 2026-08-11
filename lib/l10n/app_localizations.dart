@@ -2130,6 +2130,42 @@ abstract class AppLocalizations {
   /// **'No plans are available right now.'**
   String get paywallNoOffering;
 
+  /// No description provided for @paywallChoosePlan.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose your plan'**
+  String get paywallChoosePlan;
+
+  /// No description provided for @paywallLifetime.
+  ///
+  /// In en, this message translates to:
+  /// **'Lifetime'**
+  String get paywallLifetime;
+
+  /// No description provided for @paywallLifetimeSub.
+  ///
+  /// In en, this message translates to:
+  /// **'One-time payment'**
+  String get paywallLifetimeSub;
+
+  /// No description provided for @paywallPerMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'/mo'**
+  String get paywallPerMonth;
+
+  /// No description provided for @paywallBestValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Best Value'**
+  String get paywallBestValue;
+
+  /// No description provided for @paywallSubscribe.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscribe Now'**
+  String get paywallSubscribe;
+
   /// No description provided for @purchaseRestored.
   ///
   /// In en, this message translates to:
